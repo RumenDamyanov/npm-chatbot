@@ -1,0 +1,13 @@
+.ai/
+node_modules/
+dist/
+.env
+.DS_Store
+.vscode/
+coverage/
+logs/
+components/
+wiki/
+docs/
+*.tgz
+*.log

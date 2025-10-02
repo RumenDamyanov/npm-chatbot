@@ -1,0 +1,72 @@
+# Source files
+src/
+tests/
+examples/
+
+# Configuration files
+.eslintrc*
+.prettierrc*
+.prettierignore
+eslint.config.cjs
+jest.config.js
+jest.config.fast.js
+tsconfig*.json
+.editorconfig
+.nvmrc
+
+# Build artifacts
+coverage/
+.nyc_output/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Testing
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+.jest/
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
+azure-pipelines.yml
+
+# Documentation source
+docs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Misc
+.ai/
+scripts/
+*.tgz
+node_modules/
+
+# Keep these in the package
+!dist/
+!components/
+!README.md
+!LICENSE.md
+!CHANGELOG.md
+!package.json

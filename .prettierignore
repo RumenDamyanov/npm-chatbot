@@ -1,0 +1,21 @@
+# Prettier ignore file
+# Build outputs
+dist/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.d.ts
+
+# Logs
+*.log
+
+# Components (copied files)
+components/
+
+# Configuration files that should maintain specific formatting
+*.config.js
+*.config.cjs
+jest.config.js
