@@ -15,7 +15,7 @@ console.log('🔨 Building @rumenx/chatbot...\n');
 console.log('🧹 Cleaning previous builds...');
 try {
   execSync('rm -rf dist/ components/', { stdio: 'inherit' });
-} catch (error) {
+} catch {
   // Directory might not exist, that's fine
 }
 
@@ -48,7 +48,7 @@ try {
   execSync('cp -r src/components/vanilla/* components/ 2>/dev/null || true', { 
     stdio: 'inherit' 
   });
-} catch (error) {
+} catch {
   console.log('ℹ️  No vanilla components to copy');
 }
 
