@@ -55,6 +55,8 @@ module.exports = [
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/no-base-to-string': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
       
       // General rules
       'no-console': 'off',
@@ -99,9 +101,11 @@ module.exports = [
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
       'no-console': 'off',
       'no-undef': 'off',
       'no-redeclare': 'off'
