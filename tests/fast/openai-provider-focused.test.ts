@@ -11,7 +11,7 @@ jest.mock('openai');
 
 describe('OpenAI Provider - Focused Coverage', () => {
   let provider: OpenAIProvider;
-  
+
   const baseConfig: AiProviderConfig = {
     apiKey: 'test-api-key',
     model: 'gpt-4',
@@ -34,21 +34,21 @@ describe('OpenAI Provider - Focused Coverage', () => {
     it('should throw error without API key', () => {
       const invalidConfig = { ...baseConfig };
       delete invalidConfig.apiKey;
-      
+
       expect(() => new OpenAIProvider(invalidConfig)).toThrow('OpenAI API key is required');
     });
 
     it('should set default model when not specified', () => {
       const configNoModel = { ...baseConfig };
       delete configNoModel.model;
-      
+
       const providerNoModel = new OpenAIProvider(configNoModel);
       expect(providerNoModel).toBeInstanceOf(OpenAIProvider);
     });
 
     it('should have correct capabilities', () => {
       const caps = provider.capabilities;
-      
+
       expect(caps.maxInputTokens).toBe(128000);
       expect(caps.maxOutputTokens).toBe(4096);
       expect(caps.supportedModels).toContain('gpt-4');
@@ -59,7 +59,7 @@ describe('OpenAI Provider - Focused Coverage', () => {
 
     it('should have rate limits defined', () => {
       const rateLimits = provider.capabilities.rateLimits;
-      
+
       expect(rateLimits).toBeDefined();
       expect(rateLimits!.requestsPerMinute).toBe(10000);
       expect(rateLimits!.tokensPerMinute).toBe(30000000);
@@ -75,9 +75,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           retrieve: mockRetrieve,
         },
       };
-      
+
       const result = await provider.isAvailable();
-      
+
       expect(result).toBe(true);
       expect(mockRetrieve).toHaveBeenCalledWith('gpt-3.5-turbo');
     });
@@ -90,9 +90,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           retrieve: mockRetrieve,
         },
       };
-      
+
       const result = await provider.isAvailable();
-      
+
       expect(result).toBe(false);
     });
   });
@@ -103,9 +103,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
         apiKey: 'new-key',
         model: 'gpt-3.5-turbo',
       };
-      
+
       provider.updateConfig(newConfig);
-      
+
       // Should not throw error
       expect(provider).toBeDefined();
     });
@@ -114,9 +114,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
       const newConfig = {
         model: 'gpt-3.5-turbo',
       };
-      
+
       provider.updateConfig(newConfig);
-      
+
       expect(provider).toBeDefined();
     });
 
@@ -124,9 +124,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
       const newConfig = {
         organizationId: 'new-org',
       };
-      
+
       provider.updateConfig(newConfig);
-      
+
       expect(provider).toBeDefined();
     });
 
@@ -134,9 +134,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
       const newConfig = {
         apiUrl: 'https://custom.openai.com',
       };
-      
+
       provider.updateConfig(newConfig);
-      
+
       expect(provider).toBeDefined();
     });
   });
@@ -150,9 +150,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           retrieve: mockRetrieve,
         },
       };
-      
+
       const status = await provider.getStatus();
-      
+
       expect(status).toBeDefined();
       expect(status.available).toBe(true);
       expect(typeof status.model).toBe('string');
@@ -169,12 +169,12 @@ describe('OpenAI Provider - Focused Coverage', () => {
           retrieve: mockRetrieve,
         },
       };
-      
+
       // This will set lastError
       await provider.isAvailable();
-      
+
       const status = await provider.getStatus();
-      
+
       expect(status.lastError).toBeDefined();
       expect(status.lastError?.message).toBe('Test error');
     });
@@ -213,9 +213,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           },
         },
       };
-      
+
       const response = await provider.generateResponse('Hello');
-      
+
       expect(response).toBeDefined();
       expect(response.content).toBe('Test response');
       expect(response.provider).toBe('openai');
@@ -256,9 +256,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           },
         },
       };
-      
+
       const response = await provider.generateResponse('New question', context);
-      
+
       expect(response.content).toBe('Response with context');
       expect(response.metadata.usage).toBeDefined();
     });
@@ -271,8 +271,10 @@ describe('OpenAI Provider - Focused Coverage', () => {
           },
         },
       };
-      
-      await expect(provider.generateResponse('Test')).rejects.toThrow('OpenAI API error: API Error');
+
+      await expect(provider.generateResponse('Test')).rejects.toThrow(
+        'OpenAI API error: API Error'
+      );
     });
 
     it('should handle response without content', async () => {
@@ -292,7 +294,7 @@ describe('OpenAI Provider - Focused Coverage', () => {
           },
         },
       };
-      
+
       await expect(provider.generateResponse('Test')).rejects.toThrow('No response generated');
     });
 
@@ -316,9 +318,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
           },
         },
       };
-      
+
       await provider.generateResponse('Test');
-      
+
       const status = await provider.getStatus();
       expect(status.usage.requests).toBe(1);
       expect(status.usage.tokens).toBe(25);
@@ -332,7 +334,7 @@ describe('OpenAI Provider - Focused Coverage', () => {
           return await fn();
         }),
       };
-      
+
       (provider as any).client = {
         chat: {
           completions: {
@@ -371,19 +373,19 @@ describe('OpenAI Provider - Focused Coverage', () => {
         ],
         metadata: {},
       };
-      
+
       await provider.generateResponse('Test', context);
-      
+
       const createCall = (provider as any).client.chat.completions.create.mock.calls[0][0];
       const userMessages = createCall.messages.filter((m: any) => m.role === 'user');
-      
+
       // Should only include valid user message plus the new one
       expect(userMessages).toHaveLength(2); // Valid message + new message
     });
 
     it('should handle empty message content', async () => {
       const response = await provider.generateResponse('');
-      
+
       expect(response.content).toBe('Response');
     });
 
@@ -394,9 +396,9 @@ describe('OpenAI Provider - Focused Coverage', () => {
         messages: [],
         metadata: {},
       };
-      
+
       const response = await provider.generateResponse('Test', context);
-      
+
       expect(response.content).toBe('Response');
     });
   });

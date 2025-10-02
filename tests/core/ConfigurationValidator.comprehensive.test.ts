@@ -9,12 +9,12 @@ const mockProviderFactory = ProviderFactory as jest.Mocked<typeof ProviderFactor
 describe('ConfigurationValidator', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Default mock implementations
     mockProviderFactory.isProviderAvailable.mockReturnValue(true);
     mockProviderFactory.getAvailableProviders.mockReturnValue([
       'openai',
-      'anthropic', 
+      'anthropic',
       'google',
       'meta',
       'xai',
@@ -22,7 +22,7 @@ describe('ConfigurationValidator', () => {
       'ollama',
       'default',
     ]);
-    
+
     // Mock provider creation
     const mockProvider = {
       capabilities: {
@@ -41,7 +41,7 @@ describe('ConfigurationValidator', () => {
         version: '1.0.0',
       }),
     };
-    
+
     mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
   });
 
@@ -60,7 +60,7 @@ describe('ConfigurationValidator', () => {
 
     it('should validate a complete valid configuration', async () => {
       const result = await ConfigurationValidator.validateChatbotConfig(validChatbotConfig);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.capabilities).toBeDefined();
@@ -74,9 +74,9 @@ describe('ConfigurationValidator', () => {
           // Missing required API key
         },
       };
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(invalidConfig);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('OpenAI API key is required');
     });
@@ -87,7 +87,7 @@ describe('ConfigurationValidator', () => {
         { ...validChatbotConfig, temperature: 2.1 },
         { ...validChatbotConfig, temperature: 3.0 },
       ];
-      
+
       for (const config of configs) {
         const result = await ConfigurationValidator.validateChatbotConfig(config);
         expect(result.warnings).toContain('Temperature should be between 0 and 2');
@@ -96,7 +96,7 @@ describe('ConfigurationValidator', () => {
 
     it('should accept valid temperature values', async () => {
       const validTemperatures = [0, 0.1, 0.7, 1.0, 1.5, 2.0];
-      
+
       for (const temperature of validTemperatures) {
         const config = { ...validChatbotConfig, temperature };
         const result = await ConfigurationValidator.validateChatbotConfig(config);
@@ -110,7 +110,7 @@ describe('ConfigurationValidator', () => {
         { ...validChatbotConfig, maxTokens: -1 },
         { ...validChatbotConfig, maxTokens: -100 },
       ];
-      
+
       for (const config of invalidConfigs) {
         const result = await ConfigurationValidator.validateChatbotConfig(config);
         expect(result.isValid).toBe(false);
@@ -120,10 +120,10 @@ describe('ConfigurationValidator', () => {
 
     it('should warn when maxTokens exceeds provider limits', async () => {
       const config = { ...validChatbotConfig, maxTokens: 10000 }; // Exceeds mocked limit of 4096
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(config);
-      
-      expect(result.warnings.some(w => w.includes('exceeds provider limit'))).toBe(true);
+
+      expect(result.warnings.some((w) => w.includes('exceeds provider limit'))).toBe(true);
     });
 
     it('should validate maxHistory positive values', async () => {
@@ -132,7 +132,7 @@ describe('ConfigurationValidator', () => {
         { ...validChatbotConfig, maxHistory: -1 },
         { ...validChatbotConfig, maxHistory: -5 },
       ];
-      
+
       for (const config of invalidConfigs) {
         const result = await ConfigurationValidator.validateChatbotConfig(config);
         expect(result.isValid).toBe(false);
@@ -146,7 +146,7 @@ describe('ConfigurationValidator', () => {
         { ...validChatbotConfig, timeout: -1 },
         { ...validChatbotConfig, timeout: -1000 },
       ];
-      
+
       for (const config of invalidConfigs) {
         const result = await ConfigurationValidator.validateChatbotConfig(config);
         expect(result.isValid).toBe(false);
@@ -156,9 +156,9 @@ describe('ConfigurationValidator', () => {
 
     it('should handle provider validation failures gracefully', async () => {
       mockProviderFactory.isProviderAvailable.mockReturnValue(false);
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(validChatbotConfig);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Unsupported provider: openai');
     });
@@ -170,9 +170,9 @@ describe('ConfigurationValidator', () => {
         getStatus: jest.fn(),
       };
       mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(validChatbotConfig);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Provider is not available (connection test failed)');
     });
@@ -181,11 +181,11 @@ describe('ConfigurationValidator', () => {
       mockProviderFactory.createProvider.mockImplementation(() => {
         throw new Error('Provider initialization failed');
       });
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(validChatbotConfig);
-      
+
       expect(result.isValid).toBe(false);
-      expect(result.errors.some(e => e.includes('Provider initialization failed'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Provider initialization failed'))).toBe(true);
     });
 
     it('should handle provider availability check errors', async () => {
@@ -195,11 +195,11 @@ describe('ConfigurationValidator', () => {
         getStatus: jest.fn(),
       };
       mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(validChatbotConfig);
-      
+
       expect(result.isValid).toBe(false);
-      expect(result.errors.some(e => e.includes('Provider connection test failed'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Provider connection test failed'))).toBe(true);
     });
   });
 
@@ -211,9 +211,9 @@ describe('ConfigurationValidator', () => {
         organizationId: 'org-123456',
         model: 'gpt-4',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.capabilities).toBeDefined();
@@ -225,9 +225,9 @@ describe('ConfigurationValidator', () => {
         provider: 'openai',
         model: 'gpt-4',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('OpenAI API key is required');
     });
@@ -238,9 +238,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'sk-test-key',
         organizationId: 123 as any, // Invalid type
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('OpenAI organization ID must be a string');
     });
@@ -251,9 +251,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'sk-ant-test-key',
         model: 'claude-sonnet-4-5-20250929',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -263,9 +263,9 @@ describe('ConfigurationValidator', () => {
         provider: 'anthropic',
         model: 'claude-sonnet-4-5-20250929',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Anthropic API key is required');
     });
@@ -276,9 +276,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'google-api-key',
         model: 'gemini-1.5-flash',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -288,9 +288,9 @@ describe('ConfigurationValidator', () => {
         provider: 'google',
         model: 'gemini-1.5-flash',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Google API key is required');
     });
@@ -301,9 +301,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'meta-api-key',
         model: 'llama-2-70b',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -313,9 +313,9 @@ describe('ConfigurationValidator', () => {
         provider: 'meta',
         model: 'llama-2-70b',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Meta API key is required');
     });
@@ -326,9 +326,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'xai-api-key',
         model: 'grok-1',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -338,9 +338,9 @@ describe('ConfigurationValidator', () => {
         provider: 'xai',
         model: 'grok-1',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('xAI API key is required');
     });
@@ -351,9 +351,9 @@ describe('ConfigurationValidator', () => {
         apiKey: 'deepseek-api-key',
         model: 'deepseek-chat',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -363,9 +363,9 @@ describe('ConfigurationValidator', () => {
         provider: 'deepseek',
         model: 'deepseek-chat',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('DeepSeek API key is required');
     });
@@ -376,9 +376,9 @@ describe('ConfigurationValidator', () => {
         apiUrl: 'http://localhost:11434',
         model: 'llama2',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -388,9 +388,9 @@ describe('ConfigurationValidator', () => {
         provider: 'ollama',
         model: 'llama2',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Ollama API URL is required');
     });
@@ -400,9 +400,9 @@ describe('ConfigurationValidator', () => {
         provider: 'ollama',
         apiUrl: 'http://localhost:11434',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Ollama model name is required');
     });
@@ -413,7 +413,7 @@ describe('ConfigurationValidator', () => {
         apiUrl: 'https://api.example.com/v1',
         model: 'test-model',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(validConfig);
       expect(result.isValid).toBe(true);
     });
@@ -424,23 +424,23 @@ describe('ConfigurationValidator', () => {
         apiUrl: 'not-a-valid-url',
         model: 'test-model',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(invalidConfig);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Invalid API URL format');
     });
 
     it('should reject unsupported provider', async () => {
       mockProviderFactory.isProviderAvailable.mockReturnValue(false);
-      
+
       const config: AiProviderConfig = {
         provider: 'unsupported' as any,
         apiKey: 'test-key',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Unsupported provider: unsupported');
     });
@@ -451,10 +451,10 @@ describe('ConfigurationValidator', () => {
         apiKey: 'sk-test-key',
         model: 'unsupported-model',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
-      expect(result.warnings.some(w => w.includes('may not be supported'))).toBe(true);
+
+      expect(result.warnings.some((w) => w.includes('may not be supported'))).toBe(true);
     });
 
     it('should handle provider without supported models list', async () => {
@@ -464,15 +464,15 @@ describe('ConfigurationValidator', () => {
         getStatus: jest.fn().mockResolvedValue({ available: true }),
       };
       mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
-      
+
       const config: AiProviderConfig = {
         provider: 'openai',
         apiKey: 'sk-test-key',
         model: 'any-model',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.warnings).not.toContain(expect.stringContaining('may not be supported'));
     });
@@ -481,9 +481,9 @@ describe('ConfigurationValidator', () => {
       const config: AiProviderConfig = {
         provider: 'default',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -495,9 +495,9 @@ describe('ConfigurationValidator', () => {
         provider: 'openai',
         apiKey: 'sk-test-key',
       };
-      
+
       const result = ConfigurationValidator.validateQuick(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
       expect(result.capabilities).toBeUndefined(); // Should not have capabilities in quick validation
@@ -509,23 +509,23 @@ describe('ConfigurationValidator', () => {
         provider: 'openai',
         // Missing API key
       };
-      
+
       const result = ConfigurationValidator.validateQuick(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('OpenAI API key is required');
     });
 
     it('should reject unsupported provider in quick validation', () => {
       mockProviderFactory.isProviderAvailable.mockReturnValue(false);
-      
+
       const config: AiProviderConfig = {
         provider: 'unsupported' as any,
         apiKey: 'test-key',
       };
-      
+
       const result = ConfigurationValidator.validateQuick(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('Unsupported provider: unsupported');
     });
@@ -541,7 +541,7 @@ describe('ConfigurationValidator', () => {
         { provider: 'ollama', apiUrl: 'http://localhost:11434', model: 'llama2' },
         { provider: 'default' },
       ];
-      
+
       for (const config of providerConfigs) {
         const result = ConfigurationValidator.validateQuick(config);
         expect(result.isValid).toBe(true);
@@ -552,18 +552,25 @@ describe('ConfigurationValidator', () => {
   describe('getSupportedProviders', () => {
     it('should return list of supported providers', () => {
       const providers = ConfigurationValidator.getSupportedProviders();
-      
+
       expect(providers).toEqual([
-        'openai', 'anthropic', 'google', 'meta', 'xai', 'deepseek', 'ollama', 'default'
+        'openai',
+        'anthropic',
+        'google',
+        'meta',
+        'xai',
+        'deepseek',
+        'ollama',
+        'default',
       ]);
       expect(mockProviderFactory.getAvailableProviders).toHaveBeenCalled();
     });
 
     it('should handle empty provider list', () => {
       mockProviderFactory.getAvailableProviders.mockReturnValue([]);
-      
+
       const providers = ConfigurationValidator.getSupportedProviders();
-      
+
       expect(providers).toEqual([]);
     });
   });
@@ -571,7 +578,7 @@ describe('ConfigurationValidator', () => {
   describe('getDefaultConfig', () => {
     it('should return default config for OpenAI', () => {
       const config = ConfigurationValidator.getDefaultConfig('openai');
-      
+
       expect(config).toEqual({
         provider: 'openai',
         model: 'gpt-4',
@@ -580,7 +587,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for Anthropic', () => {
       const config = ConfigurationValidator.getDefaultConfig('anthropic');
-      
+
       expect(config).toEqual({
         provider: 'anthropic',
         model: 'claude-sonnet-4-5-20250929',
@@ -589,7 +596,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for Google', () => {
       const config = ConfigurationValidator.getDefaultConfig('google');
-      
+
       expect(config).toEqual({
         provider: 'google',
         model: 'gemini-1.5-flash',
@@ -598,7 +605,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for Meta', () => {
       const config = ConfigurationValidator.getDefaultConfig('meta');
-      
+
       expect(config).toEqual({
         provider: 'meta',
         model: 'llama-2-70b',
@@ -607,7 +614,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for xAI', () => {
       const config = ConfigurationValidator.getDefaultConfig('xai');
-      
+
       expect(config).toEqual({
         provider: 'xai',
         model: 'grok-1',
@@ -616,7 +623,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for DeepSeek', () => {
       const config = ConfigurationValidator.getDefaultConfig('deepseek');
-      
+
       expect(config).toEqual({
         provider: 'deepseek',
         model: 'deepseek-chat',
@@ -625,7 +632,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return default config for Ollama', () => {
       const config = ConfigurationValidator.getDefaultConfig('ollama');
-      
+
       expect(config).toEqual({
         provider: 'ollama',
         apiUrl: 'http://localhost:11434',
@@ -635,7 +642,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return base config for default provider', () => {
       const config = ConfigurationValidator.getDefaultConfig('default');
-      
+
       expect(config).toEqual({
         provider: 'default',
       });
@@ -643,7 +650,7 @@ describe('ConfigurationValidator', () => {
 
     it('should return base config for unknown provider', () => {
       const config = ConfigurationValidator.getDefaultConfig('unknown' as any);
-      
+
       expect(config).toEqual({
         provider: 'unknown',
       });
@@ -655,16 +662,16 @@ describe('ConfigurationValidator', () => {
       mockProviderFactory.createProvider.mockImplementation(() => {
         throw 'String error'; // Non-Error object
       });
-      
+
       const config: AiProviderConfig = {
         provider: 'openai',
         apiKey: 'sk-test-key',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
-      expect(result.errors.some(e => e.includes('Unknown error'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Unknown error'))).toBe(true);
     });
 
     it('should handle provider isAvailable throwing non-Error objects', async () => {
@@ -674,16 +681,16 @@ describe('ConfigurationValidator', () => {
         getStatus: jest.fn(),
       };
       mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
-      
+
       const config: AiProviderConfig = {
         provider: 'openai',
         apiKey: 'sk-test-key',
       };
-      
+
       const result = await ConfigurationValidator.validateProviderConfig(config);
-      
+
       expect(result.isValid).toBe(false);
-      expect(result.errors.some(e => e.includes('Unknown error'))).toBe(true);
+      expect(result.errors.some((e) => e.includes('Unknown error'))).toBe(true);
     });
 
     it('should handle undefined config values gracefully', async () => {
@@ -697,9 +704,9 @@ describe('ConfigurationValidator', () => {
         maxHistory: undefined,
         timeout: undefined,
       };
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(config);
-      
+
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
     });
@@ -714,7 +721,7 @@ describe('ConfigurationValidator', () => {
         getStatus: jest.fn().mockResolvedValue({ available: true }),
       };
       mockProviderFactory.createProvider.mockReturnValue(mockProvider as any);
-      
+
       const config: ChatbotConfig = {
         provider: {
           provider: 'openai',
@@ -725,14 +732,14 @@ describe('ConfigurationValidator', () => {
         maxTokens: 5000, // Exceeds provider limit
         maxHistory: -1, // Invalid
       };
-      
+
       const result = await ConfigurationValidator.validateChatbotConfig(config);
-      
+
       expect(result.isValid).toBe(false);
       expect(result.errors).toContain('maxHistory must be greater than 0');
       expect(result.warnings).toContain('Temperature should be between 0 and 2');
-      expect(result.warnings.some(w => w.includes('exceeds provider limit'))).toBe(true);
-      expect(result.warnings.some(w => w.includes('may not be supported'))).toBe(true);
+      expect(result.warnings.some((w) => w.includes('exceeds provider limit'))).toBe(true);
+      expect(result.warnings.some((w) => w.includes('may not be supported'))).toBe(true);
     });
   });
 });

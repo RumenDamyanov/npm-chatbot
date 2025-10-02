@@ -10,7 +10,7 @@ import type { ChatMessage } from '../../src/types/ChatbotTypes';
 
 describe('SecurityManager - Simplified Tests', () => {
   let securityManager: SecurityManager;
-  
+
   beforeEach(() => {
     // Create with simple configuration
     securityManager = new SecurityManager();
@@ -26,7 +26,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(true);
       expect(result.reason).toBeUndefined();
@@ -41,7 +41,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
       expect(result.reason).toContain('Empty input');
@@ -56,7 +56,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
       expect(result.reason).toContain('blocked');
@@ -72,7 +72,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
       expect(result.reason).toContain('maximum length');
@@ -89,7 +89,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.filterOutput(response);
-      
+
       expect(result).toBeDefined();
       expect(result.content).toBe('This is a safe response');
     });
@@ -103,7 +103,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.filterOutput(response);
-      
+
       expect(result).toBeDefined();
       expect(result.content).not.toBe('This response contains spam instructions');
     });
@@ -118,7 +118,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.filterOutput(response);
-      
+
       expect(result).toBeDefined();
       expect(result.content).not.toBe(longContent);
     });
@@ -127,7 +127,7 @@ describe('SecurityManager - Simplified Tests', () => {
   describe('Security Configuration', () => {
     it('should create manager with default configuration', () => {
       const manager = new SecurityManager();
-      
+
       expect(manager).toBeDefined();
       expect(manager).toBeInstanceOf(SecurityManager);
     });
@@ -143,7 +143,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
     });
@@ -157,7 +157,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
     });
@@ -171,7 +171,7 @@ describe('SecurityManager - Simplified Tests', () => {
       };
 
       const result = await securityManager.validateInput(message);
-      
+
       expect(result).toBeDefined();
       expect(result.isValid).toBe(false);
       expect(result.reason).toContain('Empty input');

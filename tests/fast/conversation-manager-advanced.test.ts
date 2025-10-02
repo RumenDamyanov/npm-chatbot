@@ -44,7 +44,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
       conversationManager.addMessage(testSessionId, message);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0]).toEqual(message);
     });
@@ -67,7 +67,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
       conversationManager.addMessages(testSessionId, messages);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(2);
       expect(history).toEqual(messages);
     });
@@ -188,7 +188,7 @@ describe('ConversationManager - Advanced Coverage', () => {
       conversationManager.addMessage(testSessionId, message);
 
       const context = conversationManager.getConversationContext(testSessionId);
-      
+
       expect(context.sessionId).toBe(testSessionId);
       expect(context.userId).toBe('anonymous');
       expect(context.messages).toHaveLength(1);
@@ -214,7 +214,7 @@ describe('ConversationManager - Advanced Coverage', () => {
         systemPrompt,
         metadata
       );
-      
+
       expect(context.sessionId).toBe(testSessionId);
       expect(context.userId).toBe(testUserId);
       expect(context.systemPrompt).toBe(systemPrompt);
@@ -262,7 +262,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should calculate conversation statistics correctly', () => {
       const stats = conversationManager.getConversationStats(testSessionId);
-      
+
       expect(stats.messageCount).toBe(5);
       expect(stats.userMessages).toBe(2);
       expect(stats.assistantMessages).toBe(2);
@@ -274,7 +274,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should handle empty conversation stats', () => {
       const stats = conversationManager.getConversationStats('empty-session');
-      
+
       expect(stats.messageCount).toBe(0);
       expect(stats.userMessages).toBe(0);
       expect(stats.assistantMessages).toBe(0);
@@ -292,7 +292,7 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: 'Test',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(testSessionId, message);
       expect(conversationManager.isSessionActive(testSessionId)).toBe(true);
     });
@@ -304,10 +304,10 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: 'Test',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('session-1', message);
       conversationManager.addMessage('session-2', message);
-      
+
       const activeSessions = conversationManager.getActiveSessions();
       expect(activeSessions).toContain('session-1');
       expect(activeSessions).toContain('session-2');
@@ -321,11 +321,11 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: 'Test',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('session-1', message);
       conversationManager.addMessage('session-2', message);
       conversationManager.addMessage('session-3', message);
-      
+
       expect(conversationManager.getSessionCount()).toBe(3);
     });
 
@@ -356,18 +356,18 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should clear specific conversation', () => {
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(2);
-      
+
       conversationManager.clearConversation(testSessionId);
-      
+
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(0);
       expect(conversationManager.getConversationHistory('other-session')).toHaveLength(2);
     });
 
     it('should clear all conversations', () => {
       expect(conversationManager.getSessionCount()).toBe(2);
-      
+
       conversationManager.clearAllConversations();
-      
+
       expect(conversationManager.getSessionCount()).toBe(0);
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(0);
       expect(conversationManager.getConversationHistory('other-session')).toHaveLength(0);
@@ -396,7 +396,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should export conversation correctly', () => {
       const exported = conversationManager.exportConversation(testSessionId);
-      
+
       expect(exported.sessionId).toBe(testSessionId);
       expect(exported.messages).toEqual(testMessages);
       expect(exported.stats.messageCount).toBe(2);
@@ -405,9 +405,9 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should import conversation successfully', () => {
       const newSessionId = 'imported-session';
-      
+
       conversationManager.importConversation(newSessionId, testMessages);
-      
+
       const history = conversationManager.getConversationHistory(newSessionId);
       expect(history).toEqual(testMessages);
       expect(conversationManager.isSessionActive(newSessionId)).toBe(true);
@@ -428,9 +428,9 @@ describe('ConversationManager - Advanced Coverage', () => {
           timestamp: new Date(),
         },
       ];
-      
+
       conversationManager.importConversation(testSessionId, newMessages, true);
-      
+
       const history = conversationManager.getConversationHistory(testSessionId);
       expect(history).toEqual(newMessages);
       expect(history).toHaveLength(1);
@@ -440,7 +440,7 @@ describe('ConversationManager - Advanced Coverage', () => {
       const invalidMessages = [
         { id: 'msg-1', role: 'user' } as ChatMessage, // Missing content and timestamp
       ];
-      
+
       expect(() => {
         conversationManager.importConversation('new-session', invalidMessages);
       }).toThrow('Invalid message format');
@@ -464,10 +464,10 @@ describe('ConversationManager - Advanced Coverage', () => {
           timestamp,
         },
       ];
-      
+
       conversationManager.addMessages(testSessionId, messages);
       const recent = conversationManager.getMessagesSince(testSessionId, timestamp);
-      
+
       expect(recent).toHaveLength(2);
     });
 
@@ -481,10 +481,10 @@ describe('ConversationManager - Advanced Coverage', () => {
           timestamp: new Date(Date.now() + i),
         });
       }
-      
+
       conversationManager.addMessages(testSessionId, messages);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(100);
       expect(history[0].content).toBe('Message 0');
       expect(history[99].content).toBe('Message 99');
@@ -498,10 +498,10 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: 'Test with special session ID',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(specialSessionId, message);
       const history = conversationManager.getConversationHistory(specialSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0].content).toBe('Test with special session ID');
     });
@@ -513,10 +513,10 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: 'Test with empty session',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('', message);
       const history = conversationManager.getConversationHistory('');
-      
+
       expect(history).toHaveLength(1);
     });
 
@@ -527,10 +527,10 @@ describe('ConversationManager - Advanced Coverage', () => {
         content: '',
         timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(testSessionId, message);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0].content).toBe('');
     });
@@ -539,7 +539,7 @@ describe('ConversationManager - Advanced Coverage', () => {
   describe('Performance and Memory Management', () => {
     it('should handle rapid message additions', () => {
       const startTime = Date.now();
-      
+
       for (let i = 0; i < 100; i++) {
         const message: ChatMessage = {
           id: `rapid-msg-${i}`,
@@ -549,7 +549,7 @@ describe('ConversationManager - Advanced Coverage', () => {
         };
         conversationManager.addMessage(testSessionId, message);
       }
-      
+
       const history = conversationManager.getConversationHistory(testSessionId);
       expect(history).toHaveLength(100);
     });
@@ -565,13 +565,13 @@ describe('ConversationManager - Advanced Coverage', () => {
         };
         conversationManager.addMessage(`session-${i}`, message);
       }
-      
+
       expect(conversationManager.getSessionCount()).toBe(10);
-      
+
       // Clear some sessions
       conversationManager.clearConversation('session-0');
       conversationManager.clearConversation('session-1');
-      
+
       expect(conversationManager.getSessionCount()).toBe(8);
     });
   });
@@ -618,7 +618,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
       conversationManager.addMessage(testSessionId, message);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0]).toEqual(message);
     });
@@ -641,7 +641,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
       conversationManager.addMessages(testSessionId, messages);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(2);
       expect(history).toEqual(messages);
     });
@@ -757,12 +757,12 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test message',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
       conversationManager.addMessage(testSessionId, message);
 
       const context = conversationManager.getConversationContext(testSessionId);
-      
+
       expect(context.sessionId).toBe(testSessionId);
       expect(context.userId).toBe('anonymous');
       expect(context.messages).toHaveLength(1);
@@ -775,7 +775,7 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test message',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
       conversationManager.addMessage(testSessionId, message);
 
@@ -788,7 +788,7 @@ describe('ConversationManager - Advanced Coverage', () => {
         systemPrompt,
         metadata
       );
-      
+
       expect(context.sessionId).toBe(testSessionId);
       expect(context.userId).toBe(testUserId);
       expect(context.systemPrompt).toBe(systemPrompt);
@@ -800,18 +800,38 @@ describe('ConversationManager - Advanced Coverage', () => {
   describe('Conversation Statistics', () => {
     beforeEach(() => {
       const messages: ChatMessage[] = [
-        { id: 'msg-1', role: 'system', content: 'System message', timestamp: new Date(Date.now() - 4000) },
-        { id: 'msg-2', role: 'user', content: 'User message 1', timestamp: new Date(Date.now() - 3000) },
-        { id: 'msg-3', role: 'assistant', content: 'Assistant response', timestamp: new Date(Date.now() - 2000) },
-        { id: 'msg-4', role: 'user', content: 'User message 2', timestamp: new Date(Date.now() - 1000) },
-        { id: 'msg-5', role: 'assistant', content: 'Another response', timestamp: new Date() }
+        {
+          id: 'msg-1',
+          role: 'system',
+          content: 'System message',
+          timestamp: new Date(Date.now() - 4000),
+        },
+        {
+          id: 'msg-2',
+          role: 'user',
+          content: 'User message 1',
+          timestamp: new Date(Date.now() - 3000),
+        },
+        {
+          id: 'msg-3',
+          role: 'assistant',
+          content: 'Assistant response',
+          timestamp: new Date(Date.now() - 2000),
+        },
+        {
+          id: 'msg-4',
+          role: 'user',
+          content: 'User message 2',
+          timestamp: new Date(Date.now() - 1000),
+        },
+        { id: 'msg-5', role: 'assistant', content: 'Another response', timestamp: new Date() },
       ];
       conversationManager.addMessages(testSessionId, messages);
     });
 
     it('should calculate conversation statistics correctly', () => {
       const stats = conversationManager.getConversationStats(testSessionId);
-      
+
       expect(stats.messageCount).toBe(5);
       expect(stats.userMessages).toBe(2);
       expect(stats.assistantMessages).toBe(2);
@@ -823,7 +843,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should handle empty conversation stats', () => {
       const stats = conversationManager.getConversationStats('empty-session');
-      
+
       expect(stats.messageCount).toBe(0);
       expect(stats.userMessages).toBe(0);
       expect(stats.assistantMessages).toBe(0);
@@ -839,9 +859,9 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(testSessionId, message);
       expect(conversationManager.isSessionActive(testSessionId)).toBe(true);
     });
@@ -851,12 +871,12 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('session-1', message);
       conversationManager.addMessage('session-2', message);
-      
+
       const activeSessions = conversationManager.getActiveSessions();
       expect(activeSessions).toContain('session-1');
       expect(activeSessions).toContain('session-2');
@@ -868,13 +888,13 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('session-1', message);
       conversationManager.addMessage('session-2', message);
       conversationManager.addMessage('session-3', message);
-      
+
       expect(conversationManager.getSessionCount()).toBe(3);
     });
 
@@ -887,7 +907,7 @@ describe('ConversationManager - Advanced Coverage', () => {
     beforeEach(() => {
       const messages: ChatMessage[] = [
         { id: 'msg-1', role: 'user', content: 'Hello', timestamp: new Date() },
-        { id: 'msg-2', role: 'assistant', content: 'Hi!', timestamp: new Date() }
+        { id: 'msg-2', role: 'assistant', content: 'Hi!', timestamp: new Date() },
       ];
       conversationManager.addMessages(testSessionId, messages);
       conversationManager.addMessages('other-session', messages);
@@ -895,18 +915,18 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should clear specific conversation', () => {
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(2);
-      
+
       conversationManager.clearConversation(testSessionId);
-      
+
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(0);
       expect(conversationManager.getConversationHistory('other-session')).toHaveLength(2);
     });
 
     it('should clear all conversations', () => {
       expect(conversationManager.getSessionCount()).toBe(2);
-      
+
       conversationManager.clearAllConversations();
-      
+
       expect(conversationManager.getSessionCount()).toBe(0);
       expect(conversationManager.getConversationHistory(testSessionId)).toHaveLength(0);
       expect(conversationManager.getConversationHistory('other-session')).toHaveLength(0);
@@ -916,7 +936,7 @@ describe('ConversationManager - Advanced Coverage', () => {
   describe('Import/Export Functionality', () => {
     const testMessages: ChatMessage[] = [
       { id: 'msg-1', role: 'user', content: 'Hello', timestamp: new Date(Date.now() - 1000) },
-      { id: 'msg-2', role: 'assistant', content: 'Hi there!', timestamp: new Date() }
+      { id: 'msg-2', role: 'assistant', content: 'Hi there!', timestamp: new Date() },
     ];
 
     beforeEach(() => {
@@ -925,7 +945,7 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should export conversation correctly', () => {
       const exported = conversationManager.exportConversation(testSessionId);
-      
+
       expect(exported.sessionId).toBe(testSessionId);
       expect(exported.messages).toEqual(testMessages);
       expect(exported.stats.messageCount).toBe(2);
@@ -934,9 +954,9 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should import conversation successfully', () => {
       const newSessionId = 'imported-session';
-      
+
       conversationManager.importConversation(newSessionId, testMessages);
-      
+
       const history = conversationManager.getConversationHistory(newSessionId);
       expect(history).toEqual(testMessages);
       expect(conversationManager.isSessionActive(newSessionId)).toBe(true);
@@ -950,11 +970,11 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should allow import overwrite when specified', () => {
       const newMessages: ChatMessage[] = [
-        { id: 'new-msg', role: 'user', content: 'New content', timestamp: new Date() }
+        { id: 'new-msg', role: 'user', content: 'New content', timestamp: new Date() },
       ];
-      
+
       conversationManager.importConversation(testSessionId, newMessages, true);
-      
+
       const history = conversationManager.getConversationHistory(testSessionId);
       expect(history).toEqual(newMessages);
       expect(history).toHaveLength(1);
@@ -962,9 +982,9 @@ describe('ConversationManager - Advanced Coverage', () => {
 
     it('should validate message format during import', () => {
       const invalidMessages = [
-        { id: 'msg-1', role: 'user' } as ChatMessage // Missing content and timestamp
+        { id: 'msg-1', role: 'user' } as ChatMessage, // Missing content and timestamp
       ];
-      
+
       expect(() => {
         conversationManager.importConversation('new-session', invalidMessages);
       }).toThrow('Invalid message format');
@@ -976,12 +996,12 @@ describe('ConversationManager - Advanced Coverage', () => {
       const timestamp = new Date();
       const messages: ChatMessage[] = [
         { id: 'msg-1', role: 'user', content: 'First', timestamp },
-        { id: 'msg-2', role: 'assistant', content: 'Second', timestamp }
+        { id: 'msg-2', role: 'assistant', content: 'Second', timestamp },
       ];
-      
+
       conversationManager.addMessages(testSessionId, messages);
       const recent = conversationManager.getMessagesSince(testSessionId, timestamp);
-      
+
       expect(recent).toHaveLength(2);
     });
 
@@ -991,12 +1011,12 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test with special session ID',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(specialSessionId, message);
       const history = conversationManager.getConversationHistory(specialSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0].content).toBe('Test with special session ID');
     });
@@ -1006,12 +1026,12 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: 'Test with empty session',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage('', message);
       const history = conversationManager.getConversationHistory('');
-      
+
       expect(history).toHaveLength(1);
     });
 
@@ -1020,12 +1040,12 @@ describe('ConversationManager - Advanced Coverage', () => {
         id: 'msg-1',
         role: 'user',
         content: '',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      
+
       conversationManager.addMessage(testSessionId, message);
       const history = conversationManager.getConversationHistory(testSessionId);
-      
+
       expect(history).toHaveLength(1);
       expect(history[0].content).toBe('');
     });
@@ -1034,17 +1054,17 @@ describe('ConversationManager - Advanced Coverage', () => {
   describe('Performance and Memory Management', () => {
     it('should handle rapid message additions', () => {
       const startTime = Date.now();
-      
+
       for (let i = 0; i < 100; i++) {
         const message: ChatMessage = {
           id: `rapid-msg-${i}`,
           role: i % 2 === 0 ? 'user' : 'assistant',
           content: `Rapid message ${i}`,
-          timestamp: new Date(startTime + i)
+          timestamp: new Date(startTime + i),
         };
         conversationManager.addMessage(testSessionId, message);
       }
-      
+
       const history = conversationManager.getConversationHistory(testSessionId);
       expect(history).toHaveLength(100);
     });
@@ -1056,17 +1076,17 @@ describe('ConversationManager - Advanced Coverage', () => {
           id: `msg-${i}`,
           role: 'user',
           content: `Message ${i}`,
-          timestamp: new Date()
+          timestamp: new Date(),
         };
         conversationManager.addMessage(`session-${i}`, message);
       }
-      
+
       expect(conversationManager.getSessionCount()).toBe(10);
-      
+
       // Clear some sessions
       conversationManager.clearConversation('session-0');
       conversationManager.clearConversation('session-1');
-      
+
       expect(conversationManager.getSessionCount()).toBe(8);
     });
   });

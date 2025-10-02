@@ -84,10 +84,10 @@ describe('Core Functionality - Simplified Tests', () => {
 
       // Generate some usage
       await provider.generateResponse('Test message');
-      
+
       // Reset usage
       provider.resetUsage();
-      
+
       const status = await provider.getStatus();
       expect(status.usage?.requests).toBe(0);
       expect(status.usage?.tokens).toBe(0);

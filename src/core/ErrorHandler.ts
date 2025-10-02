@@ -293,7 +293,7 @@ export class ErrorHandler {
   /**
    * Determine error severity
    */
-  private determineSeverity(category: ErrorCategory, error: Error): ErrorSeverity {
+  private determineSeverity(category: ErrorCategory, _error: Error): ErrorSeverity {
     switch (category) {
       case 'authentication':
       case 'quota_exceeded':

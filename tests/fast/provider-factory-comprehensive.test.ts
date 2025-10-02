@@ -86,16 +86,16 @@ describe('ProviderFactory Comprehensive Tests', () => {
     jest.clearAllMocks();
     mockConsoleLog.mockClear();
     mockConsoleError.mockClear();
-    
+
     // Initialize the factory before each test
     ProviderFactory.initialize();
-    
+
     // Register mock providers for testing
     ProviderFactory.registerProvider('meta', MockMetaProvider);
     ProviderFactory.registerProvider('xai', MockXAIProvider);
     ProviderFactory.registerProvider('deepseek', MockDeepSeekProvider);
     ProviderFactory.registerProvider('ollama', MockOllamaProvider);
-    
+
     // Setup valid configurations
     validOpenAIConfig = {
       provider: {
@@ -134,7 +134,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
 
     test('should register all expected providers during initialization', () => {
       ProviderFactory.initialize();
-      
+
       const availableProviders = ProviderFactory.getAvailableProviders();
       expect(availableProviders).toContain('openai');
       expect(availableProviders).toContain('anthropic');
@@ -149,20 +149,20 @@ describe('ProviderFactory Comprehensive Tests', () => {
   describe('Provider Registration', () => {
     test('should register new provider successfully', () => {
       ProviderFactory.registerProvider('test', MockTestProvider);
-      
+
       expect(ProviderFactory.isProviderAvailable('test')).toBe(true);
     });
 
     test('should allow overriding existing providers', () => {
       ProviderFactory.registerProvider('openai', MockTestProvider);
-      
+
       expect(ProviderFactory.isProviderAvailable('openai')).toBe(true);
     });
 
     test('should register multiple custom providers', () => {
       ProviderFactory.registerProvider('custom1', MockTestProvider);
       ProviderFactory.registerProvider('custom2', MockTestProvider);
-      
+
       expect(ProviderFactory.isProviderAvailable('custom1')).toBe(true);
       expect(ProviderFactory.isProviderAvailable('custom2')).toBe(true);
     });
@@ -171,25 +171,25 @@ describe('ProviderFactory Comprehensive Tests', () => {
   describe('Provider Creation', () => {
     test('should create OpenAI provider successfully', () => {
       const provider = ProviderFactory.createProvider(validOpenAIConfig);
-      
+
       expect(provider).toBeDefined();
     });
 
     test('should create Anthropic provider successfully', () => {
       const provider = ProviderFactory.createProvider(validAnthropicConfig);
-      
+
       expect(provider).toBeDefined();
     });
 
     test('should create Google provider successfully', () => {
       const provider = ProviderFactory.createProvider(validGoogleConfig);
-      
+
       expect(provider).toBeDefined();
     });
 
     test('should create custom registered provider', () => {
       ProviderFactory.registerProvider('test', MockTestProvider);
-      
+
       const config: ChatbotConfig = {
         provider: {
           provider: 'test',
@@ -197,7 +197,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       const provider = ProviderFactory.createProvider(config);
       expect(provider).toBeDefined();
       expect(provider.name).toBe('openai');
@@ -213,7 +213,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => ProviderFactory.createProvider(invalidConfig)).toThrow(
         'AI provider type is required'
       );
@@ -227,7 +227,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => ProviderFactory.createProvider(unsupportedConfig)).toThrow(
         'Unsupported AI provider: unsupported-provider'
       );
@@ -240,9 +240,9 @@ describe('ProviderFactory Comprehensive Tests', () => {
           throw new Error('Provider initialization failed');
         }
       }
-      
+
       ProviderFactory.registerProvider('failing', FailingProvider as any);
-      
+
       const failingConfig: ChatbotConfig = {
         provider: {
           provider: 'failing',
@@ -250,7 +250,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => ProviderFactory.createProvider(failingConfig)).toThrow(
         'Failed to create failing provider: Provider initialization failed'
       );
@@ -263,9 +263,9 @@ describe('ProviderFactory Comprehensive Tests', () => {
           throw 'String error'; // eslint-disable-line
         }
       }
-      
+
       ProviderFactory.registerProvider('weird', WeirdFailingProvider as any);
-      
+
       const weirdConfig: ChatbotConfig = {
         provider: {
           provider: 'weird',
@@ -273,7 +273,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => ProviderFactory.createProvider(weirdConfig)).toThrow(
         'Failed to create weird provider: Unknown error'
       );
@@ -301,7 +301,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
   describe('Available Providers List', () => {
     test('should return list of all registered providers', () => {
       const providers = ProviderFactory.getAvailableProviders();
-      
+
       expect(Array.isArray(providers)).toBe(true);
       expect(providers.length).toBeGreaterThan(0);
       expect(providers).toContain('openai');
@@ -312,7 +312,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
     test('should include custom providers in list', () => {
       ProviderFactory.registerProvider('custom1', MockTestProvider);
       ProviderFactory.registerProvider('custom2', MockTestProvider);
-      
+
       const providers = ProviderFactory.getAvailableProviders();
       expect(providers).toContain('custom1');
       expect(providers).toContain('custom2');
@@ -330,7 +330,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
       const incompleteConfig = {
         provider: {},
       } as ChatbotConfig;
-      
+
       expect(() => ProviderFactory.createProvider(incompleteConfig)).toThrow();
     });
 
@@ -338,13 +338,13 @@ describe('ProviderFactory Comprehensive Tests', () => {
       const nullConfig = {
         provider: null,
       } as any;
-      
+
       expect(() => ProviderFactory.createProvider(nullConfig)).toThrow();
     });
 
     test('should handle undefined provider configuration', () => {
       const undefinedConfig = {} as ChatbotConfig;
-      
+
       expect(() => ProviderFactory.createProvider(undefinedConfig)).toThrow();
     });
   });
@@ -358,7 +358,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       const provider = ProviderFactory.createProvider(metaConfig);
       expect(provider).toBeDefined();
     });
@@ -371,7 +371,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       const provider = ProviderFactory.createProvider(xaiConfig);
       expect(provider).toBeDefined();
     });
@@ -384,7 +384,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       const provider = ProviderFactory.createProvider(deepseekConfig);
       expect(provider).toBeDefined();
     });
@@ -397,7 +397,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'not-required-for-ollama',
         },
       };
-      
+
       const provider = ProviderFactory.createProvider(ollamaConfig);
       expect(provider).toBeDefined();
     });
@@ -414,7 +414,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
 
     test('should not cause errors during successful operations', () => {
       ProviderFactory.createProvider(validAnthropicConfig);
-      
+
       expect(mockConsoleError).not.toHaveBeenCalled();
     });
   });
@@ -434,7 +434,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
     test('should handle multiple initializations', () => {
       ProviderFactory.initialize();
       ProviderFactory.initialize();
-      
+
       // Should not break and should still work
       expect(ProviderFactory.isProviderAvailable('openai')).toBe(true);
     });
@@ -447,9 +447,8 @@ describe('ProviderFactory Comprehensive Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => ProviderFactory.createProvider(complexConfig)).not.toThrow();
     });
   });
 });
-

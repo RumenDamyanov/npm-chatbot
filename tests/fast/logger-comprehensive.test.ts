@@ -21,14 +21,14 @@ describe('Logger Comprehensive Tests', () => {
   beforeEach(() => {
     // Clear all mocks
     jest.clearAllMocks();
-    
+
     // Mock console methods to avoid actual console output during tests
     jest.spyOn(console, 'log').mockImplementation();
     jest.spyOn(console, 'info').mockImplementation();
     jest.spyOn(console, 'warn').mockImplementation();
     jest.spyOn(console, 'error').mockImplementation();
     jest.spyOn(console, 'debug').mockImplementation();
-    
+
     // Setup default configuration
     defaultConfig = {
       level: 'info',
@@ -60,7 +60,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'debug',
         enableConsole: true,
       };
-      
+
       expect(() => new DefaultLogger(minimalConfig)).not.toThrow();
     });
 
@@ -71,7 +71,7 @@ describe('Logger Comprehensive Tests', () => {
         enableFileLogging: true,
         logFilePath: '/tmp/test.log',
       };
-      
+
       expect(() => new DefaultLogger(fileConfig)).not.toThrow();
     });
 
@@ -81,7 +81,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         maxLogEntries: 500,
       };
-      
+
       expect(() => new DefaultLogger(customConfig)).not.toThrow();
     });
   });
@@ -92,7 +92,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'debug',
         enableConsole: true,
       });
-      
+
       expect(() => logger.debug('Debug message')).not.toThrow();
     });
 
@@ -101,7 +101,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'info',
         enableConsole: true,
       });
-      
+
       expect(() => logger.info('Info message')).not.toThrow();
     });
 
@@ -110,7 +110,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'warn',
         enableConsole: true,
       });
-      
+
       expect(() => logger.warn('Warning message')).not.toThrow();
     });
 
@@ -119,7 +119,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'error',
         enableConsole: true,
       });
-      
+
       expect(() => logger.error('Error message')).not.toThrow();
     });
   });
@@ -128,21 +128,21 @@ describe('Logger Comprehensive Tests', () => {
     test('should handle debug with metadata', () => {
       const logger = new DefaultLogger(defaultConfig);
       const metadata = { userId: '123', action: 'test' };
-      
+
       expect(() => logger.debug('Debug with metadata', metadata)).not.toThrow();
     });
 
     test('should handle info with metadata', () => {
       const logger = new DefaultLogger(defaultConfig);
       const metadata = { request: 'GET /api/test', status: 200 };
-      
+
       expect(() => logger.info('Info with metadata', metadata)).not.toThrow();
     });
 
     test('should handle warn with metadata', () => {
       const logger = new DefaultLogger(defaultConfig);
       const metadata = { warning: 'deprecated', feature: 'oldApi' };
-      
+
       expect(() => logger.warn('Warning with metadata', metadata)).not.toThrow();
     });
 
@@ -150,14 +150,14 @@ describe('Logger Comprehensive Tests', () => {
       const logger = new DefaultLogger(defaultConfig);
       const error = new Error('Test error');
       const metadata = { context: 'test operation' };
-      
+
       expect(() => logger.error('Error with object', error, metadata)).not.toThrow();
     });
 
     test('should handle error with string message', () => {
       const logger = new DefaultLogger(defaultConfig);
       const metadata = { operation: 'failed' };
-      
+
       expect(() => logger.error('Error message', metadata)).not.toThrow();
     });
   });
@@ -169,7 +169,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeTimestamp: true,
       });
-      
+
       expect(() => logger.info('Timestamped message')).not.toThrow();
     });
 
@@ -179,7 +179,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeTimestamp: false,
       });
-      
+
       expect(() => logger.info('Non-timestamped message')).not.toThrow();
     });
 
@@ -189,7 +189,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeLevel: true,
       });
-      
+
       expect(() => logger.warn('Message with level')).not.toThrow();
     });
 
@@ -199,7 +199,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeLevel: false,
       });
-      
+
       expect(() => logger.warn('Message without level')).not.toThrow();
     });
   });
@@ -211,7 +211,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeCategory: true,
       });
-      
+
       expect(() => logger.info('Categorized message', { category: 'HTTP' })).not.toThrow();
     });
 
@@ -221,7 +221,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeCategory: true,
       });
-      
+
       expect(() => logger.info('Uncategorized message')).not.toThrow();
     });
 
@@ -231,7 +231,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         includeCategory: false,
       });
-      
+
       expect(() => logger.info('Message without category', { category: 'TEST' })).not.toThrow();
     });
   });
@@ -244,7 +244,7 @@ describe('Logger Comprehensive Tests', () => {
         enableFileLogging: true,
         logFilePath: '/tmp/app.log',
       });
-      
+
       expect(() => logger.info('File logged message')).not.toThrow();
     });
 
@@ -255,7 +255,7 @@ describe('Logger Comprehensive Tests', () => {
         enableFileLogging: true,
         logFilePath: '/custom/path/logs/app.log',
       });
-      
+
       expect(() => logger.error('Custom path message')).not.toThrow();
     });
 
@@ -265,7 +265,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         enableFileLogging: false,
       });
-      
+
       expect(() => logger.info('Console only message')).not.toThrow();
     });
   });
@@ -276,7 +276,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'debug',
         enableConsole: true,
       });
-      
+
       // All levels should work at debug level
       expect(() => logger.debug('Debug message')).not.toThrow();
       expect(() => logger.info('Info message')).not.toThrow();
@@ -289,7 +289,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'info',
         enableConsole: true,
       });
-      
+
       // Debug should be filtered out, others should work
       expect(() => logger.debug('Debug message')).not.toThrow();
       expect(() => logger.info('Info message')).not.toThrow();
@@ -302,7 +302,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'warn',
         enableConsole: true,
       });
-      
+
       // Debug and info should be filtered, warn and error should work
       expect(() => logger.debug('Debug message')).not.toThrow();
       expect(() => logger.info('Info message')).not.toThrow();
@@ -315,7 +315,7 @@ describe('Logger Comprehensive Tests', () => {
         level: 'error',
         enableConsole: true,
       });
-      
+
       // Only error should work
       expect(() => logger.debug('Debug message')).not.toThrow();
       expect(() => logger.info('Info message')).not.toThrow();
@@ -338,7 +338,7 @@ describe('Logger Comprehensive Tests', () => {
           time: 150,
         },
       };
-      
+
       expect(() => logger.info('Complex metadata', complexMetadata)).not.toThrow();
     });
 
@@ -348,13 +348,13 @@ describe('Logger Comprehensive Tests', () => {
         items: ['item1', 'item2', 'item3'],
         count: 3,
       };
-      
+
       expect(() => logger.debug('Array metadata', arrayMetadata)).not.toThrow();
     });
 
     test('should handle null/undefined metadata', () => {
       const logger = new DefaultLogger(defaultConfig);
-      
+
       expect(() => logger.info('Null metadata', null as any)).not.toThrow();
       expect(() => logger.info('Undefined metadata', undefined as any)).not.toThrow();
     });
@@ -363,21 +363,21 @@ describe('Logger Comprehensive Tests', () => {
   describe('Edge Cases and Error Handling', () => {
     test('should handle empty string messages', () => {
       const logger = new DefaultLogger(defaultConfig);
-      
+
       expect(() => logger.info('')).not.toThrow();
     });
 
     test('should handle very long messages', () => {
       const logger = new DefaultLogger(defaultConfig);
       const longMessage = 'A'.repeat(10000);
-      
+
       expect(() => logger.warn(longMessage)).not.toThrow();
     });
 
     test('should handle special characters in messages', () => {
       const logger = new DefaultLogger(defaultConfig);
       const specialMessage = 'Message with 🚀 emojis and special chars: àáâãäå';
-      
+
       expect(() => logger.debug(specialMessage)).not.toThrow();
     });
 
@@ -385,7 +385,7 @@ describe('Logger Comprehensive Tests', () => {
       const logger = new DefaultLogger(defaultConfig);
       const circular: any = { name: 'test' };
       circular.self = circular;
-      
+
       expect(() => logger.error('Circular reference', circular)).not.toThrow();
     });
   });
@@ -397,7 +397,7 @@ describe('Logger Comprehensive Tests', () => {
         enableConsole: true,
         maxLogEntries: 5,
       });
-      
+
       // Log more than max entries
       for (let i = 0; i < 10; i++) {
         expect(() => logger.info(`Message ${i}`)).not.toThrow();
@@ -406,7 +406,7 @@ describe('Logger Comprehensive Tests', () => {
 
     test('should handle rapid logging', () => {
       const logger = new DefaultLogger(defaultConfig);
-      
+
       // Log many messages quickly
       for (let i = 0; i < 100; i++) {
         expect(() => logger.debug(`Rapid message ${i}`, { iteration: i })).not.toThrow();

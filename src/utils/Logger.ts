@@ -229,7 +229,8 @@ export class DefaultLogger implements ILogger {
     );
 
     const oldestEntry = this.logHistory.length > 0 ? this.logHistory[0] : undefined;
-    const newestEntry = this.logHistory.length > 0 ? this.logHistory[this.logHistory.length - 1] : undefined;
+    const newestEntry =
+      this.logHistory.length > 0 ? this.logHistory[this.logHistory.length - 1] : undefined;
 
     return {
       totalLogs: this.logHistory.length,

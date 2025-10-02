@@ -1,6 +1,6 @@
 /**
  * Simple Streaming Test
- * 
+ *
  * A simple test to verify streaming functionality works correctly
  */
 
@@ -33,10 +33,10 @@ async function testStreaming() {
 
     // Test streaming
     const stream = chatbot.chatStream('Count from 1 to 5 with explanations');
-    
+
     let totalChunks = 0;
     const startTime = Date.now();
-    
+
     for await (const chunk of stream) {
       if (chunk.type === 'content') {
         process.stdout.write(chunk.content);
@@ -46,15 +46,14 @@ async function testStreaming() {
         console.log('\n');
         console.log(`✅ Streaming completed!`);
         console.log(`📊 Stats: ${totalChunks} chunks in ${endTime - startTime}ms`);
-        
+
         if (chunk.metadata?.['usage']) {
           console.log('💰 Token usage:', chunk.metadata['usage']);
         }
-        
+
         break;
       }
     }
-    
   } catch (error) {
     console.error('❌ Error:', error);
   }

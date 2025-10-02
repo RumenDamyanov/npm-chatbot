@@ -12,7 +12,6 @@ import type {
   ChatStreamChunk,
   ChatContext,
   ChatMessage,
-  MessageRole,
   Logger,
 } from '../types/ChatbotTypes';
 import type { IAiProvider, ProviderStatus } from '../types/ProviderTypes';

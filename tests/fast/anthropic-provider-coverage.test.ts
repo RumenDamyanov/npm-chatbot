@@ -70,9 +70,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'claude-3-opus-20240229',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Invalid API key')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Invalid API key'));
 
       const provider = new AnthropicProvider(config as any);
       const result = await provider.validateConfig(config as any);
@@ -86,9 +84,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'claude-3-opus-20240229',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Network error')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Network error'));
 
       const provider = new AnthropicProvider(config as any);
       const result = await provider.validateConfig(config as any);
@@ -123,9 +119,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'claude-3-opus-20240229',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Connection failed')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Connection failed'));
 
       const provider = new AnthropicProvider(config as any);
       const result = await provider.testConnection();
@@ -141,9 +135,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'claude-3-opus-20240229',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Rate limit exceeded')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Rate limit exceeded'));
 
       const provider = new AnthropicProvider(config as any);
       const context = { messages: [{ role: 'user' as const, content: 'Hello' }] };
@@ -157,9 +149,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'invalid-model',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Model not found')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Model not found'));
 
       const provider = new AnthropicProvider(config as any);
       const context = { messages: [{ role: 'user' as const, content: 'Hello' }] };
@@ -173,9 +163,7 @@ describe('Anthropic Provider - Coverage Tests', () => {
         model: 'claude-3-opus-20240229',
       };
 
-      mockAnthropicInstance.messages.create.mockRejectedValue(
-        new Error('Quota exceeded')
-      );
+      mockAnthropicInstance.messages.create.mockRejectedValue(new Error('Quota exceeded'));
 
       const provider = new AnthropicProvider(config as any);
       const context = { messages: [{ role: 'user' as const, content: 'Hello' }] };

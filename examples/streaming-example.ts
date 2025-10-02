@@ -37,10 +37,10 @@ async function streamingChatExample() {
 
   try {
     const stream = chatbot.chatStream('Tell me a short story about a robot learning to paint');
-    
+
     let fullResponse = '';
     let chunkCount = 0;
-    
+
     for await (const chunk of stream) {
       if (chunk.type === 'content') {
         process.stdout.write(chunk.content);
@@ -75,7 +75,7 @@ async function streamingChatExample() {
         sessionId: 'session-1',
       },
     });
-    
+
     for await (const chunk of stream) {
       if (chunk.type === 'content') {
         process.stdout.write(chunk.content);
@@ -104,7 +104,7 @@ async function streamingChatExample() {
     });
 
     const stream = invalidChatbot.chatStream('Hello');
-    
+
     for await (const chunk of stream) {
       if (chunk.type === 'content') {
         process.stdout.write(chunk.content);
@@ -122,12 +122,12 @@ async function streamingChatExample() {
 
   // Test 4: Streaming with different providers (if API keys are available)
   console.log('Test 4: Testing Other Providers (if available)');
-  
+
   // Test Anthropic if available
   const anthropicKey = process.env['ANTHROPIC_API_KEY'];
   if (anthropicKey) {
     console.log('🤖 Testing Anthropic streaming...');
-    
+
     const anthropicBot = new Chatbot({
       provider: {
         provider: 'anthropic',
@@ -138,7 +138,7 @@ async function streamingChatExample() {
 
     try {
       const stream = anthropicBot.chatStream('Write a haiku about streaming data');
-      
+
       console.log('Claude: ');
       for await (const chunk of stream) {
         if (chunk.type === 'content') {
@@ -158,7 +158,7 @@ async function streamingChatExample() {
   const googleKey = process.env['GOOGLE_API_KEY'];
   if (googleKey) {
     console.log('🔍 Testing Google streaming...');
-    
+
     const googleBot = new Chatbot({
       provider: {
         provider: 'google',
@@ -169,7 +169,7 @@ async function streamingChatExample() {
 
     try {
       const stream = googleBot.chatStream('Explain streaming in 2 sentences');
-      
+
       console.log('Gemini: ');
       for await (const chunk of stream) {
         if (chunk.type === 'content') {

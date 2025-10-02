@@ -8,7 +8,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should create SecurityManager with default policy', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager();
         expect(manager).toBeDefined();
         expect(typeof manager).toBe('object');
@@ -20,7 +20,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should create SecurityManager with custom policy', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const policy = {
           enableInputFilter: true,
           enableOutputFilter: true,
@@ -29,7 +29,7 @@ describe('SecurityManager Safe Tests', () => {
           allowedDomains: ['example.com'],
           blockedWords: ['spam', 'bad'],
         };
-        
+
         const manager = new SecurityManager(policy);
         expect(manager).toBeDefined();
       } catch (error) {
@@ -40,12 +40,12 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle SecurityManager with minimal policy', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const minimalPolicy = {
           enableInputFilter: false,
           enableOutputFilter: false,
         };
-        
+
         const manager = new SecurityManager(minimalPolicy);
         expect(manager).toBeDefined();
       } catch (error) {
@@ -58,7 +58,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle various security policy configurations', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const policies = [
           { enableInputFilter: true, maxInputLength: 500 },
           { enableOutputFilter: true, maxOutputLength: 1000 },
@@ -67,7 +67,7 @@ describe('SecurityManager Safe Tests', () => {
           { blockedWords: ['prohibited', 'forbidden'] },
           {},
         ];
-        
+
         policies.forEach((policy) => {
           const manager = new SecurityManager(policy);
           expect(manager).toBeDefined();
@@ -80,7 +80,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle content length policies', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const lengthPolicies = [
           { maxInputLength: 100 },
           { maxInputLength: 1000 },
@@ -88,7 +88,7 @@ describe('SecurityManager Safe Tests', () => {
           { maxOutputLength: 500 },
           { maxOutputLength: 5000 },
         ];
-        
+
         lengthPolicies.forEach((policy) => {
           const manager = new SecurityManager(policy);
           expect(manager).toBeDefined();
@@ -103,12 +103,12 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle input content structure validation', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           maxInputLength: 500,
         });
-        
+
         // Test different input structures
         const inputStructures = [
           'Simple text input',
@@ -117,7 +117,7 @@ describe('SecurityManager Safe Tests', () => {
           'Very short',
           '',
         ];
-        
+
         inputStructures.forEach((input) => {
           expect(typeof input).toBe('string');
           expect(input.length).toBeGreaterThanOrEqual(0);
@@ -130,19 +130,19 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle message content validation concepts', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           blockedWords: ['spam', 'forbidden'],
         });
-        
+
         const messageContents = [
           'Hello, how are you?',
           'This is a normal message',
           'Short msg',
           'A longer message with more content to test',
         ];
-        
+
         messageContents.forEach((content) => {
           expect(typeof content).toBe('string');
           expect(content.length).toBeGreaterThan(0);
@@ -157,7 +157,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle content filtering policy structures', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const filteringPolicies = [
           {
             enableInputFilter: true,
@@ -175,11 +175,11 @@ describe('SecurityManager Safe Tests', () => {
             maxOutputLength: 1500,
           },
         ];
-        
+
         filteringPolicies.forEach((policy) => {
           const manager = new SecurityManager(policy);
           expect(manager).toBeDefined();
-          
+
           if (policy.blockedWords) {
             expect(Array.isArray(policy.blockedWords)).toBe(true);
           }
@@ -195,19 +195,19 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle content safety concepts', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           enableOutputFilter: true,
         });
-        
+
         const contentTypes = [
           { type: 'text', safe: true },
           { type: 'url', safe: true },
           { type: 'email', safe: true },
           { type: 'unknown', safe: false },
         ];
-        
+
         contentTypes.forEach((content) => {
           expect(content.type).toBeDefined();
           expect(typeof content.safe).toBe('boolean');
@@ -222,18 +222,13 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle domain validation concepts', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           allowedDomains: ['example.com', 'trusted.org', 'safe.net'],
         });
-        
-        const domains = [
-          'example.com',
-          'trusted.org',
-          'safe.net',
-          'subdomain.example.com',
-        ];
-        
+
+        const domains = ['example.com', 'trusted.org', 'safe.net', 'subdomain.example.com'];
+
         domains.forEach((domain) => {
           expect(typeof domain).toBe('string');
           expect(domain.includes('.')).toBe(true);
@@ -247,19 +242,19 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle URL structure validation', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           allowedDomains: ['trusted.com'],
         });
-        
+
         const urlStructures = [
           'https://example.com',
           'http://trusted.org',
           'https://subdomain.safe.net/path',
           'ftp://files.example.com',
         ];
-        
+
         urlStructures.forEach((url) => {
           expect(typeof url).toBe('string');
           expect(url.includes('://')).toBe(true);
@@ -275,14 +270,14 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle blocked words policy', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const blockedWordsPolicies = [
           { blockedWords: ['spam', 'inappropriate'] },
           { blockedWords: ['forbidden', 'blocked', 'prohibited'] },
           { blockedWords: [] },
           { blockedWords: ['single'] },
         ];
-        
+
         blockedWordsPolicies.forEach((policy) => {
           const manager = new SecurityManager(policy);
           expect(manager).toBeDefined();
@@ -296,19 +291,19 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle word filtering scenarios', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           blockedWords: ['forbidden', 'spam', 'inappropriate'],
         });
-        
+
         const testScenarios = [
           { text: 'This is clean text', expected: 'clean' },
           { text: 'Normal conversation', expected: 'clean' },
           { text: 'Hello world', expected: 'clean' },
           { text: 'How are you today?', expected: 'clean' },
         ];
-        
+
         testScenarios.forEach((scenario) => {
           expect(scenario.text).toBeDefined();
           expect(scenario.expected).toBeDefined();
@@ -324,19 +319,19 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle security error scenarios', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           maxInputLength: 100,
         });
-        
+
         const errorScenarios = [
           { type: 'length_exceeded', input: 'x'.repeat(200) },
           { type: 'invalid_format', input: null },
           { type: 'empty_input', input: '' },
           { type: 'whitespace_only', input: '   ' },
         ];
-        
+
         errorScenarios.forEach((scenario) => {
           expect(scenario.type).toBeDefined();
           expect(typeof scenario.type).toBe('string');
@@ -349,14 +344,14 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle policy validation errors', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const invalidPolicies = [
           { maxInputLength: -1 },
           { maxOutputLength: 0 },
           { blockedWords: null },
           { allowedDomains: 'not-an-array' },
         ];
-        
+
         invalidPolicies.forEach((policy) => {
           expect(() => {
             const manager = new SecurityManager(policy as any);
@@ -373,12 +368,12 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle ChatMessage security concepts', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const manager = new SecurityManager({
           enableInputFilter: true,
           maxInputLength: 1000,
         });
-        
+
         const chatMessages = [
           {
             role: 'user' as const,
@@ -399,7 +394,7 @@ describe('SecurityManager Safe Tests', () => {
             id: 'msg-3',
           },
         ];
-        
+
         chatMessages.forEach((message) => {
           expect(message.role).toBeDefined();
           expect(message.content).toBeDefined();
@@ -416,7 +411,7 @@ describe('SecurityManager Safe Tests', () => {
     it('should handle performance-related security policies', async () => {
       try {
         const { SecurityManager } = await import('../../src/core/SecurityManager');
-        
+
         const performancePolicies = [
           { maxInputLength: 10 },
           { maxInputLength: 100 },
@@ -425,11 +420,11 @@ describe('SecurityManager Safe Tests', () => {
           { maxOutputLength: 500 },
           { maxOutputLength: 5000 },
         ];
-        
+
         performancePolicies.forEach((policy) => {
           const manager = new SecurityManager(policy);
           expect(manager).toBeDefined();
-          
+
           if (policy.maxInputLength) {
             expect(policy.maxInputLength).toBeGreaterThan(0);
           }

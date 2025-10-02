@@ -19,7 +19,9 @@ Protect against malicious input:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: { /* ... */ },
+  provider: {
+    /* ... */
+  },
   security: {
     enableInputFilter: true,
     maxInputLength: 4000,
@@ -39,7 +41,9 @@ Filter potentially harmful or inappropriate AI responses:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: { /* ... */ },
+  provider: {
+    /* ... */
+  },
   security: {
     enableOutputFilter: true,
   },
@@ -52,7 +56,9 @@ Prevent abuse and control costs:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: { /* ... */ },
+  provider: {
+    /* ... */
+  },
   rateLimit: {
     enabled: true,
     requestsPerMinute: 10,
@@ -68,7 +74,9 @@ Prevent hanging requests:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: { /* ... */ },
+  provider: {
+    /* ... */
+  },
   timeout: 30000, // 30 seconds
 });
 ```
@@ -122,18 +130,18 @@ import validator from 'validator';
 function sanitizeInput(input: string): string {
   // Escape HTML
   let sanitized = validator.escape(input);
-  
+
   // Remove control characters
   sanitized = sanitized.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
-  
+
   // Trim whitespace
   sanitized = sanitized.trim();
-  
+
   // Limit length
   if (sanitized.length > 4000) {
     sanitized = sanitized.substring(0, 4000);
   }
-  
+
   return sanitized;
 }
 
@@ -151,30 +159,30 @@ import { randomUUID } from 'crypto';
 function createSecureSession(userId: string): string {
   // Generate cryptographically secure session ID
   const sessionId = `${userId}_${randomUUID()}`;
-  
+
   // Store session with expiration
   sessionStore.set(sessionId, {
     userId,
     createdAt: Date.now(),
     expiresAt: Date.now() + 3600000, // 1 hour
   });
-  
+
   return sessionId;
 }
 
 // Validate session before processing
 function validateSession(sessionId: string): boolean {
   const session = sessionStore.get(sessionId);
-  
+
   if (!session) {
     return false;
   }
-  
+
   if (Date.now() > session.expiresAt) {
     sessionStore.delete(sessionId);
     return false;
   }
-  
+
   return true;
 }
 ```
@@ -185,7 +193,9 @@ Implement content filtering for sensitive applications:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: { /* ... */ },
+  provider: {
+    /* ... */
+  },
   security: {
     enableInputFilter: true,
     enableOutputFilter: true,
@@ -194,13 +204,13 @@ const chatbot = new Chatbot({
       /\b\d{3}-\d{2}-\d{4}\b/g, // SSN
       /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/g, // Credit card
       /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, // Email
-      
+
       // Sensitive keywords
       /password/i,
       /secret/i,
       /private key/i,
       /api[_-]?key/i,
-      
+
       // Profanity (customize as needed)
       /offensive-word/i,
     ],
@@ -219,11 +229,11 @@ try {
 } catch (error) {
   // ❌ BAD - Exposes internal details
   // res.status(500).json({ error: error.message });
-  
+
   // ✅ GOOD - Generic error message
   console.error('Chat error:', error); // Log internally
-  res.status(500).json({ 
-    error: 'An error occurred processing your request' 
+  res.status(500).json({
+    error: 'An error occurred processing your request',
   });
 }
 ```
@@ -266,7 +276,8 @@ npm update
 
 ## Reporting a Vulnerability
 
-We take all security vulnerabilities seriously. Thank you for improving the security of npm-chatbot.
+We take all security vulnerabilities seriously. Thank you for improving the
+security of npm-chatbot.
 
 ### How to Report
 
@@ -292,28 +303,24 @@ Please include the following information:
 ```markdown
 Subject: [SECURITY] Potential API Key Exposure in Logs
 
-Description:
-API keys may be logged in plain text when debug logging is enabled,
+Description: API keys may be logged in plain text when debug logging is enabled,
 potentially exposing them to unauthorized users with log access.
 
-Impact:
-An attacker with access to application logs could extract API keys
-and use them to make unauthorized API requests.
+Impact: An attacker with access to application logs could extract API keys and
+use them to make unauthorized API requests.
 
 Steps to Reproduce:
+
 1. Enable debug logging
 2. Initialize chatbot with API key
 3. Make a chat request
 4. Check logs - API key is visible
 
-Proof of Concept:
-[Include code snippet or log output]
+Proof of Concept: [Include code snippet or log output]
 
-Affected Versions:
-1.0.0 - 1.0.5
+Affected Versions: 1.0.0 - 1.0.5
 
-Suggested Fix:
-Redact API keys in log output by replacing with asterisks after
+Suggested Fix: Redact API keys in log output by replacing with asterisks after
 the first 4 characters.
 ```
 
@@ -346,11 +353,12 @@ Security updates will be released as:
 
 ## Security Hall of Fame
 
-We would like to thank the following people for responsibly disclosing security issues:
+We would like to thank the following people for responsibly disclosing security
+issues:
 
 <!-- Contributors will be listed here -->
 
-*No vulnerabilities reported yet.*
+_No vulnerabilities reported yet._
 
 ## Additional Resources
 
@@ -365,7 +373,8 @@ For security-related questions or concerns, contact:
 
 - **Security Email**: security@rumenx.com
 - **General Contact**: contact@rumenx.com
-- **GitHub Security Advisory**: [Create Advisory](https://github.com/RumenDamyanov/npm-chatbot/security/advisories/new)
+- **GitHub Security Advisory**:
+  [Create Advisory](https://github.com/RumenDamyanov/npm-chatbot/security/advisories/new)
 
 ---
 

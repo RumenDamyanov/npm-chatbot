@@ -74,11 +74,11 @@ export class SimpleMockProvider implements IAiProvider {
   ): AsyncGenerator<string, void, unknown> {
     const response = await this.generateResponse(message, context, options);
     const words = response.content.split(' ');
-    
+
     for (const word of words) {
-      yield word + ' ';
+      yield `${word} `;
       // Small delay to simulate streaming
-      await new Promise(resolve => setTimeout(resolve, 1));
+      await new Promise((resolve) => setTimeout(resolve, 1));
     }
   }
 

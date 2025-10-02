@@ -7,9 +7,11 @@ describe('ChatbotTypes Comprehensive Tests', () => {
   describe('ChatbotError Class', () => {
     it('should create ChatbotError with all parameters', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
-      const error = new ChatbotError('Test error message', 'PROVIDER_ERROR', 'openai', 'ERR_001', { key: 'value' });
-      
+
+      const error = new ChatbotError('Test error message', 'PROVIDER_ERROR', 'openai', 'ERR_001', {
+        key: 'value',
+      });
+
       expect(error).toBeInstanceOf(Error);
       expect(error.name).toBe('ChatbotError');
       expect(error.message).toBe('Test error message');
@@ -21,9 +23,9 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should create ChatbotError with minimal parameters', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const error = new ChatbotError('Simple error', 'CONFIGURATION_ERROR');
-      
+
       expect(error).toBeInstanceOf(Error);
       expect(error.name).toBe('ChatbotError');
       expect(error.message).toBe('Simple error');
@@ -35,9 +37,9 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should create ChatbotError with only type and provider', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const error = new ChatbotError('Error message', 'RATE_LIMIT_ERROR', 'anthropic');
-      
+
       expect(error.type).toBe('RATE_LIMIT_ERROR');
       expect(error.provider).toBe('anthropic');
       expect(error.code).toBeUndefined();
@@ -46,7 +48,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should handle all error types', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const errorTypes = [
         'PROVIDER_ERROR',
         'CONFIGURATION_ERROR',
@@ -56,7 +58,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         'TIMEOUT_ERROR',
         'UNKNOWN_ERROR',
       ] as const;
-      
+
       for (const type of errorTypes) {
         const error = new ChatbotError('Test message', type);
         expect(error.type).toBe(type);
@@ -66,7 +68,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should handle all provider types', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const providers = [
         'openai',
         'anthropic',
@@ -77,7 +79,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         'ollama',
         'default',
       ] as const;
-      
+
       for (const provider of providers) {
         const error = new ChatbotError('Test message', 'PROVIDER_ERROR', provider);
         expect(error.provider).toBe(provider);
@@ -86,13 +88,13 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should be throwable and catchable', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const throwError = (): void => {
         throw new ChatbotError('Thrown error', 'SECURITY_ERROR', 'google', 'SEC_001');
       };
-      
+
       expect(throwError).toThrow('Thrown error');
-      
+
       try {
         throwError();
       } catch (error) {
@@ -105,9 +107,9 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should inherit Error properties', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const error = new ChatbotError('Stack test', 'TIMEOUT_ERROR');
-      
+
       expect(error.stack).toBeDefined();
       expect(error.toString()).toContain('ChatbotError');
       expect(error.toString()).toContain('Stack test');
@@ -135,7 +137,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           metadata: {},
         },
       ];
-      
+
       for (const message of validMessages) {
         expect(message.role).toMatch(/^(user|assistant|system)$/);
         expect(typeof message.content).toBe('string');
@@ -167,7 +169,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           sessionId: 'session-456',
         },
       ];
-      
+
       for (const context of validContexts) {
         expect(Array.isArray(context.messages)).toBe(true);
         if (context.systemPrompt) {
@@ -208,7 +210,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           timestamp: new Date(),
         },
       ];
-      
+
       for (const response of validResponses) {
         expect(typeof response.content).toBe('string');
         expect(typeof response.provider).toBe('string');
@@ -247,7 +249,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           timestamp: new Date(),
         },
       ];
-      
+
       for (const chunk of validChunks) {
         expect(typeof chunk.content).toBe('string');
         expect(['content', 'metadata', 'done']).toContain(chunk.type);
@@ -275,7 +277,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           metadata: { requestId: 'req-123' },
         },
       ];
-      
+
       for (const request of validRequests) {
         expect(typeof request.message).toBe('string');
         if (request.context) {
@@ -344,11 +346,11 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           },
         },
       ];
-      
+
       for (const config of validConfigs) {
         expect(typeof config.provider).toBe('object');
         expect(typeof config.provider.provider).toBe('string');
-        
+
         if (config.systemPrompt) {
           expect(typeof config.systemPrompt).toBe('string');
         }
@@ -384,10 +386,19 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           options: { region: 'us-central1' },
         },
       ];
-      
+
       for (const config of validProviderConfigs) {
-        expect(['openai', 'anthropic', 'google', 'meta', 'xai', 'deepseek', 'ollama', 'default']).toContain(config.provider);
-        
+        expect([
+          'openai',
+          'anthropic',
+          'google',
+          'meta',
+          'xai',
+          'deepseek',
+          'ollama',
+          'default',
+        ]).toContain(config.provider);
+
         if (config.apiKey) {
           expect(typeof config.apiKey).toBe('string');
         }
@@ -424,7 +435,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           },
         },
       ];
-      
+
       for (const config of validSecurityConfigs) {
         if (config.enableInputFilter !== undefined) {
           expect(typeof config.enableInputFilter).toBe('boolean');
@@ -464,7 +475,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           keyGenerator: (context: any): string => `key:${context.id}`,
         },
       ];
-      
+
       for (const config of validRateLimitConfigs) {
         if (config.enabled !== undefined) {
           expect(typeof config.enabled).toBe('boolean');
@@ -500,7 +511,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           },
         },
       ];
-      
+
       for (const config of validLoggingConfigs) {
         if (config.enabled !== undefined) {
           expect(typeof config.enabled).toBe('boolean');
@@ -527,7 +538,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
   describe('Type Constants and Enums', () => {
     it('should have valid message roles', () => {
       const validRoles = ['system', 'user', 'assistant'];
-      
+
       for (const role of validRoles) {
         expect(['system', 'user', 'assistant']).toContain(role);
       }
@@ -544,7 +555,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         'ollama',
         'default',
       ];
-      
+
       for (const provider of validProviders) {
         expect(typeof provider).toBe('string');
         expect(provider.length).toBeGreaterThan(0);
@@ -561,7 +572,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         'TIMEOUT_ERROR',
         'UNKNOWN_ERROR',
       ];
-      
+
       for (const errorType of validErrorTypes) {
         expect(typeof errorType).toBe('string');
         expect(errorType).toMatch(/^[A-Z_]+$/);
@@ -570,7 +581,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should have valid log levels', () => {
       const validLogLevels = ['debug', 'info', 'warn', 'error'];
-      
+
       for (const level of validLogLevels) {
         expect(typeof level).toBe('string');
         expect(['debug', 'info', 'warn', 'error']).toContain(level);
@@ -579,7 +590,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
 
     it('should have valid chunk types', () => {
       const validChunkTypes = ['content', 'metadata', 'done'];
-      
+
       for (const type of validChunkTypes) {
         expect(typeof type).toBe('string');
         expect(['content', 'metadata', 'done']).toContain(type);
@@ -616,7 +627,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
           },
         },
       };
-      
+
       expect(complexConfig.provider.provider).toBe('openai');
       expect(complexConfig.provider.options?.nested).toBeDefined();
       expect(complexConfig.security.profanityFilter?.customWords).toHaveLength(2);
@@ -637,7 +648,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         },
         metadata: { requestId: 'req-789' },
       };
-      
+
       const response = {
         content: 'Hello! How can I help you?',
         provider: 'openai' as const,
@@ -652,7 +663,7 @@ describe('ChatbotTypes Comprehensive Tests', () => {
         },
         timestamp: new Date(),
       };
-      
+
       expect(request.message).toBe('Hello');
       expect(request.context?.messages).toHaveLength(3);
       expect(response.content).toContain('Hello');

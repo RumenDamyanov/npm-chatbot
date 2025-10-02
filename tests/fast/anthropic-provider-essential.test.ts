@@ -27,7 +27,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
   describe('Constructor & Basic Properties', () => {
     test('should create provider with valid config', () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       expect(provider.name).toBe('anthropic');
       expect(provider.capabilities).toBeDefined();
       expect(provider.capabilities.supportedModels).toContain('claude-sonnet-4-5-20250929');
@@ -42,7 +42,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should use default model when none specified', () => {
       const configWithoutModel = { ...mockConfig };
       delete configWithoutModel.model;
-      
+
       const provider = new AnthropicProvider(configWithoutModel);
       expect(provider).toBeDefined();
     });
@@ -52,7 +52,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
         ...mockConfig,
         apiUrl: 'https://custom-anthropic-api.com',
       };
-      
+
       const provider = new AnthropicProvider(customConfig);
       expect(provider).toBeDefined();
     });
@@ -62,7 +62,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should have correct capabilities structure', () => {
       const provider = new AnthropicProvider(mockConfig);
       const caps = provider.capabilities;
-      
+
       expect(caps.maxInputTokens).toBe(200000);
       expect(caps.maxOutputTokens).toBe(8192);
       expect(caps.supportsStreaming).toBe(true);
@@ -74,7 +74,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should include rate limits', () => {
       const provider = new AnthropicProvider(mockConfig);
       const rateLimits = provider.capabilities.rateLimits;
-      
+
       expect(rateLimits).toBeDefined();
       expect(rateLimits?.requestsPerMinute).toBe(1000);
       expect(rateLimits?.requestsPerHour).toBe(5000);
@@ -84,7 +84,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should support all Claude models', () => {
       const provider = new AnthropicProvider(mockConfig);
       const models = provider.capabilities.supportedModels;
-      
+
       expect(models).toContain('claude-sonnet-4-5-20250929');
       expect(models).toContain('claude-3-5-haiku-20241022');
       expect(models).toContain('claude-3-opus-20240229');
@@ -96,7 +96,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
   describe('Configuration Management', () => {
     test('should update configuration without throwing', () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       const newConfig = {
         model: 'claude-3-haiku-20240307',
         temperature: 0.5,
@@ -107,7 +107,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
 
     test('should recreate client when API config changes', () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       expect(() => {
         provider.updateConfig({
           apiKey: 'new-api-key',
@@ -117,7 +117,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
 
     test('should recreate client when API URL changes', () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       expect(() => {
         provider.updateConfig({
           apiUrl: 'https://new-api-url.com',
@@ -127,14 +127,14 @@ describe('AnthropicProvider - Essential Coverage', () => {
 
     test('should reject config validation for empty API key', async () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       const invalidConfig: Partial<AiProviderConfig> = {
         apiKey: '',
         model: 'claude-sonnet-4-5-20250929',
       };
 
       const isValid = await provider.validateConfig(invalidConfig as AiProviderConfig);
-      
+
       expect(isValid).toBe(false);
     });
   });
@@ -143,7 +143,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should return supported models', async () => {
       const provider = new AnthropicProvider(mockConfig);
       const models = await provider.getModels();
-      
+
       expect(models).toContain('claude-sonnet-4-5-20250929');
       expect(models).toContain('claude-3-opus-20240229');
       expect(models.length).toBeGreaterThan(0);
@@ -151,7 +151,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
 
     test('should have required method interfaces', () => {
       const provider = new AnthropicProvider(mockConfig);
-      
+
       // Test that all required methods exist
       expect(typeof provider.isAvailable).toBe('function');
       expect(typeof provider.generateResponse).toBe('function');
@@ -168,7 +168,7 @@ describe('AnthropicProvider - Essential Coverage', () => {
     test('should have status method that returns expected structure', async () => {
       const provider = new AnthropicProvider(mockConfig);
       const status = await provider.getStatus();
-      
+
       expect(status).toBeDefined();
       expect(status.model).toBe('claude-sonnet-4-5-20250929');
       expect(status.version).toBe('1.0.0');

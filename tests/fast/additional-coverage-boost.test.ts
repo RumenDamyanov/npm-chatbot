@@ -7,13 +7,13 @@ describe('Additional Coverage Boost', () => {
     it('should handle conversation manager import and instantiation', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const config = {
           enableMemory: true,
           maxHistory: 10,
           systemPrompt: 'Test prompt',
         };
-        
+
         const manager = new ConversationManager(config);
         expect(manager).toBeDefined();
         expect(typeof manager).toBe('object');
@@ -25,14 +25,14 @@ describe('Additional Coverage Boost', () => {
     it('should handle conversation context creation', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const config = {
           enableMemory: true,
           maxHistory: 5,
         };
-        
+
         const manager = new ConversationManager(config);
-        
+
         // Test context creation/manipulation
         const context = {
           messages: [
@@ -43,7 +43,7 @@ describe('Additional Coverage Boost', () => {
           userId: 'test-user',
           sessionId: 'test-session',
         };
-        
+
         expect(context.messages).toHaveLength(2);
         expect(context.systemPrompt).toBe('Test system');
       } catch (error) {
@@ -111,7 +111,7 @@ describe('Additional Coverage Boost', () => {
     it('should handle provider factory static methods', async () => {
       try {
         const { ProviderFactory } = await import('../../src/providers/ProviderFactory');
-        
+
         const availableProviders = ProviderFactory.getAvailableProviders();
         expect(Array.isArray(availableProviders)).toBe(true);
         expect(availableProviders.length).toBeGreaterThan(0);
@@ -128,13 +128,13 @@ describe('Additional Coverage Boost', () => {
     it('should handle logger initialization with custom settings', async () => {
       try {
         const { DefaultLogger } = await import('../../src/utils/Logger');
-        
+
         const logger = new DefaultLogger({
           level: 'debug',
           logConversations: true,
           logProviderRequests: false,
         });
-        
+
         expect(logger).toBeDefined();
         expect(typeof logger.debug).toBe('function');
         expect(typeof logger.info).toBe('function');
@@ -148,9 +148,9 @@ describe('Additional Coverage Boost', () => {
     it('should handle different log levels', async () => {
       try {
         const { DefaultLogger } = await import('../../src/utils/Logger');
-        
+
         const levels = ['debug', 'info', 'warn', 'error'] as const;
-        
+
         levels.forEach((level) => {
           const logger = new DefaultLogger({ level });
           expect(logger).toBeDefined();
@@ -165,7 +165,7 @@ describe('Additional Coverage Boost', () => {
     it('should handle error handler initialization', async () => {
       try {
         const { ErrorHandler } = await import('../../src/core/ErrorHandler');
-        
+
         const handler = new ErrorHandler();
         expect(handler).toBeDefined();
         expect(typeof handler).toBe('object');
@@ -178,7 +178,7 @@ describe('Additional Coverage Boost', () => {
       try {
         const { ErrorHandler } = await import('../../src/core/ErrorHandler');
         const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-        
+
         const handler = new ErrorHandler();
         const errors = [
           new Error('Regular error'),
@@ -186,7 +186,7 @@ describe('Additional Coverage Boost', () => {
           new TypeError('Type error'),
           new ReferenceError('Reference error'),
         ];
-        
+
         errors.forEach((error) => {
           const classification = handler.classifyError(error);
           expect(classification).toBeDefined();
@@ -293,7 +293,7 @@ describe('Additional Coverage Boost', () => {
 
       const serialized = JSON.stringify(data);
       const parsed = JSON.parse(serialized);
-      
+
       expect(parsed.nested.deeply.value).toBe('test');
       expect(parsed.nested.deeply.array).toEqual([1, 2, 3]);
       expect(parsed.nested.deeply.object.key).toBe('value');
@@ -306,13 +306,15 @@ describe('Additional Coverage Boost', () => {
         async (): Promise<boolean> => true,
       ];
 
-      const results = await Promise.all(asyncTasks.map(task => task()));
+      const results = await Promise.all(asyncTasks.map((task) => task()));
       expect(results).toEqual([1, 'test', true]);
     });
 
     it('should handle error propagation', () => {
       const createError = (message: string): Error => new Error(message);
-      const throwError = (message: string): never => { throw createError(message); };
+      const throwError = (message: string): never => {
+        throw createError(message);
+      };
 
       expect(() => throwError('test error')).toThrow('test error');
       expect(createError('test').message).toBe('test');
@@ -322,7 +324,14 @@ describe('Additional Coverage Boost', () => {
   describe('Type Compatibility Coverage', () => {
     it('should handle all provider types', () => {
       const providers = [
-        'openai', 'anthropic', 'google', 'meta', 'xai', 'deepseek', 'ollama', 'default'
+        'openai',
+        'anthropic',
+        'google',
+        'meta',
+        'xai',
+        'deepseek',
+        'ollama',
+        'default',
       ] as const;
 
       providers.forEach((provider) => {

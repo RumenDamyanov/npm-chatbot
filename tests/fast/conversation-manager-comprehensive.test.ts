@@ -8,7 +8,7 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should create ConversationManager with default config', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({});
         expect(manager).toBeDefined();
         expect(typeof manager).toBe('object');
@@ -20,13 +20,13 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should create ConversationManager with custom config', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const config = {
           enableMemory: true,
           maxHistory: 20,
           systemPrompt: 'You are a helpful assistant',
         };
-        
+
         const manager = new ConversationManager(config);
         expect(manager).toBeDefined();
       } catch (error) {
@@ -37,12 +37,12 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle ConversationManager with memory disabled', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const config = {
           enableMemory: false,
           maxHistory: 5,
         };
-        
+
         const manager = new ConversationManager(config);
         expect(manager).toBeDefined();
       } catch (error) {
@@ -55,9 +55,9 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle message context creation', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({ enableMemory: true });
-        
+
         const context = {
           messages: [
             {
@@ -78,7 +78,7 @@ describe('ConversationManager Comprehensive Tests', () => {
           sessionId: 'session-456',
           metadata: { source: 'test' },
         };
-        
+
         expect(context.messages).toHaveLength(2);
         expect(context.messages[0].role).toBe('user');
         expect(context.messages[1].role).toBe('assistant');
@@ -92,15 +92,15 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle different message types', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({ maxHistory: 10 });
-        
+
         const messageTypes = [
           { role: 'system' as const, content: 'System message' },
           { role: 'user' as const, content: 'User message' },
           { role: 'assistant' as const, content: 'Assistant message' },
         ];
-        
+
         messageTypes.forEach((message) => {
           expect(message.role).toBeDefined();
           expect(message.content).toBeDefined();
@@ -114,9 +114,9 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle message metadata', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({});
-        
+
         const messagesWithMetadata = [
           {
             role: 'user' as const,
@@ -141,7 +141,7 @@ describe('ConversationManager Comprehensive Tests', () => {
             id: 'msg-meta-2',
           },
         ];
-        
+
         messagesWithMetadata.forEach((message) => {
           expect(message.metadata).toBeDefined();
           expect(typeof message.metadata).toBe('object');
@@ -158,9 +158,9 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle conversation history limits', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({ maxHistory: 3 });
-        
+
         const longConversation = [];
         for (let i = 1; i <= 10; i++) {
           longConversation.push({
@@ -170,7 +170,7 @@ describe('ConversationManager Comprehensive Tests', () => {
             id: `msg-${i}`,
           });
         }
-        
+
         expect(longConversation).toHaveLength(10);
         expect(longConversation[0].content).toBe('Message 1');
         expect(longConversation[9].content).toBe('Message 10');
@@ -182,15 +182,15 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle empty conversation history', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({ enableMemory: true });
-        
+
         const emptyContext = {
           messages: [],
           userId: 'user-empty',
           sessionId: 'session-empty',
         };
-        
+
         expect(emptyContext.messages).toHaveLength(0);
         expect(Array.isArray(emptyContext.messages)).toBe(true);
       } catch (error) {
@@ -201,20 +201,18 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle conversation context updates', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({
           enableMemory: true,
           maxHistory: 5,
         });
-        
+
         const initialContext = {
-          messages: [
-            { role: 'user' as const, content: 'Initial message' },
-          ],
+          messages: [{ role: 'user' as const, content: 'Initial message' }],
           userId: 'user-update',
           sessionId: 'session-update',
         };
-        
+
         const updatedContext = {
           ...initialContext,
           messages: [
@@ -223,7 +221,7 @@ describe('ConversationManager Comprehensive Tests', () => {
             { role: 'user' as const, content: 'Follow-up message' },
           ],
         };
-        
+
         expect(initialContext.messages).toHaveLength(1);
         expect(updatedContext.messages).toHaveLength(3);
         expect(updatedContext.userId).toBe('user-update');
@@ -237,20 +235,20 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle system prompt configuration', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const systemPrompts = [
           'You are a helpful assistant',
           'You are a coding expert',
           'You are a creative writer',
           '',
         ];
-        
+
         systemPrompts.forEach((prompt) => {
           const manager = new ConversationManager({
             systemPrompt: prompt,
             enableMemory: true,
           });
-          
+
           expect(manager).toBeDefined();
         });
       } catch (error) {
@@ -261,18 +259,18 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle dynamic system prompt updates', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({
           systemPrompt: 'Initial prompt',
         });
-        
+
         const context = {
           messages: [],
           systemPrompt: 'Updated system prompt',
           userId: 'user-prompt',
           sessionId: 'session-prompt',
         };
-        
+
         expect(context.systemPrompt).toBe('Updated system prompt');
       } catch (error) {
         expect(error).toBeDefined();
@@ -284,33 +282,27 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle user session tracking', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({ enableMemory: true });
-        
+
         const sessions = [
           {
             userId: 'user-1',
             sessionId: 'session-1',
-            messages: [
-              { role: 'user' as const, content: 'Hello from user 1' },
-            ],
+            messages: [{ role: 'user' as const, content: 'Hello from user 1' }],
           },
           {
             userId: 'user-2',
             sessionId: 'session-2',
-            messages: [
-              { role: 'user' as const, content: 'Hello from user 2' },
-            ],
+            messages: [{ role: 'user' as const, content: 'Hello from user 2' }],
           },
           {
             userId: 'user-1',
             sessionId: 'session-3',
-            messages: [
-              { role: 'user' as const, content: 'Another session for user 1' },
-            ],
+            messages: [{ role: 'user' as const, content: 'Another session for user 1' }],
           },
         ];
-        
+
         sessions.forEach((session) => {
           expect(session.userId).toBeDefined();
           expect(session.sessionId).toBeDefined();
@@ -325,9 +317,9 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle session metadata', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({});
-        
+
         const sessionContext = {
           messages: [],
           userId: 'user-meta',
@@ -340,7 +332,7 @@ describe('ConversationManager Comprehensive Tests', () => {
             sessionType: 'interactive',
           },
         };
-        
+
         expect(sessionContext.metadata).toBeDefined();
         expect(sessionContext.metadata.startTime).toBeInstanceOf(Date);
         expect(sessionContext.metadata.language).toBe('en-US');
@@ -355,7 +347,7 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle memory configuration variations', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const memoryConfigs = [
           { enableMemory: true, maxHistory: 1 },
           { enableMemory: true, maxHistory: 100 },
@@ -364,7 +356,7 @@ describe('ConversationManager Comprehensive Tests', () => {
           { maxHistory: 5 },
           {},
         ];
-        
+
         memoryConfigs.forEach((config) => {
           const manager = new ConversationManager(config);
           expect(manager).toBeDefined();
@@ -377,12 +369,12 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle conversation flow patterns', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({
           enableMemory: true,
           maxHistory: 8,
         });
-        
+
         const conversationFlows = [
           // Single exchange
           [
@@ -403,11 +395,11 @@ describe('ConversationManager Comprehensive Tests', () => {
             { role: 'assistant' as const, content: 'Quantum physics is...' },
           ],
         ];
-        
+
         conversationFlows.forEach((flow) => {
           expect(Array.isArray(flow)).toBe(true);
           expect(flow.length).toBeGreaterThan(0);
-          
+
           flow.forEach((message) => {
             expect(message.role).toBeDefined();
             expect(message.content).toBeDefined();
@@ -423,13 +415,13 @@ describe('ConversationManager Comprehensive Tests', () => {
     it('should handle complex conversation scenarios', async () => {
       try {
         const { ConversationManager } = await import('../../src/core/ConversationManager');
-        
+
         const manager = new ConversationManager({
           enableMemory: true,
           maxHistory: 6,
           systemPrompt: 'You are a helpful assistant specialized in technology',
         });
-        
+
         const complexScenario = {
           messages: [
             {
@@ -447,7 +439,8 @@ describe('ConversationManager Comprehensive Tests', () => {
             },
             {
               role: 'assistant' as const,
-              content: 'I\'d be happy to help with JavaScript! What specifically do you need assistance with?',
+              content:
+                "I'd be happy to help with JavaScript! What specifically do you need assistance with?",
               metadata: { model: 'gpt-4', tokens: 25 },
               timestamp: new Date(Date.now() - 6000),
               id: 'asst-1',
@@ -468,7 +461,7 @@ describe('ConversationManager Comprehensive Tests', () => {
             sessionStart: new Date(Date.now() - 12000),
           },
         };
-        
+
         expect(complexScenario.messages).toHaveLength(4);
         expect(complexScenario.messages[0].role).toBe('system');
         expect(complexScenario.metadata?.topic).toBe('javascript-async');

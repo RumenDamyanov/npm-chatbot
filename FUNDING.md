@@ -1,6 +1,7 @@
 # Funding and Support
 
-Thank you for your interest in supporting npm-chatbot! Your support helps us maintain and improve this open-source project.
+Thank you for your interest in supporting npm-chatbot! Your support helps us
+maintain and improve this open-source project.
 
 ## 💖 Ways to Support
 
@@ -14,7 +15,8 @@ Support the project through GitHub Sponsors:
 
 Prefer a one-time contribution? You can donate through:
 
-- **Buy Me a Coffee**: [buymeacoffee.com/rumenx](https://buymeacoffee.com/rumenx)
+- **Buy Me a Coffee**:
+  [buymeacoffee.com/rumenx](https://buymeacoffee.com/rumenx)
 
 ### 3. Non-Financial Support
 
@@ -51,12 +53,14 @@ Your contributions help us:
 ### 🌟 Bronze Sponsor ($10/month)
 
 All Coffee Supporter benefits plus:
+
 - Priority issue response
 - Your logo in project README
 
 ### 🥈 Silver Sponsor ($25/month)
 
 All Bronze Sponsor benefits plus:
+
 - Your logo in project documentation
 - Mention in release notes
 - Direct email support
@@ -64,6 +68,7 @@ All Bronze Sponsor benefits plus:
 ### 🥇 Gold Sponsor ($50/month)
 
 All Silver Sponsor benefits plus:
+
 - Logo on project website (when available)
 - Quarterly video call for feedback
 - Influence on project roadmap
@@ -71,6 +76,7 @@ All Silver Sponsor benefits plus:
 ### 💎 Platinum Sponsor ($100/month)
 
 All Gold Sponsor benefits plus:
+
 - Prominent logo placement
 - Custom feature prioritization
 - Direct Slack/Discord channel
@@ -79,6 +85,7 @@ All Gold Sponsor benefits plus:
 ### 🏢 Enterprise Sponsor ($500+/month)
 
 Contact us for custom enterprise sponsorship packages including:
+
 - Dedicated support
 - Custom SLA
 - Feature development
@@ -91,19 +98,19 @@ Contact us for custom enterprise sponsorship packages including:
 
 ### Platinum Sponsors
 
-*Your company could be here!*
+_Your company could be here!_
 
 ### Gold Sponsors
 
-*Your company could be here!*
+_Your company could be here!_
 
 ### Silver Sponsors
 
-*Your company could be here!*
+_Your company could be here!_
 
 ### Bronze Sponsors
 
-*Your company could be here!*
+_Your company could be here!_
 
 ### Individual Supporters
 
@@ -119,9 +126,11 @@ We believe in transparency about how funds are used:
 
 ## 🤝 Corporate Sponsorship
 
-Are you a company using npm-chatbot in production? Consider becoming a corporate sponsor!
+Are you a company using npm-chatbot in production? Consider becoming a corporate
+sponsor!
 
 Benefits:
+
 - Support the tools your team depends on
 - Ensure continued maintenance and updates
 - Get priority support and feature requests
@@ -132,13 +141,15 @@ Contact us at **partnerships@rumenx.com** for corporate sponsorship inquiries.
 
 ## 📜 License
 
-npm-chatbot is and will always remain MIT licensed and free to use. Sponsorship is completely voluntary and doesn't affect your ability to use the software.
+npm-chatbot is and will always remain MIT licensed and free to use. Sponsorship
+is completely voluntary and doesn't affect your ability to use the software.
 
 ## ❓ FAQ
 
 ### Do I need to sponsor to use npm-chatbot?
 
-No! npm-chatbot is free and open-source under the MIT license. Sponsorship is voluntary and helps ensure the project's continued development.
+No! npm-chatbot is free and open-source under the MIT license. Sponsorship is
+voluntary and helps ensure the project's continued development.
 
 ### Can I sponsor anonymously?
 
@@ -150,15 +161,18 @@ Yes, you can cancel your sponsorship at any time with no penalty.
 
 ### Do you offer refunds?
 
-GitHub Sponsors operates on a month-to-month basis. If you cancel, you won't be charged again, but previous months are non-refundable.
+GitHub Sponsors operates on a month-to-month basis. If you cancel, you won't be
+charged again, but previous months are non-refundable.
 
 ### Can I get a receipt for my sponsorship?
 
-Yes, GitHub provides receipts for all sponsorships. For corporate sponsorships, we can provide additional invoicing.
+Yes, GitHub provides receipts for all sponsorships. For corporate sponsorships,
+we can provide additional invoicing.
 
 ### My company wants to sponsor. What's the process?
 
-Please contact us at partnerships@rumenx.com with your requirements, and we'll create a custom sponsorship package.
+Please contact us at partnerships@rumenx.com with your requirements, and we'll
+create a custom sponsorship package.
 
 ## 📞 Contact
 
@@ -170,4 +184,5 @@ For sponsorship inquiries:
 
 ---
 
-**Thank you for your support! Every contribution, big or small, makes a difference.** ❤️
+**Thank you for your support! Every contribution, big or small, makes a
+difference.** ❤️

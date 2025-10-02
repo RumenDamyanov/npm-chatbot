@@ -1,6 +1,6 @@
 /**
  * Simple Error Handling Test
- * 
+ *
  * A basic test to verify error handling functionality works correctly
  */
 

@@ -223,7 +223,7 @@ export class ErrorUtils {
     }
 
     // Remove sensitive information from error messages
-    let sanitizedMessage = error.message
+    const sanitizedMessage = error.message
       .replace(/api[_-]?key[:\s=][\w-]+/gi, 'api_key=***')
       .replace(/token[:\s=][\w-]+/gi, 'token=***')
       .replace(/authorization[:\s=][\w\s-]+/gi, 'authorization=***');

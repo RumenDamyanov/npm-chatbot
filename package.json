@@ -38,13 +38,7 @@
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist/",
-    "components/",
-    "README.md",
-    "LICENSE.md",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "components/", "README.md", "LICENSE.md", "CHANGELOG.md"],
   "scripts": {
     "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs && npm run build:components",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types",
@@ -59,11 +53,11 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --maxWorkers=1 --forceExit",
     "test:ci": "jest --ci --coverage --watchAll=false --maxWorkers=1 --forceExit",
-    "lint": "eslint src/ tests/ --ext .ts,.tsx",
-    "lint:fix": "eslint src/ tests/ --ext .ts,.tsx --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" \"*.{js,json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" \"*.{js,json,md}\"",
-    "typecheck": "tsc --project tsconfig.lint.json --noEmit",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "validate": "npm run typecheck && npm run lint && npm run format:check && npm run test:ci",
     "example:openai": "npx ts-node examples/openai-example.ts",
     "example:anthropic": "npx ts-node examples/anthropic-example.ts",

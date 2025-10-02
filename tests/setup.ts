@@ -23,7 +23,7 @@ expect.extend({
 
   toBeValidProviderConfig(received: unknown) {
     const isObject = typeof received === 'object' && received !== null;
-    const hasProvider = isObject && 'provider' in (received as object);
+    const hasProvider = isObject && 'provider' in received;
     const pass = isObject && hasProvider;
 
     if (pass) {

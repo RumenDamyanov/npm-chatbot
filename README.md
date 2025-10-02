@@ -6,28 +6,37 @@
 [![codecov](https://codecov.io/gh/RumenDamyanov/npm-chatbot/branch/master/graph/badge.svg)](https://codecov.io/gh/RumenDamyanov/npm-chatbot)
 [![npm version](https://img.shields.io/npm/v/@rumenx/chatbot.svg)](https://www.npmjs.com/package/@rumenx/chatbot)
 
-A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications with support for multiple AI providers (OpenAI, Anthropic, Google AI, and more).
+A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript
+applications with support for multiple AI providers (OpenAI, Anthropic, Google
+AI, and more).
 
 ## 📦 Part of the Chatbot Family
 
-This is the **TypeScript/JavaScript** implementation of our multi-language chatbot library:
+This is the **TypeScript/JavaScript** implementation of our multi-language
+chatbot library:
 
-- 📘 **[npm-chatbot](https://github.com/RumenDamyanov/npm-chatbot)** - TypeScript/JavaScript (this package)
-- 🐘 **[php-chatbot](https://github.com/RumenDamyanov/php-chatbot)** - PHP implementation
-- 🔷 **[go-chatbot](https://github.com/RumenDamyanov/go-chatbot)** - Go implementation
+- 📘 **[npm-chatbot](https://github.com/RumenDamyanov/npm-chatbot)** -
+  TypeScript/JavaScript (this package)
+- 🐘 **[php-chatbot](https://github.com/RumenDamyanov/php-chatbot)** - PHP
+  implementation
+- 🔷 **[go-chatbot](https://github.com/RumenDamyanov/go-chatbot)** - Go
+  implementation
 
-All implementations share the same API design and features, making it easy to switch between languages or maintain consistency across polyglot projects.
+All implementations share the same API design and features, making it easy to
+switch between languages or maintain consistency across polyglot projects.
 
 ---
 
 ## ✨ Features
 
-- 🎯 **Multiple AI Providers** - OpenAI (GPT-4, GPT-3.5), Anthropic (Claude), Google AI (Gemini), Meta, xAI, DeepSeek, Ollama
+- 🎯 **Multiple AI Providers** - OpenAI (GPT-4, GPT-3.5), Anthropic (Claude),
+  Google AI (Gemini), Meta, xAI, DeepSeek, Ollama
 - 📝 **Type-Safe** - Full TypeScript support with comprehensive type definitions
 - 💾 **Conversation Memory** - Built-in conversation history management
 - 🔒 **Security** - Input/output filtering, content moderation, rate limiting
 - ⚡ **Streaming Support** - Real-time response streaming for all providers
-- 🎨 **Framework Integration** - Components for React, Vue, Angular, Express, Next.js, Fastify
+- 🎨 **Framework Integration** - Components for React, Vue, Angular, Express,
+  Next.js, Fastify
 - 🔄 **Error Handling** - Comprehensive error handling with retry logic
 - 📊 **Usage Tracking** - Token usage and cost tracking
 - 🧪 **Extensively Tested** - 94% test coverage with 880+ tests
@@ -95,7 +104,8 @@ npm install vue
 npm install express
 ```
 
-All provider dependencies are **optional peer dependencies**, so you only install what you need.
+All provider dependencies are **optional peer dependencies**, so you only
+install what you need.
 
 ---
 
@@ -313,7 +323,9 @@ const chatbot = new Chatbot({
 });
 
 function ChatComponent() {
-  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
+  const [messages, setMessages] = useState<
+    Array<{ role: string; content: string }>
+  >([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -334,7 +346,10 @@ function ChatComponent() {
       });
 
       // Add assistant response
-      setMessages((prev) => [...prev, { role: 'assistant', content: response.content }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: response.content },
+      ]);
     } catch (error) {
       console.error('Chat error:', error);
     } finally {
@@ -655,10 +670,18 @@ npm install @rumenx/chatbot vue
 ```vue
 <template>
   <div class="chat-container">
-    <div v-for="(msg, idx) in messages" :key="idx" :class="`message ${msg.role}`">
+    <div
+      v-for="(msg, idx) in messages"
+      :key="idx"
+      :class="`message ${msg.role}`"
+    >
       <strong>{{ msg.role }}:</strong> {{ msg.content }}
     </div>
-    <input v-model="input" @keyup.enter="sendMessage" placeholder="Type a message..." />
+    <input
+      v-model="input"
+      @keyup.enter="sendMessage"
+      placeholder="Type a message..."
+    />
     <button @click="sendMessage" :disabled="loading">
       {{ loading ? 'Sending...' : 'Send' }}
     </button>
@@ -768,7 +791,7 @@ try {
     console.error('Error severity:', error.severity);
     console.error('Is retryable:', error.isRetryable);
     console.error('Retry delay:', error.retryDelay);
-    
+
     // Handle specific error types
     switch (error.category) {
       case 'authentication':
@@ -819,11 +842,7 @@ const chatbot = new Chatbot({
     enableInputFilter: true, // Filter malicious input
     enableOutputFilter: true, // Filter inappropriate responses
     maxInputLength: 4000, // Prevent oversized inputs
-    blockedPatterns: [
-      /password/i,
-      /credit card/i,
-      /social security/i,
-    ],
+    blockedPatterns: [/password/i, /credit card/i, /social security/i],
   },
 });
 ```
@@ -898,7 +917,8 @@ describe('Chatbot', () => {
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for
+details.
 
 ### Development Setup
 
@@ -928,7 +948,8 @@ Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) before contributing.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](./LICENSE.md) file for details.
+This project is licensed under the MIT License - see the
+[LICENSE.md](./LICENSE.md) file for details.
 
 ---
 
@@ -937,7 +958,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](./LICENSE.
 If you find this library helpful, please consider:
 
 - ⭐ Starring the repository
-- 🐛 Reporting bugs via [GitHub Issues](https://github.com/RumenDamyanov/npm-chatbot/issues)
+- 🐛 Reporting bugs via
+  [GitHub Issues](https://github.com/RumenDamyanov/npm-chatbot/issues)
 - 💡 Suggesting new features
 - 📖 Improving documentation
 - 💰 [Sponsoring the project](./FUNDING.md)

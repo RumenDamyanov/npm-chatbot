@@ -12,7 +12,6 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
-import { ChatbotError } from '../types/ChatbotTypes';
 
 /**
  * OpenAI provider implementation
@@ -121,8 +120,12 @@ export class OpenAIProvider implements IAiProvider {
             ...(options?.temperature !== undefined && { temperature: options.temperature }),
             ...(options?.maxTokens !== undefined && { max_tokens: options.maxTokens }),
             ...(options?.topP !== undefined && { top_p: options.topP }),
-            ...(options?.frequencyPenalty !== undefined && { frequency_penalty: options.frequencyPenalty }),
-            ...(options?.presencePenalty !== undefined && { presence_penalty: options.presencePenalty }),
+            ...(options?.frequencyPenalty !== undefined && {
+              frequency_penalty: options.frequencyPenalty,
+            }),
+            ...(options?.presencePenalty !== undefined && {
+              presence_penalty: options.presencePenalty,
+            }),
             ...(options?.stop && { stop: options.stop }),
           });
         },
@@ -263,8 +266,12 @@ export class OpenAIProvider implements IAiProvider {
         ...(options?.temperature !== undefined && { temperature: options.temperature }),
         ...(options?.maxTokens !== undefined && { max_tokens: options.maxTokens }),
         ...(options?.topP !== undefined && { top_p: options.topP }),
-        ...(options?.frequencyPenalty !== undefined && { frequency_penalty: options.frequencyPenalty }),
-        ...(options?.presencePenalty !== undefined && { presence_penalty: options.presencePenalty }),
+        ...(options?.frequencyPenalty !== undefined && {
+          frequency_penalty: options.frequencyPenalty,
+        }),
+        ...(options?.presencePenalty !== undefined && {
+          presence_penalty: options.presencePenalty,
+        }),
         ...(options?.stop && { stop: options.stop }),
       });
 

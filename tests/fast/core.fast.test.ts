@@ -96,7 +96,7 @@ describe('Core Package Tests', () => {
     it('should generate unique IDs', () => {
       const id1 = `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       const id2 = `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
+
       expect(id1).not.toBe(id2);
       expect(id1.startsWith('id_')).toBe(true);
       expect(id2.startsWith('id_')).toBe(true);

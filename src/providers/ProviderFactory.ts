@@ -1,5 +1,5 @@
-import type { IAiProvider, GenerationOptions } from '../types/ProviderTypes';
-import type { ChatbotConfig, AiProviderConfig } from '../types/ChatbotTypes';
+import type { IAiProvider } from '../types/ProviderTypes';
+import type { ChatbotConfig } from '../types/ChatbotTypes';
 import { OpenAIProvider } from './OpenAIProvider';
 import { AnthropicProvider } from './AnthropicProvider';
 import { GoogleProvider } from './GoogleProvider';
@@ -86,9 +86,7 @@ export class ProviderFactory {
     this.providers.set('anthropic', AnthropicProvider);
     this.providers.set('google', GoogleProvider);
 
-    this.logger.info(
-      'Initialized provider factory with OpenAI, Anthropic, and Google providers'
-    );
+    this.logger.info('Initialized provider factory with OpenAI, Anthropic, and Google providers');
   }
 }
 

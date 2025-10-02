@@ -21,7 +21,7 @@ describe('Chatbot Core Basic Tests', () => {
   beforeEach(() => {
     // Clear all mocks
     jest.clearAllMocks();
-    
+
     // Setup valid configuration that matches the actual Chatbot API
     validConfig = {
       provider: {
@@ -62,7 +62,7 @@ describe('Chatbot Core Basic Tests', () => {
           requestsPerHour: 1000,
         },
       };
-      
+
       expect(() => new Chatbot(completeConfig)).not.toThrow();
     });
 
@@ -80,7 +80,7 @@ describe('Chatbot Core Basic Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => new Chatbot(anthropicConfig)).not.toThrow();
     });
 
@@ -92,7 +92,7 @@ describe('Chatbot Core Basic Tests', () => {
           apiKey: 'test-key',
         },
       };
-      
+
       expect(() => new Chatbot(googleConfig)).not.toThrow();
     });
   });
@@ -109,7 +109,7 @@ describe('Chatbot Core Basic Tests', () => {
         enableMemory: false,
         maxHistory: 5,
       };
-      
+
       expect(() => new Chatbot(configWithOptionals)).not.toThrow();
     });
 
@@ -118,7 +118,7 @@ describe('Chatbot Core Basic Tests', () => {
         ...validConfig,
         timeout: 60000,
       };
-      
+
       expect(() => new Chatbot(configWithTimeout)).not.toThrow();
     });
 
@@ -127,7 +127,7 @@ describe('Chatbot Core Basic Tests', () => {
         ...validConfig,
         temperature: 0.5,
       };
-      
+
       expect(() => new Chatbot(configWithTemp)).not.toThrow();
     });
 
@@ -136,7 +136,7 @@ describe('Chatbot Core Basic Tests', () => {
         ...validConfig,
         maxTokens: 2000,
       };
-      
+
       expect(() => new Chatbot(configWithTokens)).not.toThrow();
     });
   });
@@ -149,7 +149,7 @@ describe('Chatbot Core Basic Tests', () => {
           level: 'info',
         },
       };
-      
+
       expect(() => new Chatbot(configWithLogging)).not.toThrow();
     });
 
@@ -160,7 +160,7 @@ describe('Chatbot Core Basic Tests', () => {
           level: 'debug',
         },
       };
-      
+
       expect(() => new Chatbot(configWithDebug)).not.toThrow();
     });
 
@@ -171,7 +171,7 @@ describe('Chatbot Core Basic Tests', () => {
           level: 'error',
         },
       };
-      
+
       expect(() => new Chatbot(configWithError)).not.toThrow();
     });
 
@@ -182,7 +182,7 @@ describe('Chatbot Core Basic Tests', () => {
           level: 'warn',
         },
       };
-      
+
       expect(() => new Chatbot(configWithWarn)).not.toThrow();
     });
   });
@@ -195,7 +195,7 @@ describe('Chatbot Core Basic Tests', () => {
           enableContentFiltering: true,
         },
       };
-      
+
       expect(() => new Chatbot(configWithSecurity)).not.toThrow();
     });
 
@@ -207,7 +207,7 @@ describe('Chatbot Core Basic Tests', () => {
           allowedDomains: ['example.com', 'test.org'],
         },
       };
-      
+
       expect(() => new Chatbot(configWithDomains)).not.toThrow();
     });
 
@@ -219,7 +219,7 @@ describe('Chatbot Core Basic Tests', () => {
           blockedWords: ['spam', 'bad', 'inappropriate'],
         },
       };
-      
+
       expect(() => new Chatbot(configWithBlocked)).not.toThrow();
     });
   });
@@ -233,7 +233,7 @@ describe('Chatbot Core Basic Tests', () => {
           requestsPerHour: 500,
         },
       };
-      
+
       expect(() => new Chatbot(configWithRateLimit)).not.toThrow();
     });
 
@@ -249,7 +249,7 @@ describe('Chatbot Core Basic Tests', () => {
           requestsPerHour: 2000,
         },
       };
-      
+
       expect(() => new Chatbot(configWithCustomRates)).not.toThrow();
     });
   });
@@ -261,7 +261,7 @@ describe('Chatbot Core Basic Tests', () => {
         enableMemory: true,
         maxHistory: 20,
       };
-      
+
       expect(() => new Chatbot(configWithMemory)).not.toThrow();
     });
 
@@ -270,7 +270,7 @@ describe('Chatbot Core Basic Tests', () => {
         ...validConfig,
         enableMemory: false,
       };
-      
+
       expect(() => new Chatbot(configWithoutMemory)).not.toThrow();
     });
 
@@ -279,7 +279,7 @@ describe('Chatbot Core Basic Tests', () => {
         ...validConfig,
         maxHistory: 50,
       };
-      
+
       expect(() => new Chatbot(configWithHistory)).not.toThrow();
     });
   });
@@ -294,7 +294,7 @@ describe('Chatbot Core Basic Tests', () => {
           endpoint: '',
         },
       };
-      
+
       expect(() => new Chatbot(configWithEmptyStrings)).not.toThrow();
     });
 
@@ -305,7 +305,7 @@ describe('Chatbot Core Basic Tests', () => {
         maxTokens: 0,
         maxHistory: 0,
       };
-      
+
       expect(() => new Chatbot(configWithZeros)).not.toThrow();
     });
 
@@ -316,7 +316,7 @@ describe('Chatbot Core Basic Tests', () => {
         maxTokens: 4096,
         maxHistory: 1,
       };
-      
+
       expect(() => new Chatbot(configWithBoundaries)).not.toThrow();
     });
   });

@@ -13,10 +13,10 @@ jest.mock('openai');
 
 describe('OpenAI Provider - Missing Coverage', () => {
   let mockOpenAIInstance: any;
-  
+
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Create mock OpenAI instance with all methods
     mockOpenAIInstance = {
       chat: {
@@ -28,7 +28,7 @@ describe('OpenAI Provider - Missing Coverage', () => {
         list: jest.fn(),
       },
     };
-    
+
     // Mock the OpenAI constructor
     (OpenAI as any).mockImplementation(() => mockOpenAIInstance);
   });
@@ -151,17 +151,13 @@ describe('OpenAI Provider - Missing Coverage', () => {
       const provider = new OpenAIProvider(config as any);
 
       // Mock streaming to throw error
-      mockOpenAIInstance.chat.completions.create.mockRejectedValue(
-        new Error('Streaming failed')
-      );
+      mockOpenAIInstance.chat.completions.create.mockRejectedValue(new Error('Streaming failed'));
 
       const context = {
         messages: [{ role: 'user' as const, content: 'Hello' }],
       };
 
-      await expect(
-        provider.generateResponse('Hello', context)
-      ).rejects.toThrow();
+      await expect(provider.generateResponse('Hello', context)).rejects.toThrow();
     });
 
     it('should handle rate limit errors', async () => {
@@ -185,9 +181,7 @@ describe('OpenAI Provider - Missing Coverage', () => {
         messages: [{ role: 'user' as const, content: 'Hello' }],
       };
 
-      await expect(
-        provider.generateResponse('Hello', context)
-      ).rejects.toThrow();
+      await expect(provider.generateResponse('Hello', context)).rejects.toThrow();
     });
 
     it('should handle invalid response format', async () => {
@@ -211,9 +205,7 @@ describe('OpenAI Provider - Missing Coverage', () => {
         messages: [{ role: 'user' as const, content: 'Hello' }],
       };
 
-      await expect(
-        provider.generateResponse('Hello', context)
-      ).rejects.toThrow();
+      await expect(provider.generateResponse('Hello', context)).rejects.toThrow();
     });
   });
 
@@ -399,7 +391,7 @@ describe('OpenAI Provider - Missing Coverage', () => {
       };
 
       const provider = new OpenAIProvider({ ...config, apiKey: 'temp' });
-      
+
       // Test with trimmed empty string
       const result = await provider.validateConfig({ ...config, apiKey: '' });
 

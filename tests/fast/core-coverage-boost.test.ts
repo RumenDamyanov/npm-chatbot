@@ -6,9 +6,11 @@ describe('Core Coverage Boost', () => {
   describe('ChatbotTypes Coverage', () => {
     it('should create ChatbotError with all parameters', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
-      const error = new ChatbotError('Test error', 'VALIDATION_ERROR', 'openai', 'TEST_CODE', { extra: 'data' });
-      
+
+      const error = new ChatbotError('Test error', 'VALIDATION_ERROR', 'openai', 'TEST_CODE', {
+        extra: 'data',
+      });
+
       expect(error.name).toBe('ChatbotError');
       expect(error.message).toBe('Test error');
       expect(error.type).toBe('VALIDATION_ERROR');
@@ -20,9 +22,9 @@ describe('Core Coverage Boost', () => {
 
     it('should create ChatbotError with minimal parameters', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const error = new ChatbotError('Minimal error', 'UNKNOWN_ERROR');
-      
+
       expect(error.name).toBe('ChatbotError');
       expect(error.message).toBe('Minimal error');
       expect(error.type).toBe('UNKNOWN_ERROR');
@@ -33,7 +35,7 @@ describe('Core Coverage Boost', () => {
 
     it('should handle all error types', async () => {
       const { ChatbotError } = await import('../../src/types/ChatbotTypes');
-      
+
       const errorTypes = [
         'PROVIDER_ERROR',
         'CONFIGURATION_ERROR',
@@ -65,13 +67,13 @@ describe('Core Coverage Boost', () => {
     it('should validate provider config quickly', async () => {
       try {
         const { ConfigurationValidator } = await import('../../src/core/ConfigurationValidator');
-        
+
         const config = {
           provider: 'openai' as const,
           apiKey: 'test-key',
           model: 'gpt-4',
         };
-        
+
         const result = ConfigurationValidator.validateQuick(config);
         expect(result).toBeDefined();
         expect(result.isValid).toBeDefined();
@@ -87,7 +89,7 @@ describe('Core Coverage Boost', () => {
     it('should validate empty config', async () => {
       try {
         const { ConfigurationValidator } = await import('../../src/core/ConfigurationValidator');
-        
+
         const result = ConfigurationValidator.validateQuick({} as any);
         expect(result).toBeDefined();
         expect(result.isValid).toBe(false);
@@ -103,7 +105,7 @@ describe('Core Coverage Boost', () => {
       try {
         const index = await import('../../src/index');
         expect(index).toBeDefined();
-        
+
         if (index.VERSION) {
           expect(typeof index.VERSION).toBe('string');
           expect(index.VERSION).toMatch(/^\d+\.\d+\.\d+/);
@@ -139,7 +141,7 @@ describe('Core Coverage Boost', () => {
       const now = new Date();
       const timestamp = now.getTime();
       const isoString = now.toISOString();
-      
+
       expect(timestamp).toBeGreaterThan(0);
       expect(isoString).toMatch(/^\d{4}-\d{2}-\d{2}T/);
       expect(new Date(isoString).getTime()).toBe(timestamp);
@@ -166,25 +168,29 @@ describe('Core Coverage Boost', () => {
 
     it('should handle array operations', () => {
       const arr = [1, 2, 3, 4, 5];
-      
+
       expect(arr.length).toBe(5);
-      expect(arr.map(x => x * 2)).toEqual([2, 4, 6, 8, 10]);
-      expect(arr.filter(x => x % 2 === 0)).toEqual([2, 4]);
+      expect(arr.map((x) => x * 2)).toEqual([2, 4, 6, 8, 10]);
+      expect(arr.filter((x) => x % 2 === 0)).toEqual([2, 4]);
       expect(arr.reduce((sum, x) => sum + x, 0)).toBe(15);
     });
 
     it('should handle object operations', () => {
       const obj = { a: 1, b: 2, c: 3 };
-      
+
       expect(Object.keys(obj)).toEqual(['a', 'b', 'c']);
       expect(Object.values(obj)).toEqual([1, 2, 3]);
-      expect(Object.entries(obj)).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+      expect(Object.entries(obj)).toEqual([
+        ['a', 1],
+        ['b', 2],
+        ['c', 3],
+      ]);
       expect({ ...obj, d: 4 }).toEqual({ a: 1, b: 2, c: 3, d: 4 });
     });
 
     it('should handle string operations', () => {
       const str = '  Hello World  ';
-      
+
       expect(str.trim()).toBe('Hello World');
       expect(str.toLowerCase()).toBe('  hello world  ');
       expect(str.toUpperCase()).toBe('  HELLO WORLD  ');
@@ -195,10 +201,7 @@ describe('Core Coverage Boost', () => {
 
   describe('Module Loading', () => {
     it('should handle dynamic imports', async () => {
-      const modules = [
-        '../../src/types/ChatbotTypes',
-        '../../src/types/ProviderTypes',
-      ];
+      const modules = ['../../src/types/ChatbotTypes', '../../src/types/ProviderTypes'];
 
       for (const modulePath of modules) {
         try {
@@ -212,11 +215,7 @@ describe('Core Coverage Boost', () => {
     });
 
     it('should handle promise operations', async () => {
-      const promises = [
-        Promise.resolve('success'),
-        Promise.resolve(42),
-        Promise.resolve(true),
-      ];
+      const promises = [Promise.resolve('success'), Promise.resolve(42), Promise.resolve(true)];
 
       const results = await Promise.all(promises);
       expect(results).toEqual(['success', 42, true]);

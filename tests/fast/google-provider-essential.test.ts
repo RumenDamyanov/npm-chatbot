@@ -21,7 +21,7 @@ describe('GoogleProvider - Essential Coverage', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockConfig = {
       provider: 'google',
       apiKey: 'test-google-key',
@@ -44,7 +44,7 @@ describe('GoogleProvider - Essential Coverage', () => {
   describe('Constructor & Basic Properties', () => {
     test('should create provider with valid config', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       expect(provider.name).toBe('google');
       expect(provider.capabilities).toBeDefined();
       expect(provider.capabilities.supportedModels).toContain('gemini-1.5-flash');
@@ -59,7 +59,7 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should use default model when none specified', () => {
       const configWithoutModel = { ...mockConfig };
       delete configWithoutModel.model;
-      
+
       const provider = new GoogleProvider(configWithoutModel);
       expect(provider).toBeDefined();
     });
@@ -69,7 +69,7 @@ describe('GoogleProvider - Essential Coverage', () => {
         ...mockConfig,
         apiKey: 'custom-google-key',
       };
-      
+
       const provider = new GoogleProvider(customConfig);
       expect(provider).toBeDefined();
     });
@@ -79,7 +79,7 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should have correct capabilities structure', () => {
       const provider = new GoogleProvider(mockConfig);
       const caps = provider.capabilities;
-      
+
       expect(caps.maxInputTokens).toBe(1048576);
       expect(caps.maxOutputTokens).toBe(8192);
       expect(caps.supportsStreaming).toBe(true);
@@ -91,7 +91,7 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should include rate limits', () => {
       const provider = new GoogleProvider(mockConfig);
       const rateLimits = provider.capabilities.rateLimits;
-      
+
       expect(rateLimits).toBeDefined();
       expect(rateLimits?.requestsPerMinute).toBe(1500);
       expect(rateLimits?.requestsPerHour).toBe(50000);
@@ -101,7 +101,7 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should support all Gemini models', () => {
       const provider = new GoogleProvider(mockConfig);
       const models = provider.capabilities.supportedModels;
-      
+
       expect(models).toContain('gemini-1.5-pro');
       expect(models).toContain('gemini-1.5-flash');
       expect(models).toContain('gemini-1.5-flash-8b');
@@ -116,12 +116,12 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => 'Hello response',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(true);
       expect(mockGetGenerativeModel).toHaveBeenCalledWith({
         model: 'gemini-1.5-flash',
@@ -132,19 +132,19 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should return false when API call fails', async () => {
       const testError = new Error('API unavailable');
       mockGenerateContent.mockRejectedValueOnce(testError);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(false);
     });
 
     test('should handle non-Error exceptions', async () => {
       mockGenerateContent.mockRejectedValueOnce('String error');
-      
+
       const provider = new GoogleProvider(mockConfig);
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(false);
     });
 
@@ -154,12 +154,12 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => '',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(false);
     });
   });
@@ -177,12 +177,12 @@ describe('GoogleProvider - Essential Coverage', () => {
           candidates: [{ finishReason: 'STOP' }],
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const result = await provider.generateResponse('Hello');
-      
+
       expect(result.content).toBe('Hello, how can I help you?');
       expect(result.provider).toBe('google');
       expect(result.metadata?.model).toBe('gemini-1.5-flash');
@@ -201,9 +201,9 @@ describe('GoogleProvider - Essential Coverage', () => {
           },
         },
       };
-      
+
       mockSendMessage.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const context = {
         messages: [
@@ -214,7 +214,7 @@ describe('GoogleProvider - Essential Coverage', () => {
       };
 
       await provider.generateResponse('Can you help with more math?', context);
-      
+
       expect(mockStartChat).toHaveBeenCalledWith({
         history: [
           { role: 'user', parts: [{ text: 'What is 2+2?' }] },
@@ -230,20 +230,20 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => '',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
-      
+
       await expect(provider.generateResponse('Test')).rejects.toThrow('No response generated');
     });
 
     test('should handle API errors', async () => {
       const apiError = new Error('Rate limit exceeded');
       mockGenerateContent.mockRejectedValueOnce(apiError);
-      
+
       const provider = new GoogleProvider(mockConfig);
-      
+
       await expect(provider.generateResponse('Test')).rejects.toThrow(
         'Google API error: Rate limit exceeded'
       );
@@ -251,9 +251,9 @@ describe('GoogleProvider - Essential Coverage', () => {
 
     test('should handle non-Error API failures', async () => {
       mockGenerateContent.mockRejectedValueOnce('Network timeout');
-      
+
       const provider = new GoogleProvider(mockConfig);
-      
+
       await expect(provider.generateResponse('Test')).rejects.toThrow(
         'Google API error: Unknown error'
       );
@@ -263,7 +263,7 @@ describe('GoogleProvider - Essential Coverage', () => {
   describe('Configuration Management', () => {
     test('should update configuration without throwing', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       const newConfig = {
         model: 'gemini-1.5-pro',
         temperature: 0.5,
@@ -274,7 +274,7 @@ describe('GoogleProvider - Essential Coverage', () => {
 
     test('should recreate client when API key changes', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       expect(() => {
         provider.updateConfig({
           apiKey: 'new-api-key',
@@ -284,7 +284,7 @@ describe('GoogleProvider - Essential Coverage', () => {
 
     test('should update model when config changes', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       expect(() => {
         provider.updateConfig({
           model: 'gemini-1.5-pro',
@@ -294,14 +294,14 @@ describe('GoogleProvider - Essential Coverage', () => {
 
     test('should reject config validation for empty API key', async () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       const invalidConfig: Partial<AiProviderConfig> = {
         apiKey: '',
         model: 'gemini-1.5-flash',
       };
 
       const isValid = await provider.validateConfig(invalidConfig as AiProviderConfig);
-      
+
       expect(isValid).toBe(false);
     });
 
@@ -311,11 +311,11 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => 'Validation successful',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
-      
+
       const validConfig: AiProviderConfig = {
         provider: 'google',
         apiKey: 'valid-key',
@@ -323,15 +323,15 @@ describe('GoogleProvider - Essential Coverage', () => {
       };
 
       const isValid = await provider.validateConfig(validConfig);
-      
+
       expect(isValid).toBe(true);
     });
 
     test('should reject configuration that fails API test', async () => {
       mockGenerateContent.mockRejectedValueOnce(new Error('Invalid API key'));
-      
+
       const provider = new GoogleProvider(mockConfig);
-      
+
       const invalidConfig: AiProviderConfig = {
         provider: 'google',
         apiKey: 'invalid-key',
@@ -339,7 +339,7 @@ describe('GoogleProvider - Essential Coverage', () => {
       };
 
       const isValid = await provider.validateConfig(invalidConfig);
-      
+
       expect(isValid).toBe(false);
     });
   });
@@ -348,7 +348,7 @@ describe('GoogleProvider - Essential Coverage', () => {
     test('should return supported models', async () => {
       const provider = new GoogleProvider(mockConfig);
       const models = await provider.getModels();
-      
+
       expect(models).toContain('gemini-1.5-pro');
       expect(models).toContain('gemini-1.5-flash');
       expect(models.length).toBeGreaterThan(0);
@@ -356,7 +356,7 @@ describe('GoogleProvider - Essential Coverage', () => {
 
     test('should have required method interfaces', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       // Test that all required methods exist
       expect(typeof provider.isAvailable).toBe('function');
       expect(typeof provider.generateResponse).toBe('function');
@@ -374,21 +374,21 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => 'Connection test',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const connected = await provider.testConnection();
-      
+
       expect(connected).toBe(true);
     });
 
     test('should handle connection test failure', async () => {
       mockGenerateContent.mockRejectedValueOnce(new Error('Connection failed'));
-      
+
       const provider = new GoogleProvider(mockConfig);
       const connected = await provider.testConnection();
-      
+
       expect(connected).toBe(false);
     });
   });
@@ -400,12 +400,12 @@ describe('GoogleProvider - Essential Coverage', () => {
           text: (): string => 'Status check',
         },
       };
-      
+
       mockGenerateContent.mockResolvedValueOnce(mockResponse);
-      
+
       const provider = new GoogleProvider(mockConfig);
       const status = await provider.getStatus();
-      
+
       expect(status).toBeDefined();
       expect(status.model).toBe('gemini-1.5-flash');
       expect(status.version).toBe('1.0.0');
@@ -418,11 +418,11 @@ describe('GoogleProvider - Essential Coverage', () => {
       mockGenerateContent.mockRejectedValueOnce(new Error('Test error'));
       const provider = new GoogleProvider(mockConfig);
       await provider.isAvailable();
-      
+
       // Then get status
       mockGenerateContent.mockRejectedValueOnce(new Error('Still failing'));
       const status = await provider.getStatus();
-      
+
       expect(status.available).toBe(false);
       expect(status.lastError).toBeDefined();
     });
@@ -431,7 +431,7 @@ describe('GoogleProvider - Essential Coverage', () => {
   describe('Streaming Response', () => {
     test('should handle streaming method existence', () => {
       const provider = new GoogleProvider(mockConfig);
-      
+
       // Test that the streaming method exists and is callable
       expect(typeof provider.generateStreamingResponse).toBe('function');
     });

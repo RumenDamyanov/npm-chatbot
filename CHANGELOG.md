@@ -3,41 +3,51 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2025-10-02
 
 ### 🎉 Initial Release
 
-The first stable release of `@rumenx/chatbot` - a powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications.
+The first stable release of `@rumenx/chatbot` - a powerful, flexible, and
+type-safe AI chatbot library for TypeScript/JavaScript applications.
 
 ### ✨ Features
 
 #### Core Functionality
+
 - **Multiple AI Provider Support**
   - OpenAI (GPT-4, GPT-4 Turbo, GPT-3.5 Turbo)
   - Anthropic (Claude 3 Opus, Sonnet, Haiku)
   - Google AI (Gemini Pro)
   - Meta, xAI, DeepSeek, Ollama (experimental)
-- **Type-Safe API** - Full TypeScript support with comprehensive type definitions
-- **Conversation Memory** - Built-in conversation history management with configurable limits
-- **Streaming Support** - Real-time response streaming for all supported providers
+- **Type-Safe API** - Full TypeScript support with comprehensive type
+  definitions
+- **Conversation Memory** - Built-in conversation history management with
+  configurable limits
+- **Streaming Support** - Real-time response streaming for all supported
+  providers
 
 #### Security & Safety
+
 - **Input/Output Filtering** - Content moderation and sanitization
 - **Rate Limiting** - Per-minute, per-hour, and per-day rate limits
 - **Security Manager** - Configurable security policies with pattern blocking
 - **Content Validation** - Input length limits and validation
 
 #### Developer Experience
+
 - **Comprehensive Error Handling** - Detailed error categories with retry logic
 - **Usage Tracking** - Token usage and cost tracking per request
 - **Extensive Testing** - 94% test coverage with 880+ tests
-- **Framework Integration** - Components for React, Vue, Angular, Express, Next.js, Fastify
+- **Framework Integration** - Components for React, Vue, Angular, Express,
+  Next.js, Fastify
 - **Tree-Shakeable** - Optimized bundle size with ESM support
 - **Universal** - Works in Node.js and modern browsers
 
 #### Configuration
+
 - **Flexible Configuration** - Extensive configuration options for all providers
 - **Runtime Updates** - Update configuration at runtime
 - **Environment Variables** - Support for environment-based configuration
@@ -74,20 +84,25 @@ The first stable release of `@rumenx/chatbot` - a powerful, flexible, and type-s
 ### 🌍 Cross-Language Compatibility
 
 Part of the chatbot family alongside:
-- [php-chatbot](https://github.com/RumenDamyanov/php-chatbot) - PHP implementation
+
+- [php-chatbot](https://github.com/RumenDamyanov/php-chatbot) - PHP
+  implementation
 - [go-chatbot](https://github.com/RumenDamyanov/go-chatbot) - Go implementation
 
-All implementations share the same API design and features for consistency across polyglot projects.
+All implementations share the same API design and features for consistency
+across polyglot projects.
 
 ### 📋 API Surface
 
 #### Classes
+
 - `Chatbot` - Main chatbot class
 - `ChatbotError` - Custom error class with detailed error information
 - `DefaultLogger` - Built-in logging implementation
 - `NullLogger` - No-op logger for production
 
 #### Types
+
 - `ChatbotConfig` - Complete configuration interface
 - `ChatOptions` - Chat request options
 - `ChatResponse` - Chat response structure
@@ -96,6 +111,7 @@ All implementations share the same API design and features for consistency acros
 - `RateLimitConfig` - Rate limiting configuration
 
 #### Providers (Built-in)
+
 - `OpenAIProvider` - OpenAI GPT models
 - `AnthropicProvider` - Anthropic Claude models
 - `GoogleProvider` - Google Gemini models
@@ -104,6 +120,7 @@ All implementations share the same API design and features for consistency acros
 ### 🎯 Use Cases
 
 This library is suitable for:
+
 - Chatbots and conversational AI applications
 - Customer support automation
 - Content generation systems
@@ -147,6 +164,7 @@ Thanks to all the contributors and early testers who helped shape this library.
 ## [Unreleased]
 
 ### Planned Features
+
 - Function/tool calling support
 - Image generation capabilities
 - Voice/audio support
@@ -158,4 +176,5 @@ Thanks to all the contributors and early testers who helped shape this library.
 
 ---
 
-**For upgrade instructions and breaking changes, see the [Migration Guide](./docs/MIGRATION.md) (coming soon).**
+**For upgrade instructions and breaking changes, see the
+[Migration Guide](./docs/MIGRATION.md) (coming soon).**

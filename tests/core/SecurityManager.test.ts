@@ -115,7 +115,7 @@ describe('SecurityManager', () => {
         content: 'This contains virus content',
       };
       await securityManager.validateInput(blockedMessage, 'user-1', 'session-1');
-      
+
       const events = securityManager.getSecurityEvents();
       expect(events).toHaveLength(1);
       expect(events[0].type).toBe('blocked_content');
@@ -223,9 +223,9 @@ describe('SecurityManager', () => {
         content: 'spam content',
       };
       await securityManager.validateInput(blockedMessage, 'user-1', 'session-1');
-      
+
       expect(securityManager.getSecurityEvents()).toHaveLength(1);
-      
+
       securityManager.clearSecurityEvents();
       expect(securityManager.getSecurityEvents()).toHaveLength(0);
     });
@@ -236,7 +236,7 @@ describe('SecurityManager', () => {
       securityManager.updatePolicy({
         maxInputLength: 8000,
       });
-      
+
       const updatedPolicy = securityManager.getPolicy();
       expect(updatedPolicy.maxInputLength).toBe(8000);
       expect(updatedPolicy.maxMessageLength).toBe(10000); // Should preserve original
@@ -245,7 +245,7 @@ describe('SecurityManager', () => {
     it('should return copy of policy (not reference)', () => {
       const policy1 = securityManager.getPolicy();
       const policy2 = securityManager.getPolicy();
-      
+
       expect(policy1).toEqual(policy2);
       expect(policy1).not.toBe(policy2); // Different objects
     });
@@ -291,7 +291,7 @@ describe('SecurityManager', () => {
         ...mockMessage,
         content: 'Contact John at john@company.com, SSN 123-45-6789, card 1234 5678 9012 3456',
       };
-      
+
       const result = await securityManager.validateInput(complexMessage, 'user-1', 'session-1');
       expect(result.isValid).toBe(true);
       expect(result.filteredMessage?.content).toBe(
@@ -304,12 +304,12 @@ describe('SecurityManager', () => {
         enableInputFilter: false,
       };
       const customManager = new SecurityManager(customConfig);
-      
+
       const blockedMessage: ChatMessage = {
         ...mockMessage,
         content: 'This contains spam content',
       };
-      
+
       const result = await customManager.validateInput(blockedMessage, 'user-1', 'session-1');
       expect(result.isValid).toBe(true); // Should pass because content filtering is disabled
     });
@@ -319,13 +319,13 @@ describe('SecurityManager', () => {
         enableOutputFilter: false,
       };
       const customManager = new SecurityManager(customConfig);
-      
+
       const sensitiveResponse: ChatResponse = {
         content: 'Email me at test@example.com',
         provider: 'openai',
         timestamp: new Date(),
       };
-      
+
       const result = await customManager.filterOutput(sensitiveResponse, 'user-1', 'session-1');
       expect(result.content).toBe('Email me at test@example.com');
     });

@@ -1,6 +1,6 @@
 /**
  * Error Handling Examples
- * 
+ *
  * This example demonstrates the comprehensive error handling capabilities
  * of the chatbot library, including retry logic, error classification,
  * and provider-specific error handling.
@@ -24,10 +24,10 @@ async function errorHandlingExamples() {
         model: 'gpt-4',
       },
     });
-    
+
     if (!invalidResult.isValid) {
       console.log('✅ Configuration validation caught errors:');
-      invalidResult.errors.forEach(error => console.log(`  - ${error}`));
+      invalidResult.errors.forEach((error) => console.log(`  - ${error}`));
     }
   } catch (error) {
     console.log('❌ Unexpected error during validation:', error);
@@ -78,11 +78,11 @@ async function errorHandlingExamples() {
       console.log('✅ Network error handled:');
       console.log(`  Type: ${error.type}`);
       console.log(`  Message: ${error.message}`);
-      
+
       // Test error classification utilities
       const isRetryable = ErrorUtils.isRetryableError(error);
       const isPermanent = ErrorUtils.isPermanentFailure(error);
-      
+
       console.log(`  Is Retryable: ${isRetryable}`);
       console.log(`  Is Permanent: ${isPermanent}`);
     }
@@ -116,7 +116,7 @@ async function errorHandlingExamples() {
 
   // Test 5: Provider-Specific Error Patterns
   console.log('Test 5: Provider-Specific Error Classification');
-  
+
   const testErrors = [
     { error: new Error('rate_limit_exceeded'), provider: 'openai' as const },
     { error: new Error('insufficient_quota'), provider: 'openai' as const },
@@ -137,10 +137,12 @@ async function errorHandlingExamples() {
 
   // Test 6: Error Sanitization for Logging
   console.log('Test 6: Error Sanitization for Logging');
-  
-  const sensitiveError = new Error('Authentication failed: api_key=sk-1234567890abcdef token=bearer_abc123');
+
+  const sensitiveError = new Error(
+    'Authentication failed: api_key=sk-1234567890abcdef token=bearer_abc123'
+  );
   const sanitized = ErrorUtils.sanitizeErrorForLogging(sensitiveError);
-  
+
   console.log('✅ Original error message contains sensitive data');
   console.log('✅ Sanitized for logging:');
   console.log(`  Message: ${sanitized.message}`);
@@ -159,7 +161,7 @@ async function errorHandlingExamples() {
       });
 
       const stream = chatbot.chatStream('This should fail in streaming mode');
-      
+
       for await (const chunk of stream) {
         if (chunk.type === 'done' && chunk.metadata?.['error']) {
           console.log('✅ Streaming error handled gracefully:');
@@ -178,20 +180,20 @@ async function errorHandlingExamples() {
 
   // Test 8: Circuit Breaker Pattern (if implemented)
   console.log('Test 8: Multiple Failure Scenarios');
-  
+
   const scenarios = [
     'rate_limit_exceeded',
-    'insufficient_quota', 
+    'insufficient_quota',
     'model_not_found',
     'content_policy_violation',
     'server_error',
   ];
 
-  scenarios.forEach(scenario => {
+  scenarios.forEach((scenario) => {
     const testError = new Error(scenario);
     const category = ErrorUtils.isRetryableError(testError) ? 'retryable' : 'non-retryable';
     const permanent = ErrorUtils.isPermanentFailure(testError) ? 'permanent' : 'temporary';
-    
+
     console.log(`  ${scenario}: ${category}, ${permanent}`);
   });
 

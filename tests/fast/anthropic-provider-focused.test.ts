@@ -25,7 +25,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     mockConfig = {
       apiKey: 'test-anthropic-key',
       model: 'claude-sonnet-4-5-20250929',
@@ -55,7 +55,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
     test('should use default model when none specified', () => {
       const configWithoutModel = { ...mockConfig };
       delete configWithoutModel.model;
-      
+
       const providerWithoutModel = new AnthropicProvider(configWithoutModel);
       expect(providerWithoutModel).toBeDefined();
     });
@@ -65,7 +65,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
         ...mockConfig,
         apiUrl: 'https://custom-anthropic-api.com',
       };
-      
+
       const customProvider = new AnthropicProvider(customConfig);
       expect(customProvider).toBeDefined();
     });
@@ -74,7 +74,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
   describe('Capabilities', () => {
     test('should have correct capabilities structure', () => {
       const caps = provider.capabilities;
-      
+
       expect(caps.maxInputTokens).toBe(200000);
       expect(caps.maxOutputTokens).toBe(8192);
       expect(caps.supportsStreaming).toBe(true);
@@ -85,7 +85,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
 
     test('should include rate limits', () => {
       const rateLimits = provider.capabilities.rateLimits;
-      
+
       expect(rateLimits).toBeDefined();
       expect(rateLimits?.requestsPerMinute).toBe(1000);
       expect(rateLimits?.requestsPerHour).toBe(5000);
@@ -94,7 +94,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
 
     test('should support all Claude models', () => {
       const models = provider.capabilities.supportedModels;
-      
+
       expect(models).toContain('claude-sonnet-4-5-20250929');
       expect(models).toContain('claude-3-5-haiku-20241022');
       expect(models).toContain('claude-3-opus-20240229');
@@ -111,7 +111,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       });
 
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(true);
       expect(mockCreate).toHaveBeenCalledWith({
         model: 'claude-sonnet-4-5-20250929',
@@ -125,7 +125,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       mockCreate.mockRejectedValueOnce(testError);
 
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(false);
     });
 
@@ -133,7 +133,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       mockCreate.mockRejectedValueOnce('String error');
 
       const available = await provider.isAvailable();
-      
+
       expect(available).toBe(false);
     });
   });
@@ -145,11 +145,11 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 10, output_tokens: 20 },
         stop_reason: 'end_turn',
       };
-      
+
       mockCreate.mockResolvedValueOnce(mockResponse);
 
       const result = await provider.generateResponse('Hello');
-      
+
       expect(result.content).toBe('Hello, how can I help you?');
       expect(result.provider).toBe('anthropic');
       expect(result.metadata?.model).toBe('claude-sonnet-4-5-20250929');
@@ -171,11 +171,11 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 15, output_tokens: 10 },
         stop_reason: 'end_turn',
       };
-      
+
       mockCreate.mockResolvedValueOnce(mockResponse);
 
       await provider.generateResponse('Can you help with more math?', context);
-      
+
       expect(mockCreate).toHaveBeenCalledWith({
         model: 'claude-sonnet-4-5-20250929',
         max_tokens: 4096,
@@ -203,11 +203,11 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 5, output_tokens: 8 },
         stop_reason: 'stop_sequence',
       };
-      
+
       mockCreate.mockResolvedValueOnce(mockResponse);
 
       await provider.generateResponse('Test message', undefined, options);
-      
+
       expect(mockCreate).toHaveBeenCalledWith({
         model: 'claude-3-opus-20240229',
         max_tokens: 2048,
@@ -228,11 +228,11 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 5, output_tokens: 10 },
         stop_reason: 'end_turn',
       };
-      
+
       mockCreate.mockResolvedValueOnce(mockResponse);
 
       const result = await provider.generateResponse('Test');
-      
+
       expect(result.content).toBe('First part Second part');
     });
 
@@ -242,7 +242,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 5, output_tokens: 0 },
         stop_reason: 'end_turn',
       };
-      
+
       mockCreate.mockResolvedValueOnce(mockResponse);
 
       await expect(provider.generateResponse('Test')).rejects.toThrow('No response generated');
@@ -274,7 +274,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       });
 
       const status = await provider.getStatus();
-      
+
       expect(status.available).toBe(true);
       expect(status.model).toBe('claude-sonnet-4-5-20250929');
       expect(status.version).toBe('1.0.0');
@@ -285,11 +285,11 @@ describe('AnthropicProvider - Focused Coverage', () => {
       // First, trigger an error
       mockCreate.mockRejectedValueOnce(new Error('Test error'));
       await provider.isAvailable();
-      
+
       // Then get status
       mockCreate.mockRejectedValueOnce(new Error('Still failing'));
       const status = await provider.getStatus();
-      
+
       expect(status.available).toBe(false);
       expect(status.lastError).toBeDefined();
     });
@@ -300,7 +300,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
         usage: { input_tokens: 10, output_tokens: 15 },
         stop_reason: 'end_turn',
       };
-      
+
       mockCreate.mockResolvedValue(mockResponse);
 
       // Make multiple requests
@@ -308,7 +308,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       await provider.generateResponse('Test 2');
 
       const status = await provider.getStatus();
-      
+
       expect(status.usage.requests).toBeGreaterThan(0);
       expect(status.usage.tokens).toBeGreaterThan(0);
     });
@@ -322,7 +322,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       };
 
       provider.updateConfig(newConfig);
-      
+
       // Configuration update should not throw
       expect(() => provider.updateConfig(newConfig)).not.toThrow();
     });
@@ -331,7 +331,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       provider.updateConfig({
         apiKey: 'new-api-key',
       });
-      
+
       // Configuration update should complete without error
       expect(true).toBe(true);
     });
@@ -340,7 +340,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       provider.updateConfig({
         apiUrl: 'https://new-api-url.com',
       });
-      
+
       // Configuration update should complete without error
       expect(true).toBe(true);
     });
@@ -357,7 +357,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       };
 
       const isValid = await provider.validateConfig(validConfig);
-      
+
       expect(isValid).toBe(true);
     });
 
@@ -368,7 +368,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       };
 
       const isValid = await provider.validateConfig(invalidConfig);
-      
+
       expect(isValid).toBe(false);
     });
 
@@ -381,7 +381,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       };
 
       const isValid = await provider.validateConfig(invalidConfig);
-      
+
       expect(isValid).toBe(false);
     });
   });
@@ -389,7 +389,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
   describe('Utility Methods', () => {
     test('should return supported models', async () => {
       const models = await provider.getModels();
-      
+
       expect(models).toContain('claude-sonnet-4-5-20250929');
       expect(models).toContain('claude-3-opus-20240229');
       expect(models.length).toBeGreaterThan(0);
@@ -402,7 +402,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       });
 
       const connected = await provider.testConnection();
-      
+
       expect(connected).toBe(true);
     });
 
@@ -410,7 +410,7 @@ describe('AnthropicProvider - Focused Coverage', () => {
       mockCreate.mockRejectedValueOnce(new Error('Connection failed'));
 
       const connected = await provider.testConnection();
-      
+
       expect(connected).toBe(false);
     });
   });
