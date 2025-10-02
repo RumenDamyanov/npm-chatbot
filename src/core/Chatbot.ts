@@ -21,7 +21,7 @@ import { ConversationManager } from './ConversationManager';
 import { SecurityManager } from './SecurityManager';
 import { RateLimiter } from '../utils/RateLimiter';
 import { DefaultLogger } from '../utils/Logger';
-
+import * as crypto from 'crypto';
 /**
  * Main Chatbot class
  */
@@ -523,13 +523,15 @@ export class Chatbot {
    * Generate unique message ID
    */
   private generateMessageId(): string {
-    return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const randomPart = crypto.randomBytes(9).toString('base64'); // about 12 chars, similar to original
+    return `msg_${Date.now()}_${randomPart}`;
   }
 
   /**
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const randomPart = crypto.randomBytes(9).toString('base64'); // about 12 chars, similar to original
+    return `session_${Date.now()}_${randomPart}`;
   }
 }
