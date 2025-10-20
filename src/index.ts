@@ -12,4 +12,4 @@ export type * from './types';
 export type { ChatStreamChunk } from './types/ChatbotTypes';
 
 // Version info
-export const VERSION = '1.0.0';
+export const VERSION = '1.0.1';
