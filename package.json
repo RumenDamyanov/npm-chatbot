@@ -1,7 +1,7 @@
 {
   "name": "@rumenx/chatbot",
   "version": "1.0.0",
-  "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications with support for multiple AI providers (OpenAI, Anthropic, Google AI, and more).",
+  "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications with support for OpenAI, Anthropic Claude, and Google Gemini.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -16,36 +16,14 @@
         "default": "./dist/cjs/index.js"
       }
     },
-    "./react": {
-      "import": {
-        "types": "./dist/types/components/react/index.d.ts",
-        "default": "./dist/esm/components/react/index.js"
-      },
-      "require": {
-        "types": "./dist/types/components/react/index.d.ts",
-        "default": "./dist/cjs/components/react/index.js"
-      }
-    },
-    "./vue": {
-      "import": {
-        "types": "./dist/types/components/vue/index.d.ts",
-        "default": "./dist/esm/components/vue/index.js"
-      },
-      "require": {
-        "types": "./dist/types/components/vue/index.d.ts",
-        "default": "./dist/cjs/components/vue/index.js"
-      }
-    },
     "./package.json": "./package.json"
   },
-  "files": ["dist/", "components/", "README.md", "LICENSE.md", "CHANGELOG.md"],
+  "files": ["dist/", "README.md", "LICENSE.md", "CHANGELOG.md"],
   "scripts": {
-    "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs && npm run build:components",
+    "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types",
     "build:esm": "tsc --project tsconfig.json --outDir dist/esm",
     "build:cjs": "tsc --project tsconfig.cjs.json",
-    "build:components": "npm run build:components:copy",
-    "build:components:copy": "mkdir -p components && cp -r src/components/vanilla/* components/ 2>/dev/null || true",
     "clean": "rm -rf dist/ components/",
     "dev": "tsc --project tsconfig.json --watch",
     "test": "jest",
@@ -77,21 +55,17 @@
     "typescript",
     "javascript",
     "openai",
+    "gpt-4",
+    "gpt-3.5",
     "anthropic",
+    "claude",
     "google-ai",
-    "meta",
-    "xai",
-    "deepseek",
-    "ollama",
-    "react",
-    "vue",
-    "angular",
-    "express",
-    "nextjs",
-    "fastify",
+    "gemini",
     "conversation",
     "nlp",
-    "artificial-intelligence"
+    "artificial-intelligence",
+    "streaming",
+    "type-safe"
   ],
   "author": {
     "name": "Rumen Damyanov",
@@ -134,16 +108,9 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular/core": "^15.0.0",
     "@anthropic-ai/sdk": "^0.20.0",
     "@google/generative-ai": "^0.11.0",
-    "@types/react": "^18.0.0",
-    "express": "^4.18.0",
-    "fastify": "^4.0.0",
-    "next": "^13.0.0",
-    "openai": "^4.0.0",
-    "react": "^18.0.0",
-    "vue": "^3.0.0"
+    "openai": "^4.0.0"
   },
   "peerDependenciesMeta": {
     "openai": {
@@ -153,27 +120,6 @@
       "optional": true
     },
     "@google/generative-ai": {
-      "optional": true
-    },
-    "express": {
-      "optional": true
-    },
-    "next": {
-      "optional": true
-    },
-    "fastify": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "@types/react": {
-      "optional": true
-    },
-    "vue": {
-      "optional": true
-    },
-    "@angular/core": {
       "optional": true
     }
   }

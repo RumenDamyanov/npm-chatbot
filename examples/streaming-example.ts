@@ -22,7 +22,7 @@ async function streamingChatExample() {
     provider: {
       provider: 'openai',
       apiKey,
-      model: 'gpt-4',
+      model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4o-mini'
     },
     temperature: 0.7,
     enableMemory: true,
@@ -99,7 +99,7 @@ async function streamingChatExample() {
       provider: {
         provider: 'openai',
         apiKey: 'invalid-key',
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 
@@ -131,8 +131,8 @@ async function streamingChatExample() {
     const anthropicBot = new Chatbot({
       provider: {
         provider: 'anthropic',
-        apiKey: anthropicKey,
-        model: 'claude-sonnet-4-5-20250929',
+        apiKey,
+        model: 'claude-sonnet-4-5-20250929', // Latest Claude Sonnet 4.5 (September 2025)
       },
     });
 
@@ -163,7 +163,7 @@ async function streamingChatExample() {
       provider: {
         provider: 'google',
         apiKey: googleKey,
-        model: 'gemini-1.5-flash',
+        model: 'gemini-1.5-flash', // Fast and efficient
       },
     });
 

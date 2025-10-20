@@ -23,7 +23,7 @@ async function main() {
     provider: {
       provider: 'google',
       apiKey,
-      model: 'gemini-1.5-flash',
+      model: 'gemini-1.5-flash', // Latest: 'gemini-2.0-flash-exp', 'gemini-1.5-pro', 'gemini-1.5-flash'
     },
     systemPrompt: 'You are Gemini, a helpful AI assistant built using the npm-chatbot library.',
     temperature: 0.7,

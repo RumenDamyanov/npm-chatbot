@@ -9,8 +9,6 @@ import { OpenAI } from 'openai';
 // Mock the OpenAI SDK
 jest.mock('openai');
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('OpenAI Provider - Missing Coverage', () => {
   let mockOpenAIInstance: any;
 

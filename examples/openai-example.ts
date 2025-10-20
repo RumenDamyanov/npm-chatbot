@@ -23,7 +23,7 @@ async function main() {
     provider: {
       provider: 'openai',
       apiKey,
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'
     },
     systemPrompt: 'You are a helpful AI assistant built using the npm-chatbot library.',
     temperature: 0.7,

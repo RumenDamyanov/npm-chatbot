@@ -41,17 +41,6 @@ execSync('tsc --project tsconfig.cjs.json', {
 console.log('🔧 Fixing CommonJS module extensions...');
 fixCjsExtensions();
 
-// Copy components
-console.log('📋 Copying component files...');
-try {
-  execSync('mkdir -p components', { stdio: 'inherit' });
-  execSync('cp -r src/components/vanilla/* components/ 2>/dev/null || true', { 
-    stdio: 'inherit' 
-  });
-} catch {
-  console.log('ℹ️  No vanilla components to copy');
-}
-
 // Create package.json files for proper module resolution
 console.log('📄 Creating package.json files for module resolution...');
 createModulePackageFiles();

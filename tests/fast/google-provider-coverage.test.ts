@@ -8,8 +8,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 jest.mock('@google/generative-ai');
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('Google Provider - Coverage Tests', () => {
   let mockGoogleAI: any;
   let mockModel: any;

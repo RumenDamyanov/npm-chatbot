@@ -17,7 +17,7 @@ async function testErrorHandling() {
     provider: {
       provider: 'openai',
       // Missing API key should trigger error
-      model: 'gpt-4',
+      model: 'gpt-4o',
     },
   });
 
@@ -34,7 +34,7 @@ async function testErrorHandling() {
       provider: {
         provider: 'openai',
         apiKey: 'invalid-key-test',
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 
@@ -59,7 +59,7 @@ async function testErrorHandling() {
         provider: 'openai',
         apiKey: process.env['OPENAI_API_KEY'] ?? 'test-key',
         apiUrl: 'https://nonexistent-api.example.com/v1',
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 

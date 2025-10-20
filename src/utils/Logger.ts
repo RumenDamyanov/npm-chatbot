@@ -299,19 +299,15 @@ export class DefaultLogger implements ILogger {
     // Use appropriate console method based on level
     switch (entry.level) {
       case 'debug':
-        // eslint-disable-next-line no-console
         console.debug(logMessage, entry.metadata, entry.error);
         break;
       case 'info':
-        // eslint-disable-next-line no-console
         console.info(logMessage, entry.metadata);
         break;
       case 'warn':
-        // eslint-disable-next-line no-console
         console.warn(logMessage, entry.metadata, entry.error);
         break;
       case 'error':
-        // eslint-disable-next-line no-console
         console.error(logMessage, entry.metadata, entry.error);
         break;
     }
@@ -333,7 +329,6 @@ export class DefaultLogger implements ILogger {
     // In MVP, we'll just add this to a separate in-memory store
     // Real implementation would use fs.appendFile or a logging library
     if (this.config.enableConsole) {
-      // eslint-disable-next-line no-console
       console.debug('[Logger] Would write to file:', fileLogEntry);
     }
   }

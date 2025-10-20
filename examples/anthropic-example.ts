@@ -23,7 +23,7 @@ async function main() {
     provider: {
       provider: 'anthropic',
       apiKey,
-      model: 'claude-sonnet-4-5-20250929',
+      model: 'claude-sonnet-4-5-20250929', // Latest: Claude Sonnet 4.5 (September 2025)
     },
     systemPrompt: 'You are Claude, a helpful AI assistant built using the npm-chatbot library.',
     temperature: 0.7,

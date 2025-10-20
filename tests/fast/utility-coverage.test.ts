@@ -15,8 +15,6 @@ jest.mock('openai');
 jest.mock('@anthropic-ai/sdk');
 jest.mock('@google/generative-ai');
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('Utility Functions Coverage', () => {
   describe('Logger utility functions', () => {
     it('should create logger with category', () => {

@@ -8,8 +8,6 @@ import Anthropic from '@anthropic-ai/sdk';
 
 jest.mock('@anthropic-ai/sdk');
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 describe('Anthropic Provider - Coverage Tests', () => {
   let mockAnthropicInstance: any;
 

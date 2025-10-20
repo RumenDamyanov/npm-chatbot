@@ -7,8 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/@rumenx/chatbot.svg)](https://www.npmjs.com/package/@rumenx/chatbot)
 
 A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript
-applications with support for multiple AI providers (OpenAI, Anthropic, Google
-AI, and more).
+applications with support for OpenAI, Anthropic Claude, and Google Gemini.
 
 ## 📦 Part of the Chatbot Family
 
@@ -29,14 +28,12 @@ switch between languages or maintain consistency across polyglot projects.
 
 ## ✨ Features
 
-- 🎯 **Multiple AI Providers** - OpenAI (GPT-4, GPT-3.5), Anthropic (Claude),
-  Google AI (Gemini), Meta, xAI, DeepSeek, Ollama
+- 🎯 **Three Major AI Providers** - OpenAI (GPT-4o, GPT-4 Turbo, o1), Anthropic
+  (Claude Sonnet 4.5, Opus 4.1), Google AI (Gemini 2.0, 1.5 Pro)
 - 📝 **Type-Safe** - Full TypeScript support with comprehensive type definitions
 - 💾 **Conversation Memory** - Built-in conversation history management
 - 🔒 **Security** - Input/output filtering, content moderation, rate limiting
 - ⚡ **Streaming Support** - Real-time response streaming for all providers
-- 🎨 **Framework Integration** - Components for React, Vue, Angular, Express,
-  Next.js, Fastify
 - 🔄 **Error Handling** - Comprehensive error handling with retry logic
 - 📊 **Usage Tracking** - Token usage and cost tracking
 - 🧪 **Extensively Tested** - 94% test coverage with 880+ tests
@@ -54,13 +51,9 @@ switch between languages or maintain consistency across polyglot projects.
   - [Anthropic Claude](#anthropic-claude-example)
   - [Google Gemini](#google-gemini-example)
   - [Streaming Responses](#streaming-responses)
-  - [React Integration](#react-integration)
-  - [Express.js Integration](#expressjs-integration)
-- [Configuration](#-configuration)
+  - [Using with React](#using-with-react)
+  - [Using with Express.js](#using-with-expressjs)
 - [API Reference](#-api-reference)
-- [Framework Integration](#-framework-integration)
-- [Error Handling](#-error-handling)
-- [Security](#-security)
 - [Testing](#-testing)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -93,15 +86,6 @@ npm install @anthropic-ai/sdk
 
 # For Google AI
 npm install @google/generative-ai
-
-# For React components (optional)
-npm install react @types/react
-
-# For Vue components (optional)
-npm install vue
-
-# For Express integration (optional)
-npm install express
 ```
 
 All provider dependencies are **optional peer dependencies**, so you only
@@ -119,7 +103,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4',
+    model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4-turbo', 'o1-preview'
   },
   temperature: 0.7,
   maxTokens: 150,
@@ -152,7 +136,7 @@ const config: ChatbotConfig = {
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4', // or 'gpt-3.5-turbo'
+    model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4-turbo', 'o1-preview' (Note: gpt-3.5-turbo deprecated)
   },
   systemPrompt: 'You are a helpful AI assistant.',
   temperature: 0.7,
@@ -195,7 +179,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'anthropic',
     apiKey: process.env.ANTHROPIC_API_KEY!,
-    model: 'claude-3-opus-20240229', // or 'claude-3-sonnet-20240229'
+    model: 'claude-sonnet-4-5-20250929', // Latest: Claude Sonnet 4.5 (Sep 2025), Opus 4.1, Haiku 4.5
   },
   temperature: 0.8,
   maxTokens: 1000,
@@ -221,7 +205,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'google',
     apiKey: process.env.GOOGLE_API_KEY!,
-    model: 'gemini-pro',
+    model: 'gemini-2.0-flash-exp', // Latest: 'gemini-2.0-flash-exp', 'gemini-1.5-pro', 'gemini-1.5-flash'
   },
   temperature: 0.9,
   maxTokens: 800,
@@ -249,7 +233,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4',
+    model: 'gpt-4o',
   },
 });
 
@@ -281,7 +265,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o-mini', // Cost-effective model for conversations
   },
   enableMemory: true,
   maxHistory: 10, // Keep last 10 messages
@@ -308,7 +292,9 @@ const history = chatbot.getConversationHistory(sessionId);
 console.log(history); // Array of all messages in the session
 ```
 
-### React Integration
+### Using with React
+
+Here's an example of integrating the chatbot into a React application:
 
 ```tsx
 import React, { useState } from 'react';
@@ -318,7 +304,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o-mini',
   },
 });
 
@@ -387,7 +373,9 @@ function ChatComponent() {
 export default ChatComponent;
 ```
 
-### Express.js Integration
+### Using with Express.js
+
+Here's an example of using the chatbot in an Express.js API:
 
 ```typescript
 import express from 'express';
@@ -400,7 +388,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4o-mini',
   },
   enableMemory: true,
 });
@@ -481,6 +469,44 @@ app.listen(3000, () => {
 
 ## ⚙️ Configuration
 
+### Supported Models (October 2025)
+
+#### OpenAI Models
+
+| Model           | Status         | Use Case                                             |
+| --------------- | -------------- | ---------------------------------------------------- |
+| `gpt-4o`        | ✅ Recommended | Latest flagship model, best for complex tasks        |
+| `gpt-4o-mini`   | ✅ Recommended | Cost-effective, great for most use cases             |
+| `gpt-4-turbo`   | ✅ Supported   | High performance, large context window               |
+| `o1-preview`    | ✅ Supported   | Advanced reasoning model                             |
+| `o1-mini`       | ✅ Supported   | Faster reasoning model                               |
+| `gpt-4`         | ⚠️ Legacy      | Still supported, but consider upgrading              |
+| `gpt-3.5-turbo` | ❌ Deprecated  | Will be retired June 2025, use `gpt-4o-mini` instead |
+
+#### Anthropic Models
+
+| Model                        | Status         | Use Case                                              |
+| ---------------------------- | -------------- | ----------------------------------------------------- |
+| `claude-sonnet-4-5-20250929` | ✅ Recommended | Latest - smartest model for complex agents and coding |
+| `claude-haiku-4-5-20251001`  | ✅ Recommended | Fastest model with near-frontier intelligence         |
+| `claude-opus-4-1-20250805`   | ✅ Recommended | Exceptional model for specialized reasoning           |
+| `claude-3-5-sonnet-20241022` | ✅ Supported   | Previous generation (legacy)                          |
+| `claude-3-5-sonnet-20240620` | ⚠️ Legacy      | Consider upgrading to 4.5                             |
+| `claude-3-opus-20240229`     | ⚠️ Legacy      | Consider upgrading to 4.1                             |
+
+#### Google AI Models
+
+| Model                  | Status         | Use Case                           |
+| ---------------------- | -------------- | ---------------------------------- |
+| `gemini-2.0-flash-exp` | ✅ Recommended | Latest experimental model          |
+| `gemini-1.5-pro`       | ✅ Recommended | Production-ready, 2M token context |
+| `gemini-1.5-flash`     | ✅ Recommended | Fast and efficient                 |
+| `gemini-1.5-flash-8b`  | ✅ Supported   | Smallest, fastest, most affordable |
+| `gemini-pro`           | ⚠️ Legacy      | Consider upgrading to 1.5 or 2.0   |
+
+> **Note:** Model availability and naming may change. Check your provider's
+> documentation for the latest model names.
+
 ### Complete Configuration Options
 
 ```typescript
@@ -489,7 +515,7 @@ import type { ChatbotConfig } from '@rumenx/chatbot';
 const config: ChatbotConfig = {
   // Provider configuration (required)
   provider: {
-    provider: 'openai', // 'openai' | 'anthropic' | 'google' | 'meta' | 'xai' | 'deepseek' | 'ollama'
+    provider: 'openai', // 'openai' | 'anthropic' | 'google'
     apiKey: 'your-api-key',
     model: 'gpt-4',
     apiUrl: 'https://api.openai.com/v1', // Optional: custom API endpoint
@@ -651,7 +677,10 @@ interface ChatResponse {
 
 ---
 
-## 🎨 Framework Integration
+## 🎨 Usage with Popular Frameworks
+
+This library is framework-agnostic and can be used with any JavaScript framework
+or library. Here are examples for popular frameworks:
 
 ### React
 
@@ -659,9 +688,12 @@ interface ChatResponse {
 npm install @rumenx/chatbot react
 ```
 
-See [React Integration Example](#react-integration) above.
+See [Using with React](#using-with-react) example above for a complete
+integration.
 
 ### Vue 3
+
+The library works seamlessly with Vue 3. Here's a basic example:
 
 ```bash
 npm install @rumenx/chatbot vue
@@ -866,6 +898,81 @@ const chatbot = new Chatbot({
 ```
 
 For more details, see [SECURITY.md](./SECURITY.md).
+
+---
+
+## 🗺️ Roadmap
+
+We're constantly working to improve and expand the library. Here's what's
+planned for future releases:
+
+### 🔮 Planned Features (Not Yet Implemented)
+
+#### Additional AI Providers
+
+The following providers are **planned but not yet implemented**. Community
+contributions are welcome!
+
+| Provider       | Status     | Target Version | Notes                                                |
+| -------------- | ---------- | -------------- | ---------------------------------------------------- |
+| **Meta Llama** | 📋 Planned | v2.x           | Llama 3.3, 3.2, 3.1 support via Ollama or cloud APIs |
+| **xAI Grok**   | 📋 Planned | v2.x           | Grok-2, Grok-2-mini integration                      |
+| **DeepSeek**   | 📋 Planned | v2.x           | DeepSeek-V3 and DeepSeek-R1 support                  |
+| **Ollama**     | 📋 Planned | v2.x           | Local LLM support with Ollama                        |
+| **Mistral AI** | 📋 Planned | v2.x           | Mistral Large, Medium, Small models                  |
+| **Cohere**     | 📋 Planned | v2.x           | Command R+, Command R models                         |
+| **Perplexity** | 📋 Planned | v3.x           | pplx-7b-online, pplx-70b-online                      |
+
+#### Framework Integrations
+
+| Framework               | Status     | Target Version | Description                                                    |
+| ----------------------- | ---------- | -------------- | -------------------------------------------------------------- |
+| **React Components**    | 📋 Planned | v2.x           | Pre-built `<ChatWidget />`, `<ChatInput />`, `<MessageList />` |
+| **Vue 3 Components**    | 📋 Planned | v2.x           | Composition API components                                     |
+| **Angular Components**  | 📋 Planned | v3.x           | Standalone components for Angular 15+                          |
+| **Svelte Components**   | 📋 Planned | v3.x           | Svelte 5 components                                            |
+| **Express Middleware**  | 📋 Planned | v2.x           | `app.use(chatbot.middleware())`                                |
+| **Next.js Integration** | 📋 Planned | v2.x           | Server actions and route handlers                              |
+| **Fastify Plugin**      | 📋 Planned | v2.x           | `fastify.register(chatbotPlugin)`                              |
+
+#### Advanced Features
+
+- 🔮 **Function Calling / Tool Use** - Support for OpenAI functions, Anthropic
+  tools
+- 🔮 **Multi-Modal Support** - Image, audio, and video inputs
+- 🔮 **RAG Integration** - Vector database integration for retrieval-augmented
+  generation
+- 🔮 **Prompt Templates** - Pre-built templates for common use cases
+- 🔮 **Agent Framework** - Build autonomous agents with planning and execution
+- 🔮 **Fine-tuning Support** - Train and deploy custom models
+- 🔮 **Cost Optimization** - Automatic model selection based on budget
+- 🔮 **A/B Testing** - Test different models and prompts
+
+### ✅ Currently Implemented
+
+- ✅ OpenAI (GPT-4o, GPT-4 Turbo, o1, GPT-4o-mini)
+- ✅ Anthropic (Claude Sonnet 4.5, Haiku 4.5, Opus 4.1)
+- ✅ Google AI (Gemini 2.0, Gemini 1.5 Pro/Flash)
+- ✅ Streaming support for all providers
+- ✅ Conversation memory management
+- ✅ Type-safe TypeScript APIs
+- ✅ Error handling with retries
+- ✅ Rate limiting and security
+- ✅ Token usage tracking
+- ✅ 94% test coverage
+
+### 🤝 Contributing to Roadmap
+
+Want to help implement these features? Check out our
+[Contributing Guide](./CONTRIBUTING.md) and:
+
+1. **Pick a feature** from the roadmap
+2. **Open an issue** to discuss implementation
+3. **Submit a PR** with your implementation
+4. **Get recognized** as a contributor!
+
+Priority is given to features with community interest. Open an issue to vote on
+features you'd like to see!
 
 ---
 

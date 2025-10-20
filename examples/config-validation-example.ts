@@ -17,7 +17,7 @@ async function validateConfigurations() {
     provider: {
       provider: 'openai',
       apiKey: process.env['OPENAI_API_KEY'] ?? 'sk-test-key',
-      model: 'gpt-4',
+      model: 'gpt-4o',
     },
     temperature: 0.7,
     maxTokens: 1000,
@@ -41,7 +41,7 @@ async function validateConfigurations() {
     provider: {
       provider: 'openai',
       // apiKey is missing
-      model: 'gpt-4',
+      model: 'gpt-4o',
     },
   };
 

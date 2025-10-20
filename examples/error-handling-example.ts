@@ -21,7 +21,7 @@ async function errorHandlingExamples() {
       provider: {
         provider: 'openai',
         // Missing API key - should trigger validation error
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 
@@ -41,7 +41,7 @@ async function errorHandlingExamples() {
       provider: {
         provider: 'openai',
         apiKey: 'invalid-key-12345',
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 
@@ -68,7 +68,7 @@ async function errorHandlingExamples() {
         provider: 'openai',
         apiKey: process.env['OPENAI_API_KEY'] ?? 'test-key',
         apiUrl: 'https://invalid-url-that-does-not-exist.com/v1',
-        model: 'gpt-4',
+        model: 'gpt-4o',
       },
     });
 
@@ -156,7 +156,7 @@ async function errorHandlingExamples() {
         provider: {
           provider: 'openai',
           apiKey: 'invalid-key-for-streaming',
-          model: 'gpt-4',
+          model: 'gpt-4o',
         },
       });
 

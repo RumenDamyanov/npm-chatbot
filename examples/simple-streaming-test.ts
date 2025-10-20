@@ -22,7 +22,7 @@ async function testStreaming() {
       provider: {
         provider: 'openai',
         apiKey,
-        model: 'gpt-4',
+        model: 'gpt-4o', // Latest OpenAI flagship model
       },
       temperature: 0.7,
     });

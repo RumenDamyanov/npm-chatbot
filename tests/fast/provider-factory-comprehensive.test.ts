@@ -260,7 +260,7 @@ describe('ProviderFactory Comprehensive Tests', () => {
       // Register a provider that throws a non-Error object
       class WeirdFailingProvider {
         constructor() {
-          throw 'String error'; // eslint-disable-line
+          throw 'String error';
         }
       }
 
