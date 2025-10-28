@@ -1,6 +1,6 @@
 {
   "name": "@rumenx/chatbot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications with support for OpenAI, Anthropic Claude, and Google Gemini.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
