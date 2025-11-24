@@ -298,8 +298,10 @@ export class OpenAIProvider implements IAiProvider {
     try {
       const models = await this.client.models.list();
       return models.data
-        .filter((model) => model.id.startsWith('gpt-') || model.id.startsWith('text-'))
-        .map((model) => model.id)
+        .filter(
+          (model: { id: string }) => model.id.startsWith('gpt-') || model.id.startsWith('text-')
+        )
+        .map((model: { id: string }) => model.id)
         .sort();
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
