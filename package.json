@@ -18,12 +18,7 @@
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE.md",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE.md", "CHANGELOG.md"],
   "scripts": {
     "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types",

@@ -1,19 +1,16 @@
 /**
  * Content Moderation Service Example for @rumenx/chatbot
- * 
+ *
  * Demonstrates how to use the ContentModerationService to analyze
  * and filter harmful or inappropriate content.
- * 
+ *
  * Setup:
  * 1. Copy .env.example to .env
  * 2. Add your OpenAI API key (optional, for OpenAI moderation)
  * 3. Run: npm run example:moderation
  */
 
-import {
-  ContentModerationService,
-  type ModerationConfig,
-} from '../src/index';
+import { ContentModerationService, type ModerationConfig } from '../src/index';
 import * as dotenv from 'dotenv';
 
 // Load environment variables
@@ -86,7 +83,7 @@ async function openaiModerationExample(): Promise<void> {
       console.log(`  Provider: ${result.provider}`);
       console.log(`  Flagged: ${result.flagged}`);
       console.log(`  Categories: ${result.categories.join(', ') || 'none'}`);
-      
+
       if (result.flagged) {
         console.log(`  Top Scores:`);
         const sortedScores = Object.entries(result.scores)
@@ -124,7 +121,7 @@ async function combinedModerationExample(): Promise<void> {
 
   const message = 'I want to kill someone with violence';
   console.log(`\nMessage: "${message}"`);
-  
+
   try {
     const result = await service.moderate(message);
     console.log(`  Provider: ${result.provider}`);
@@ -161,7 +158,9 @@ async function moderationStatsExample(): Promise<void> {
     console.log(`  Safe: ${stats.isSafe}`);
     console.log(`  Risk Level: ${stats.riskLevel}`);
     console.log(`  Flagged Categories: ${stats.flaggedCount}`);
-    console.log(`  Highest Risk: ${stats.highestCategory} (${(stats.highestScore * 100).toFixed(2)}%)`);
+    console.log(
+      `  Highest Risk: ${stats.highestCategory} (${(stats.highestScore * 100).toFixed(2)}%)`
+    );
   }
 }
 
@@ -256,11 +255,7 @@ async function shouldBlockExample(): Promise<void> {
     useCustomRules: true,
   });
 
-  const messages = [
-    'Hello, how are you?',
-    'I want to kill someone',
-    'This is spam',
-  ];
+  const messages = ['Hello, how are you?', 'I want to kill someone', 'This is spam'];
 
   for (const message of messages) {
     const shouldBlock = await service.shouldBlock(message);
@@ -294,9 +289,9 @@ async function chatIntegrationExample(): Promise<void> {
 
   for (const chat of chatMessages) {
     const result = await service.moderate(chat.message);
-    
+
     console.log(`[${chat.user}]: "${chat.message}"`);
-    
+
     if (result.shouldBlock) {
       console.log(`  🚫 BLOCKED - ${result.categories.join(', ')}`);
     } else if (result.flagged) {
@@ -336,4 +331,3 @@ async function main(): Promise<void> {
 
 // Run examples
 main();
-

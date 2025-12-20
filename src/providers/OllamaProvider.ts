@@ -373,7 +373,7 @@ export class OllamaProvider implements IAiProvider {
             if (json.done) {
               break;
             }
-          } catch (e) {
+          } catch {
             // Skip invalid JSON
             continue;
           }

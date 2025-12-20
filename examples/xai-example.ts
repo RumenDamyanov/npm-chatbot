@@ -1,14 +1,14 @@
 /**
  * xAI Grok Provider Example
- * 
+ *
  * This example demonstrates how to use the xAI Grok provider with @rumenx/chatbot.
- * 
+ *
  * Supported models:
  * - grok-2-latest (Latest Grok 2 model)
  * - grok-2-1212 (December 2024 version)
  * - grok-2-vision-1212 (Vision support)
  * - grok-beta (Beta features)
- * 
+ *
  * API endpoint: https://api.x.ai/v1
  */
 
@@ -132,7 +132,7 @@ async function main() {
     console.log(`Grok (grok-2-1212): ${response4.content}\n`);
 
     // Example 5: Grok's personality
-    console.log('Example 5: Grok\'s Witty Personality');
+    console.log("Example 5: Grok's Witty Personality");
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
     const response5 = await chatbot.chat({
@@ -167,4 +167,3 @@ async function main() {
 
 // Run the example
 main();
-

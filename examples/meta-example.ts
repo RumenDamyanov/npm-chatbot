@@ -1,15 +1,15 @@
 /**
  * Meta/Llama Provider Example
- * 
+ *
  * This example demonstrates how to use the Meta/Llama provider with @rumenx/chatbot.
- * 
+ *
  * Supported models:
  * - llama-3.3-70b-instruct (Latest, most capable)
  * - llama-3.2-90b-vision-instruct (Vision support)
  * - llama-3.1-405b-instruct (Largest model)
  * - llama-3.1-70b-instruct
  * - llama-3.1-8b-instruct
- * 
+ *
  * Supported API endpoints:
  * - Together AI: https://api.together.xyz/v1
  * - Groq: https://api.groq.com/openai/v1
@@ -158,4 +158,3 @@ async function main() {
 
 // Run the example
 main();
-

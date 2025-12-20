@@ -1,9 +1,9 @@
 /**
  * Message Filter Middleware Example for @rumenx/chatbot
- * 
+ *
  * Demonstrates how to use the MessageFilterMiddleware to filter
  * inappropriate content and inject system instructions.
- * 
+ *
  * Setup:
  * 1. Copy .env.example to .env
  * 2. Add your API key (any provider will work)
@@ -121,7 +121,7 @@ async function chatbotIntegrationExample(): Promise<void> {
   // Create filter
   const filter = new MessageFilterMiddleware({
     instructions: [
-      'If the user\'s message was filtered, acknowledge it politely.',
+      "If the user's message was filtered, acknowledge it politely.",
       'Respond professionally even if the user is being rude.',
     ],
   });
@@ -146,10 +146,7 @@ async function chatbotIntegrationExample(): Promise<void> {
     }
 
     // Use filtered message with chatbot
-    const response = await chatbot.chat(
-      filterResult.message,
-      filterResult.context
-    );
+    const response = await chatbot.chat(filterResult.message, filterResult.context);
 
     console.log(`Assistant: ${response.message}`);
   }
@@ -185,7 +182,9 @@ async function dynamicFilterExample(): Promise<void> {
   filter.addInstructions(['Never engage with spam content.']);
 
   result = filter.filter(message);
-  console.log(`System Prompt includes new instruction: ${result.context.systemPrompt?.includes('spam content')}`);
+  console.log(
+    `System Prompt includes new instruction: ${result.context.systemPrompt?.includes('spam content')}`
+  );
 }
 
 /**
@@ -246,4 +245,3 @@ async function main(): Promise<void> {
 
 // Run examples
 main();
-

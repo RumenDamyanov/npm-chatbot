@@ -1,13 +1,13 @@
 /**
  * Ollama Provider Example (Local Models)
- * 
+ *
  * This example demonstrates how to use local LLM models via Ollama.
- * 
+ *
  * Prerequisites:
  * 1. Install Ollama: https://ollama.ai/
  * 2. Pull a model: `ollama pull llama3.2`
  * 3. Start Ollama server (usually starts automatically)
- * 
+ *
  * Supported models (examples):
  * - llama3.2:latest (Meta's latest Llama)
  * - mistral:latest (Mistral AI)
@@ -94,10 +94,12 @@ async function main() {
       console.log(`📊 Tokens used: ${response1.metadata.usage.totalTokens}`);
       console.log(`   - Prompt: ${response1.metadata.usage.promptTokens}`);
       console.log(`   - Completion: ${response1.metadata.usage.completionTokens}`);
-      
+
       // Ollama provides additional metrics
       if (response1.metadata.totalDuration) {
-        console.log(`⏱️  Duration: ${(response1.metadata.totalDuration as number / 1000000).toFixed(2)}ms`);
+        console.log(
+          `⏱️  Duration: ${((response1.metadata.totalDuration as number) / 1000000).toFixed(2)}ms`
+        );
       }
       console.log();
     }
@@ -211,7 +213,7 @@ async function main() {
     console.log('   ✓ Fast responses - no network latency');
   } catch (error) {
     console.error('\n❌ Error:', error instanceof Error ? error.message : error);
-    
+
     if (error instanceof Error && error.message.includes('ECONNREFUSED')) {
       console.log('\n💡 Troubleshooting:');
       console.log('1. Is Ollama installed? https://ollama.ai/');
@@ -219,11 +221,10 @@ async function main() {
       console.log('3. Is the model pulled? Try: ollama pull llama3.2');
       console.log('4. Check port 11434 is available');
     }
-    
+
     process.exit(1);
   }
 }
 
 // Run the example
 main();
-
