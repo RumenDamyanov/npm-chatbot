@@ -14,9 +14,9 @@ import { ErrorHandler } from '../core/ErrorHandler';
 
 /**
  * xAI Grok provider implementation
- * 
+ *
  * Supports Grok models via xAI API (OpenAI-compatible)
- * 
+ *
  * @example
  * ```typescript
  * const provider = new XaiProvider({
@@ -431,4 +431,3 @@ export class XaiProvider implements IAiProvider {
     };
   }
 }
-

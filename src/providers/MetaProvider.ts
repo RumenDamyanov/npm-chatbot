@@ -14,10 +14,10 @@ import { ErrorHandler } from '../core/ErrorHandler';
 
 /**
  * Meta Llama provider implementation
- * 
+ *
  * Supports Llama 3.3, 3.2, and 3.1 models via OpenAI-compatible APIs
  * (Together AI, Groq, Replicate, or other compatible endpoints)
- * 
+ *
  * @example
  * ```typescript
  * const provider = new MetaProvider({
@@ -441,4 +441,3 @@ export class MetaProvider implements IAiProvider {
     };
   }
 }
-

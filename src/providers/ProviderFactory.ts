@@ -93,7 +93,9 @@ export class ProviderFactory {
     this.providers.set('deepseek', DeepSeekProvider);
     this.providers.set('ollama', OllamaProvider);
 
-    this.logger.info('Initialized provider factory with 7 providers: OpenAI, Anthropic, Google, Meta, xAI, DeepSeek, and Ollama');
+    this.logger.info(
+      'Initialized provider factory with 7 providers: OpenAI, Anthropic, Google, Meta, xAI, DeepSeek, and Ollama'
+    );
   }
 }
 

@@ -14,9 +14,9 @@ import { ErrorHandler } from '../core/ErrorHandler';
 
 /**
  * Ollama provider implementation for local LLM models
- * 
+ *
  * Supports running local models via Ollama server
- * 
+ *
  * @example
  * ```typescript
  * const provider = new OllamaProvider({
@@ -515,4 +515,3 @@ export class OllamaProvider implements IAiProvider {
     }
   }
 }
-
