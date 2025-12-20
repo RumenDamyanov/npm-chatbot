@@ -7,7 +7,8 @@
 [![npm version](https://img.shields.io/npm/v/@rumenx/chatbot.svg)](https://www.npmjs.com/package/@rumenx/chatbot)
 
 A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript
-applications with support for OpenAI, Anthropic Claude, and Google Gemini.
+applications with support for OpenAI, Anthropic Claude, Google Gemini, Meta
+Llama, xAI Grok, DeepSeek, and Ollama (local models).
 
 ## 📦 Part of the Chatbot Family
 
@@ -28,17 +29,40 @@ switch between languages or maintain consistency across polyglot projects.
 
 ## ✨ Features
 
-- 🎯 **Three Major AI Providers** - OpenAI (GPT-4o, GPT-4 Turbo, o1), Anthropic
-  (Claude Sonnet 4.5, Opus 4.1), Google AI (Gemini 2.0, 1.5 Pro)
+### AI Providers (7 Total)
+
+- 🎯 **OpenAI** - GPT-4o, GPT-4 Turbo, o1, GPT-4o-mini
+- 🤖 **Anthropic** - Claude Sonnet 4.5, Haiku 4.5, Opus 4.1
+- 🔮 **Google AI** - Gemini 2.0 Flash, Gemini 1.5 Pro/Flash
+- 🦙 **Meta Llama** - Llama 3.3 70B, Llama 3.2 90B Vision, Llama 3.1 405B
+- 🚀 **xAI Grok** - Grok 2, Grok 2 Vision, Grok Beta
+- 🧠 **DeepSeek** - DeepSeek Chat, DeepSeek Reasoner
+- 🏠 **Ollama** - Any local model (llama3, mistral, codellama, etc.)
+
+### Core Features
+
 - 📝 **Type-Safe** - Full TypeScript support with comprehensive type definitions
 - 💾 **Conversation Memory** - Built-in conversation history management
-- 🔒 **Security** - Input/output filtering, content moderation, rate limiting
 - ⚡ **Streaming Support** - Real-time response streaming for all providers
 - 🔄 **Error Handling** - Comprehensive error handling with retry logic
 - 📊 **Usage Tracking** - Token usage and cost tracking
-- 🧪 **Extensively Tested** - 94% test coverage with 880+ tests
+
+### Safety & Security (NEW in v2.0.0)
+
+- 🛡️ **Message Filtering** - Profanity, aggression, and link filtering
+- 🔍 **Content Moderation** - AI-powered content safety with OpenAI API + custom
+  rules
+- 🚫 **Violence Detection** - Pattern-based harmful content detection
+- 💬 **Hate Speech Detection** - Multi-pattern hate speech filtering
+- ⚠️ **Risk Assessment** - Real-time content risk level analysis
+- 💾 **Caching & Rate Limiting** - Efficient moderation with result caching
+
+### Developer Experience
+
+- 🧪 **Extensively Tested** - 94% test coverage with 965+ tests
 - 🌐 **Universal** - Works in Node.js and modern browsers
 - 📦 **Tree-Shakeable** - Optimized bundle size with ESM support
+- 📚 **Comprehensive Examples** - 10+ usage examples included
 
 ---
 
@@ -50,6 +74,13 @@ switch between languages or maintain consistency across polyglot projects.
   - [OpenAI](#openai-example)
   - [Anthropic Claude](#anthropic-claude-example)
   - [Google Gemini](#google-gemini-example)
+  - [Meta Llama](#meta-llama-example)
+  - [xAI Grok](#xai-grok-example)
+  - [DeepSeek](#deepseek-example)
+  - [Ollama (Local Models)](#ollama-local-models-example)
+  - [Message Filtering](#message-filtering-example)
+  - [Content Moderation](#content-moderation-example)
+  - [Combined Safety Approach](#combined-safety-approach)
   - [Streaming Responses](#streaming-responses)
   - [Using with React](#using-with-react)
   - [Using with Express.js](#using-with-expressjs)
@@ -78,15 +109,19 @@ pnpm add @rumenx/chatbot
 Install the AI provider SDK(s) you plan to use:
 
 ```bash
-# For OpenAI
+# For OpenAI (required for OpenAI provider and content moderation)
 npm install openai
 
-# For Anthropic
+# For Anthropic Claude
 npm install @anthropic-ai/sdk
 
-# For Google AI
+# For Google Gemini
 npm install @google/generative-ai
 ```
+
+**Note**: Meta Llama, xAI Grok, DeepSeek, and Ollama providers use
+OpenAI-compatible APIs, so they only require the `openai` package (already
+installed above).
 
 All provider dependencies are **optional peer dependencies**, so you only
 install what you need.
@@ -220,6 +255,246 @@ const response = await chatbot.chat({
 });
 
 console.log(response.content);
+```
+
+### Meta Llama Example
+
+```typescript
+import { Chatbot } from '@rumenx/chatbot';
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'meta',
+    apiKey: process.env.TOGETHER_API_KEY!, // Together AI API key
+    model: 'llama-3.3-70b-instruct', // Latest: 'llama-3.3-70b-instruct', 'llama-3.2-90b-vision-instruct', 'llama-3.1-405b-instruct'
+    endpoint: 'https://api.together.xyz/v1', // Optional, defaults to Together AI
+  },
+  temperature: 0.7,
+  maxTokens: 500,
+});
+
+const response = await chatbot.chat({
+  message: 'Explain the concept of neural networks.',
+  metadata: {
+    sessionId: 'session-4',
+    userId: 'user-4',
+  },
+});
+
+console.log(response.content);
+```
+
+### xAI Grok Example
+
+```typescript
+import { Chatbot } from '@rumenx/chatbot';
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'xai',
+    apiKey: process.env.XAI_API_KEY!,
+    model: 'grok-2-latest', // Latest: 'grok-2-latest', 'grok-2-vision-latest', 'grok-beta'
+  },
+  temperature: 0.8,
+  maxTokens: 800,
+});
+
+const response = await chatbot.chat({
+  message: 'What are the latest trends in AI?',
+  metadata: {
+    sessionId: 'session-5',
+    userId: 'user-5',
+  },
+});
+
+console.log(response.content);
+```
+
+### DeepSeek Example
+
+```typescript
+import { Chatbot } from '@rumenx/chatbot';
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'deepseek',
+    apiKey: process.env.DEEPSEEK_API_KEY!,
+    model: 'deepseek-chat', // Options: 'deepseek-chat', 'deepseek-reasoner'
+  },
+  temperature: 0.7,
+  maxTokens: 1000,
+});
+
+const response = await chatbot.chat({
+  message: 'Write a function to calculate fibonacci numbers.',
+  metadata: {
+    sessionId: 'session-6',
+    userId: 'user-6',
+  },
+});
+
+console.log(response.content);
+```
+
+### Ollama (Local Models) Example
+
+```typescript
+import { Chatbot } from '@rumenx/chatbot';
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'ollama',
+    model: 'llama3', // Any Ollama model: 'llama3', 'mistral', 'codellama', etc.
+    endpoint: 'http://localhost:11434/v1', // Your Ollama server URL
+  },
+  temperature: 0.7,
+  maxTokens: 500,
+});
+
+const response = await chatbot.chat({
+  message: 'Hello! Tell me about yourself.',
+  metadata: {
+    sessionId: 'session-7',
+    userId: 'user-7',
+  },
+});
+
+console.log(response.content);
+```
+
+### Message Filtering Example
+
+Protect your application from inappropriate content:
+
+```typescript
+import { Chatbot, MessageFilterMiddleware } from '@rumenx/chatbot';
+
+// Create filter with custom configuration
+const filter = new MessageFilterMiddleware({
+  profanities: ['badword1', 'badword2'], // Custom word list
+  aggressionPatterns: ['hate', 'kill', 'attack'], // Patterns to detect
+  linkPattern: 'https?:\\/\\/[\\w\\.-]+', // URL detection
+  enableRephrasing: true, // Rephrase instead of blocking
+  replacementText: '[filtered]', // Replacement text
+  instructions: [
+    'You must maintain a respectful tone.',
+    'Do not share external links.',
+    'Use appropriate language at all times.',
+  ],
+});
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'openai',
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  },
+});
+
+// Filter user message before sending
+const userMessage = 'This is a fucking great product!';
+const filterResult = filter.filter(userMessage);
+
+if (filterResult.shouldBlock) {
+  console.log('Message blocked:', filterResult.filterReasons);
+} else {
+  console.log('Filtered message:', filterResult.message);
+  // Output: "This is a [filtered] great product!"
+
+  const response = await chatbot.chat({
+    message: filterResult.message,
+    context: filterResult.context, // Includes system instructions
+  });
+}
+```
+
+### Content Moderation Example
+
+AI-powered content safety with OpenAI's Moderation API:
+
+```typescript
+import { ContentModerationService } from '@rumenx/chatbot';
+
+// Create moderation service
+const moderation = new ContentModerationService({
+  apiKey: process.env.OPENAI_API_KEY, // For OpenAI moderation API
+  useOpenAI: true, // Use OpenAI's moderation API
+  useCustomRules: true, // Also use custom pattern matching
+  threshold: 0.5, // Block threshold (0-1)
+  enableCache: true, // Cache results
+  cacheTTL: 300000, // 5 minutes
+});
+
+// Check content before processing
+const message = 'I want to hurt someone';
+const result = await moderation.moderate(message);
+
+if (result.shouldBlock) {
+  console.log('Content blocked!');
+  console.log('Flagged categories:', result.categories);
+  // Output: ['violence', 'violence/graphic']
+  console.log('Scores:', result.scores);
+} else {
+  // Safe to process
+  const response = await chatbot.chat({ message });
+}
+
+// Get risk statistics
+const stats = await moderation.getStats(message);
+console.log('Risk Level:', stats.riskLevel); // 'low', 'medium', 'high', or 'critical'
+console.log('Is Safe:', stats.isSafe);
+console.log('Highest Risk:', stats.highestCategory);
+```
+
+### Combined Safety Approach
+
+Use both filtering and moderation for maximum protection:
+
+```typescript
+import {
+  Chatbot,
+  MessageFilterMiddleware,
+  ContentModerationService,
+} from '@rumenx/chatbot';
+
+const chatbot = new Chatbot({
+  provider: {
+    provider: 'openai',
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  },
+});
+
+const filter = new MessageFilterMiddleware();
+const moderation = new ContentModerationService({
+  apiKey: process.env.OPENAI_API_KEY,
+  useOpenAI: true,
+  useCustomRules: true,
+});
+
+async function safeChat(userMessage: string) {
+  // 1. Filter profanity and links
+  const filterResult = filter.filter(userMessage);
+  if (filterResult.shouldBlock) {
+    return 'Your message contains inappropriate language.';
+  }
+
+  // 2. Check for harmful content
+  if (await moderation.shouldBlock(filterResult.message)) {
+    return 'Your message violates our content policy.';
+  }
+
+  // 3. Safe to send to AI
+  const response = await chatbot.chat({
+    message: filterResult.message,
+    context: filterResult.context,
+  });
+
+  return response.content;
+}
+
+const reply = await safeChat('Tell me about AI safety');
+console.log(reply);
 ```
 
 ### Streaming Responses
@@ -562,6 +837,61 @@ const config: ChatbotConfig = {
   },
 };
 ```
+
+---
+
+## 🤖 Supported AI Models
+
+### OpenAI
+
+- **gpt-4o** - Latest GPT-4 Omni model (Oct 2024)
+- **gpt-4o-mini** - Fast and cost-effective GPT-4 Omni mini
+- **gpt-4-turbo** - GPT-4 Turbo (Apr 2024)
+- **o1-preview** - Advanced reasoning model (preview)
+- **o1-mini** - Fast reasoning model
+
+### Anthropic Claude
+
+- **claude-sonnet-4-5-20250929** - Claude Sonnet 4.5 (Sep 2025) - Latest
+- **claude-haiku-4-5-20250929** - Claude Haiku 4.5 (Sep 2025) - Fast & efficient
+- **claude-opus-4-1-20250929** - Claude Opus 4.1 (Sep 2025) - Most capable
+
+### Google Gemini
+
+- **gemini-2.0-flash-exp** - Gemini 2.0 Flash (Experimental) - Latest
+- **gemini-1.5-pro** - Gemini 1.5 Pro - High capability
+- **gemini-1.5-flash** - Gemini 1.5 Flash - Fast & efficient
+
+### Meta Llama (via Together AI)
+
+- **llama-3.3-70b-instruct** - Llama 3.3 70B (Latest)
+- **llama-3.2-90b-vision-instruct** - Llama 3.2 90B with vision
+- **llama-3.1-405b-instruct** - Llama 3.1 405B (Largest)
+
+### xAI Grok
+
+- **grok-2-latest** - Grok 2 (Latest)
+- **grok-2-vision-latest** - Grok 2 with vision capabilities
+- **grok-beta** - Grok Beta (Experimental features)
+
+### DeepSeek
+
+- **deepseek-chat** - DeepSeek Chat model
+- **deepseek-reasoner** - DeepSeek Reasoner (Advanced reasoning)
+
+### Ollama (Local Models)
+
+- **llama3** - Llama 3 (8B, 70B variants)
+- **mistral** - Mistral 7B
+- **codellama** - Code Llama (7B, 13B, 34B, 70B)
+- **phi3** - Microsoft Phi-3
+- **gemma** - Google Gemma
+- **qwen** - Alibaba Qwen
+- **Any other Ollama model** - See
+  [Ollama Model Library](https://ollama.ai/library)
+
+> **Note**: For Meta, xAI, DeepSeek, and Ollama, you need to provide the API
+> endpoint URL in the configuration. See examples above.
 
 ---
 

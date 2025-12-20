@@ -206,9 +206,16 @@ export interface MetaProviderConfig extends AiProviderConfig {
   /** Meta API key */
   apiKey: string;
   /** Default model */
-  model?: 'llama-2-70b' | 'llama-2-13b' | 'llama-2-7b' | string;
-  /** API endpoint */
-  endpoint?: string;
+  model?:
+    | 'llama-3.3-70b-instruct'
+    | 'llama-3.2-90b-vision-instruct'
+    | 'llama-3.2-11b-vision-instruct'
+    | 'llama-3.1-405b-instruct'
+    | 'llama-3.1-70b-instruct'
+    | 'llama-3.1-8b-instruct'
+    | string;
+  /** API endpoint (e.g., https://api.together.xyz/v1, https://api.groq.com/openai/v1) */
+  endpoint: string;
 }
 
 /**
@@ -219,7 +226,9 @@ export interface XaiProviderConfig extends AiProviderConfig {
   /** xAI API key */
   apiKey: string;
   /** Default model */
-  model?: 'grok-1' | 'grok-1.5' | string;
+  model?: 'grok-2-latest' | 'grok-2-1212' | 'grok-2-vision-1212' | 'grok-beta' | string;
+  /** API endpoint (default: https://api.x.ai/v1) */
+  endpoint?: string;
 }
 
 /**
@@ -230,7 +239,9 @@ export interface DeepSeekProviderConfig extends AiProviderConfig {
   /** DeepSeek API key */
   apiKey: string;
   /** Default model */
-  model?: 'deepseek-chat' | 'deepseek-coder' | string;
+  model?: 'deepseek-chat' | 'deepseek-reasoner' | 'deepseek-coder' | string;
+  /** API endpoint (default: https://api.deepseek.com/v1) */
+  endpoint?: string;
 }
 
 /**

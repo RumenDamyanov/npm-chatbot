@@ -25,7 +25,8 @@ module.exports = [
         setInterval: 'readonly',
         clearInterval: 'readonly',
         clearTimeout: 'readonly',
-        NodeJS: 'readonly'
+        NodeJS: 'readonly',
+        fetch: 'readonly'
       }
     },
     plugins: {
@@ -145,6 +146,13 @@ module.exports = [
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/no-base-to-string': 'off'
+    }
+  },
+  {
+    files: ['src/providers/MetaProvider.ts', 'src/providers/XaiProvider.ts', 'src/providers/DeepSeekProvider.ts', 'src/providers/OllamaProvider.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off'
     }
   },
   {
