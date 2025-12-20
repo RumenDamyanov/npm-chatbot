@@ -1,7 +1,7 @@
 {
   "name": "@rumenx/chatbot",
-  "version": "1.0.4",
-  "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript applications with support for OpenAI, Anthropic Claude, and Google Gemini.",
+  "version": "2.0.0",
+  "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript with 7 AI providers (OpenAI, Anthropic, Google, Meta Llama, xAI Grok, DeepSeek, Ollama) and enterprise-grade content safety features.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
@@ -18,7 +18,12 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist/", "README.md", "LICENSE.md", "CHANGELOG.md"],
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE.md",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types",
@@ -30,7 +35,7 @@
     "test:fast": "jest --config jest.config.fast.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --maxWorkers=1 --forceExit",
-    "test:ci": "jest --ci --coverage --watchAll=false --maxWorkers=1 --forceExit",
+    "test:ci": "CI=true jest --ci --coverage --watchAll=false --maxWorkers=1 --forceExit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" \"*.{js,json,md}\"",
@@ -43,6 +48,8 @@
     "example:config": "npx ts-node examples/config-validation-example.ts",
     "example:streaming": "npx ts-node examples/streaming-example.ts",
     "example:errors": "npx ts-node examples/error-handling-example.ts",
+    "example:filter": "npx ts-node examples/message-filter-example.ts",
+    "example:moderation": "npx ts-node examples/content-moderation-example.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm run validate && npm run build",
     "release": "npm version patch && npm publish",
@@ -56,16 +63,28 @@
     "javascript",
     "openai",
     "gpt-4",
-    "gpt-3.5",
+    "gpt-4o",
     "anthropic",
     "claude",
     "google-ai",
     "gemini",
+    "meta",
+    "llama",
+    "xai",
+    "grok",
+    "deepseek",
+    "ollama",
+    "local-models",
     "conversation",
     "nlp",
     "artificial-intelligence",
     "streaming",
-    "type-safe"
+    "type-safe",
+    "content-moderation",
+    "message-filtering",
+    "content-safety",
+    "profanity-filter",
+    "ai-safety"
   ],
   "author": {
     "name": "Rumen Damyanov",
@@ -92,6 +111,7 @@
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
     "@google/generative-ai": "^0.24.1",
+    "@jest/test-sequencer": "^30.2.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.6.2",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
@@ -103,7 +123,7 @@
     "jest-junit": "^16.0.0",
     "openai": "^6.10.0",
     "prettier": "^3.2.5",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
   },
   "dependencies": {
