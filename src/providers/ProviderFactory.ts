@@ -3,6 +3,9 @@ import type { ChatbotConfig } from '../types/ChatbotTypes';
 import { OpenAIProvider } from './OpenAIProvider';
 import { AnthropicProvider } from './AnthropicProvider';
 import { GoogleProvider } from './GoogleProvider';
+import { MetaProvider } from './MetaProvider';
+import { XaiProvider } from './XaiProvider';
+import { DeepSeekProvider } from './DeepSeekProvider';
 
 /**
  * Factory class for creating AI provider instances based on configuration
@@ -81,12 +84,15 @@ export class ProviderFactory {
    */
   static initialize(): void {
     // Register real providers only
-    // Mock providers (meta, xai, deepseek, ollama) are registered in tests
+    // Mock providers for testing are registered in tests
     this.providers.set('openai', OpenAIProvider);
     this.providers.set('anthropic', AnthropicProvider);
     this.providers.set('google', GoogleProvider);
+    this.providers.set('meta', MetaProvider);
+    this.providers.set('xai', XaiProvider);
+    this.providers.set('deepseek', DeepSeekProvider);
 
-    this.logger.info('Initialized provider factory with OpenAI, Anthropic, and Google providers');
+    this.logger.info('Initialized provider factory with OpenAI, Anthropic, Google, Meta, xAI, and DeepSeek providers');
   }
 }
 

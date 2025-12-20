@@ -145,6 +145,8 @@ export interface AiProviderConfig {
   apiKey?: string;
   /** Custom API URL */
   apiUrl?: string;
+  /** API endpoint (alias for apiUrl, used by some providers) */
+  endpoint?: string;
   /** Model name */
   model?: string;
   /** Organization ID (for some providers) */
