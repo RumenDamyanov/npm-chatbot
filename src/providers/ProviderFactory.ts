@@ -6,6 +6,7 @@ import { GoogleProvider } from './GoogleProvider';
 import { MetaProvider } from './MetaProvider';
 import { XaiProvider } from './XaiProvider';
 import { DeepSeekProvider } from './DeepSeekProvider';
+import { OllamaProvider } from './OllamaProvider';
 
 /**
  * Factory class for creating AI provider instances based on configuration
@@ -83,16 +84,16 @@ export class ProviderFactory {
    * Initialize with default providers
    */
   static initialize(): void {
-    // Register real providers only
-    // Mock providers for testing are registered in tests
+    // Register all providers
     this.providers.set('openai', OpenAIProvider);
     this.providers.set('anthropic', AnthropicProvider);
     this.providers.set('google', GoogleProvider);
     this.providers.set('meta', MetaProvider);
     this.providers.set('xai', XaiProvider);
     this.providers.set('deepseek', DeepSeekProvider);
+    this.providers.set('ollama', OllamaProvider);
 
-    this.logger.info('Initialized provider factory with OpenAI, Anthropic, Google, Meta, xAI, and DeepSeek providers');
+    this.logger.info('Initialized provider factory with 7 providers: OpenAI, Anthropic, Google, Meta, xAI, DeepSeek, and Ollama');
   }
 }
 
