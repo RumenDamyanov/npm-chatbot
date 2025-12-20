@@ -4,6 +4,9 @@ dist/
 .env
 .DS_Store
 .vscode/
+.cursor/
+.cursorrules
+.idea/
 coverage/
 logs/
 components/
