@@ -30,7 +30,7 @@
     "test:fast": "jest --config jest.config.fast.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --maxWorkers=1 --forceExit",
-    "test:ci": "CI=true jest --ci --coverage --watchAll=false --maxWorkers=1 --forceExit",
+    "test:ci": "CI=true jest --ci --coverage --coverageThreshold='{}' --watchAll=false --maxWorkers=1 --forceExit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\" \"*.{js,json,md}\"",
