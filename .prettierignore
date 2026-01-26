@@ -19,3 +19,6 @@ components/
 *.config.js
 *.config.cjs
 jest.config.js
+
+# Lock files (managed by npm)
+package-lock.json
