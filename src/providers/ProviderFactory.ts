@@ -49,7 +49,8 @@ export class ProviderFactory {
       return provider;
     } catch (error) {
       throw new Error(
-        `Failed to create ${config.provider.provider} provider: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `Failed to create ${config.provider.provider} provider: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        { cause: error }
       );
     }
   }

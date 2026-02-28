@@ -152,7 +152,7 @@ export class GoogleProvider implements IAiProvider {
       return chatResponse;
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Google API error: ${this.lastError.message}`);
+      throw new Error(`Google API error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -268,7 +268,7 @@ export class GoogleProvider implements IAiProvider {
       this.usage.tokens += 150; // Estimate
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Google streaming error: ${this.lastError.message}`);
+      throw new Error(`Google streaming error: ${this.lastError.message}`, { cause: error });
     }
   }
 

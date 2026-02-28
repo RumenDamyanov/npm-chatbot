@@ -169,7 +169,7 @@ export class AnthropicProvider implements IAiProvider {
       return chatResponse;
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Anthropic API error: ${this.lastError.message}`);
+      throw new Error(`Anthropic API error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -298,7 +298,7 @@ export class AnthropicProvider implements IAiProvider {
       this.usage.tokens += 200; // Estimate, we don't get exact tokens in streaming
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Anthropic streaming error: ${this.lastError.message}`);
+      throw new Error(`Anthropic streaming error: ${this.lastError.message}`, { cause: error });
     }
   }
 
