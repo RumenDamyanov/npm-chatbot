@@ -207,7 +207,7 @@ export class OllamaProvider implements IAiProvider {
       return chatResponse;
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Ollama API error: ${this.lastError.message}`);
+      throw new Error(`Ollama API error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -385,7 +385,7 @@ export class OllamaProvider implements IAiProvider {
       this.usage.tokens += 100; // Estimate
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Ollama streaming error: ${this.lastError.message}`);
+      throw new Error(`Ollama streaming error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -410,7 +410,7 @@ export class OllamaProvider implements IAiProvider {
       return (data.models || []).map((model: { name: string }) => model.name).sort();
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Failed to fetch models: ${this.lastError.message}`);
+      throw new Error(`Failed to fetch models: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -439,7 +439,7 @@ export class OllamaProvider implements IAiProvider {
       }
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Failed to pull model: ${this.lastError.message}`);
+      throw new Error(`Failed to pull model: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -462,7 +462,7 @@ export class OllamaProvider implements IAiProvider {
       }
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Failed to delete model: ${this.lastError.message}`);
+      throw new Error(`Failed to delete model: ${this.lastError.message}`, { cause: error });
     }
   }
 

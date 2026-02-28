@@ -202,7 +202,7 @@ export class DeepSeekProvider implements IAiProvider {
       return chatResponse;
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`DeepSeek API error: ${this.lastError.message}`);
+      throw new Error(`DeepSeek API error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -374,7 +374,7 @@ export class DeepSeekProvider implements IAiProvider {
       this.usage.tokens += 100; // Estimate
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`DeepSeek streaming error: ${this.lastError.message}`);
+      throw new Error(`DeepSeek streaming error: ${this.lastError.message}`, { cause: error });
     }
   }
 
@@ -404,7 +404,7 @@ export class DeepSeekProvider implements IAiProvider {
       );
     } catch (error) {
       this.lastError = error instanceof Error ? error : new Error('Unknown error');
-      throw new Error(`Failed to fetch models: ${this.lastError.message}`);
+      throw new Error(`Failed to fetch models: ${this.lastError.message}`, { cause: error });
     }
   }
 
