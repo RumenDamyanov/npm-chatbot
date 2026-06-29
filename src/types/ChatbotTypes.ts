@@ -6,14 +6,7 @@
  * Supported AI providers
  */
 export type AiProvider =
-  | 'openai'
-  | 'anthropic'
-  | 'google'
-  | 'meta'
-  | 'xai'
-  | 'deepseek'
-  | 'ollama'
-  | 'default';
+  'openai' | 'anthropic' | 'google' | 'meta' | 'xai' | 'deepseek' | 'ollama' | 'default';
 
 /**
  * Chat message roles

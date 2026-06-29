@@ -19,9 +19,7 @@ Protect against malicious input:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: {
-    /* ... */
-  },
+  provider: {/* ... */},
   security: {
     enableInputFilter: true,
     maxInputLength: 4000,
@@ -41,9 +39,7 @@ Filter potentially harmful or inappropriate AI responses:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: {
-    /* ... */
-  },
+  provider: {/* ... */},
   security: {
     enableOutputFilter: true,
   },
@@ -56,9 +52,7 @@ Prevent abuse and control costs:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: {
-    /* ... */
-  },
+  provider: {/* ... */},
   rateLimit: {
     enabled: true,
     requestsPerMinute: 10,
@@ -74,9 +68,7 @@ Prevent hanging requests:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: {
-    /* ... */
-  },
+  provider: {/* ... */},
   timeout: 30000, // 30 seconds
 });
 ```
@@ -193,9 +185,7 @@ Implement content filtering for sensitive applications:
 
 ```typescript
 const chatbot = new Chatbot({
-  provider: {
-    /* ... */
-  },
+  provider: {/* ... */},
   security: {
     enableInputFilter: true,
     enableOutputFilter: true,
