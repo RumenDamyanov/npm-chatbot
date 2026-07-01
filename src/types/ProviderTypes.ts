@@ -177,10 +177,7 @@ export interface AnthropicProviderConfig extends AiProviderConfig {
   apiKey: string;
   /** Default model */
   model?:
-    | 'claude-3-opus-20240229'
-    | 'claude-3-sonnet-20240229'
-    | 'claude-3-haiku-20240307'
-    | string;
+    'claude-3-opus-20240229' | 'claude-3-sonnet-20240229' | 'claude-3-haiku-20240307' | string;
   /** API version */
   apiVersion?: string;
 }
