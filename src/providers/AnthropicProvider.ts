@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { resolveModelName } from '../utils/modelName';
 import type {
   IAiProvider,
   ProviderCapabilities,
@@ -21,6 +22,12 @@ export class AnthropicProvider implements IAiProvider {
     maxInputTokens: 200000,
     maxOutputTokens: 8192,
     supportedModels: [
+      'claude-opus-5',
+      'claude-sonnet-5',
+      'claude-haiku-4-5',
+      'claude-haiku-4-5-20251001',
+      'claude-opus-4-6',
+      'claude-sonnet-4-6',
       'claude-sonnet-4-5-20250929',
       'claude-3-5-haiku-20241022',
       'claude-3-opus-20240229',
@@ -57,7 +64,7 @@ export class AnthropicProvider implements IAiProvider {
       baseURL: config.apiUrl,
     });
 
-    this.model = config.model ?? 'claude-sonnet-4-5-20250929';
+    this.model = resolveModelName(config.model, 'claude-sonnet-5');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -81,7 +88,7 @@ export class AnthropicProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model ?? this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array for Anthropic format
       const messages: Anthropic.Messages.MessageParam[] = [];
@@ -221,7 +228,7 @@ export class AnthropicProvider implements IAiProvider {
 
       // Test with minimal request
       await testClient.messages.create({
-        model: config.model ?? 'claude-sonnet-4-5-20250929',
+        model: resolveModelName(config.model, this.model),
         max_tokens: 1,
         messages: [{ role: 'user', content: 'Hi' }],
       });
@@ -241,7 +248,7 @@ export class AnthropicProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model ?? this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array (same as non-streaming)
       const messages: Anthropic.Messages.MessageParam[] = [];

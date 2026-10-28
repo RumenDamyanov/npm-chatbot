@@ -12,6 +12,7 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
+import { resolveModelName } from '../utils/modelName';
 
 /**
  * OpenAI provider implementation
@@ -21,7 +22,17 @@ export class OpenAIProvider implements IAiProvider {
   readonly capabilities: ProviderCapabilities = {
     maxInputTokens: 128000,
     maxOutputTokens: 4096,
-    supportedModels: ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo', 'gpt-4o', 'gpt-4o-mini'],
+    supportedModels: [
+      'gpt-5.4',
+      'gpt-5.4-mini',
+      'gpt-4o',
+      'gpt-4o-mini',
+      'gpt-4-turbo',
+      'gpt-4',
+      'gpt-3.5-turbo',
+      'o1-preview',
+      'o1-mini',
+    ],
     supportsStreaming: true,
     supportsFunctionCalling: true,
     supportsImageInput: true,
@@ -61,7 +72,7 @@ export class OpenAIProvider implements IAiProvider {
       baseURL: config.apiUrl,
     });
 
-    this.model = config.model ?? 'gpt-4';
+    this.model = resolveModelName(config.model, 'gpt-5.4-mini');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -80,7 +91,7 @@ export class OpenAIProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];
@@ -231,7 +242,7 @@ export class OpenAIProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array (same as non-streaming)
       const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [];

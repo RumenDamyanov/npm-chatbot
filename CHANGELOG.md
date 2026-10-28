@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-10-28
+
+### Security
+
+- Document that Node2Shell
+  ([CVE-2026-111497](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases))
+  is in the Node.js runtime. This package cannot patch it. Run Node.js
+  **22.23.4+**, **24.22.1+**, or **26.12.1+**. Node.js 18 and 20 are end of life
+  and receive no fix.
+- Reject AI model names that contain characters outside letters, numbers, `.`,
+  `_`, and `-`.
+
+### Changed
+
+- Require Node.js `^22.23.4 || ^24.22.1 || ^26.12.1`. CI tests 22, 24, and 26.
+- Default chat models are now OpenAI `gpt-5.4-mini`, Anthropic
+  `claude-sonnet-5`, Google `gemini-3.8-flash`, and xAI `grok-4.6`. Older ids
+  still work when set explicitly.
+- Meta stays on `llama-3.3-70b-instruct`. DeepSeek stays on `deepseek-chat`.
+
 ## [2.0.0] - 2024-12-20
 
 ### 🚀 Major Release: Enhanced Provider Support & Production Safety Features

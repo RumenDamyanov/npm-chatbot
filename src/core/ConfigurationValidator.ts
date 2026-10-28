@@ -278,31 +278,31 @@ export class ConfigurationValidator {
       case 'openai':
         return {
           ...base,
-          model: 'gpt-4',
+          model: 'gpt-5.4-mini',
         };
 
       case 'anthropic':
         return {
           ...base,
-          model: 'claude-sonnet-4-5-20250929',
+          model: 'claude-sonnet-5',
         };
 
       case 'google':
         return {
           ...base,
-          model: 'gemini-1.5-flash',
+          model: 'gemini-3.8-flash',
         };
 
       case 'meta':
         return {
           ...base,
-          model: 'llama-2-70b',
+          model: 'llama-3.3-70b-instruct',
         };
 
       case 'xai':
         return {
           ...base,
-          model: 'grok-1',
+          model: 'grok-4.6',
         };
 
       case 'deepseek':
@@ -315,7 +315,7 @@ export class ConfigurationValidator {
         return {
           ...base,
           apiUrl: 'http://localhost:11434',
-          model: 'llama2',
+          model: 'llama3.3',
         };
 
       default:

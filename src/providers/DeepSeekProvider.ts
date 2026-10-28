@@ -11,6 +11,7 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
+import { resolveModelName } from '../utils/modelName';
 
 /**
  * DeepSeek provider implementation
@@ -73,7 +74,7 @@ export class DeepSeekProvider implements IAiProvider {
 
     this.apiKey = config.apiKey;
     this.endpoint = config.endpoint || config.apiUrl || 'https://api.deepseek.com/v1';
-    this.model = config.model ?? 'deepseek-chat';
+    this.model = resolveModelName(config.model, 'deepseek-chat');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -99,7 +100,7 @@ export class DeepSeekProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
@@ -271,7 +272,7 @@ export class DeepSeekProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];

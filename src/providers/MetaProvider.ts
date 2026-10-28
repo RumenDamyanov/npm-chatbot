@@ -11,6 +11,7 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
+import { resolveModelName } from '../utils/modelName';
 
 /**
  * Meta Llama provider implementation
@@ -85,7 +86,7 @@ export class MetaProvider implements IAiProvider {
 
     this.apiKey = config.apiKey;
     this.endpoint = config.endpoint;
-    this.model = config.model ?? 'llama-3.3-70b-instruct';
+    this.model = resolveModelName(config.model, 'llama-3.3-70b-instruct');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -112,7 +113,7 @@ export class MetaProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
@@ -279,7 +280,7 @@ export class MetaProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array (same as non-streaming)
       const messages: Array<{ role: string; content: string }> = [];

@@ -11,6 +11,7 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
+import { resolveModelName } from '../utils/modelName';
 
 /**
  * xAI Grok provider implementation
@@ -22,7 +23,7 @@ import { ErrorHandler } from '../core/ErrorHandler';
  * const provider = new XaiProvider({
  *   provider: 'xai',
  *   apiKey: 'your-xai-api-key',
- *   model: 'grok-2-latest',
+ *   model: 'grok-4.6',
  *   endpoint: 'https://api.x.ai/v1' // xAI API endpoint
  * });
  * ```
@@ -33,9 +34,14 @@ export class XaiProvider implements IAiProvider {
     maxInputTokens: 131072, // Grok context window
     maxOutputTokens: 8192,
     supportedModels: [
+      'grok-4.7',
+      'grok-4.6',
+      'grok-4.5',
+      'grok-3',
       'grok-2-latest',
-      'grok-2-1212', // December 2024 version
-      'grok-2-vision-1212', // Vision support
+      'grok-2-1212',
+      'grok-2-vision-1212',
+      'grok-2-vision-latest',
       'grok-beta',
     ],
     supportsStreaming: true,
@@ -74,7 +80,7 @@ export class XaiProvider implements IAiProvider {
 
     this.apiKey = config.apiKey;
     this.endpoint = config.endpoint || config.apiUrl || 'https://api.x.ai/v1';
-    this.model = config.model ?? 'grok-2-latest';
+    this.model = resolveModelName(config.model, 'grok-4.6');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -101,7 +107,7 @@ export class XaiProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
@@ -269,7 +275,7 @@ export class XaiProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
