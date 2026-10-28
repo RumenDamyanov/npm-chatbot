@@ -31,11 +31,14 @@ switch between languages or maintain consistency across polyglot projects.
 
 ### AI Providers (7 Total)
 
-- 🎯 **OpenAI** - GPT-4o, GPT-4 Turbo, o1, GPT-4o-mini
-- 🤖 **Anthropic** - Claude Sonnet 4.5, Haiku 4.5, Opus 4.1
-- 🔮 **Google AI** - Gemini 2.0 Flash, Gemini 1.5 Pro/Flash
-- 🦙 **Meta Llama** - Llama 3.3 70B, Llama 3.2 90B Vision, Llama 3.1 405B
-- 🚀 **xAI Grok** - Grok 2, Grok 2 Vision, Grok Beta
+- 🎯 **OpenAI** - `gpt-5.4-mini` by default, also `gpt-5.4`. Older ids such as
+  `gpt-4o` still work when set explicitly
+- 🤖 **Anthropic** - `claude-sonnet-5` by default, also `claude-opus-5` and
+  `claude-haiku-4-5`
+- 🔮 **Google AI** - `gemini-3.8-flash` by default, also `gemini-3.5-flash-lite`
+- 🦙 **Meta Llama** - Llama 3.3 70B (`llama-3.3-70b-instruct`), Llama 3.2, Llama
+  3.1
+- 🚀 **xAI Grok** - `grok-4.6` by default, also `grok-4.7` and `grok-4.5`
 - 🧠 **DeepSeek** - DeepSeek Chat, DeepSeek Reasoner
 - 🏠 **Ollama** - Any local model (llama3, mistral, codellama, etc.)
 
@@ -126,6 +129,13 @@ installed above).
 All provider dependencies are **optional peer dependencies**, so you only
 install what you need.
 
+### Requirements
+
+- **Node.js**: 22.23.4+, 24.22.1+, or 26.12.1+. Node.js 18 and 20 are end of
+  life and have no fix for
+  [Node2Shell](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)
+  (CVE-2026-111497).
+
 ---
 
 ## 🚀 Quick Start
@@ -138,7 +148,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4-turbo', 'o1-preview'
+    model: 'gpt-5.4-mini', // Default. Also gpt-5.4. Older ids such as gpt-4o still work when set explicitly.
   },
   temperature: 0.7,
   maxTokens: 150,
@@ -171,7 +181,7 @@ const config: ChatbotConfig = {
   provider: {
     provider: 'openai',
     apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o', // Latest: 'gpt-4o', 'gpt-4-turbo', 'o1-preview' (Note: gpt-3.5-turbo deprecated)
+    model: 'gpt-5.4-mini', // Default. Also gpt-5.4. Older ids such as gpt-4o still work when set explicitly.
   },
   systemPrompt: 'You are a helpful AI assistant.',
   temperature: 0.7,
@@ -214,7 +224,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'anthropic',
     apiKey: process.env.ANTHROPIC_API_KEY!,
-    model: 'claude-sonnet-4-5-20250929', // Latest: Claude Sonnet 4.5 (Sep 2025), Opus 4.1, Haiku 4.5
+    model: 'claude-sonnet-5', // Default. Also claude-opus-5 and claude-haiku-4-5.
   },
   temperature: 0.8,
   maxTokens: 1000,
@@ -240,7 +250,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'google',
     apiKey: process.env.GOOGLE_API_KEY!,
-    model: 'gemini-2.0-flash-exp', // Latest: 'gemini-2.0-flash-exp', 'gemini-1.5-pro', 'gemini-1.5-flash'
+    model: 'gemini-3.8-flash', // Default. Also gemini-3.5-flash-lite.
   },
   temperature: 0.9,
   maxTokens: 800,
@@ -293,7 +303,7 @@ const chatbot = new Chatbot({
   provider: {
     provider: 'xai',
     apiKey: process.env.XAI_API_KEY!,
-    model: 'grok-2-latest', // Latest: 'grok-2-latest', 'grok-2-vision-latest', 'grok-beta'
+    model: 'grok-4.6', // Default. Also grok-4.7 and grok-4.5.
   },
   temperature: 0.8,
   maxTokens: 800,
@@ -844,23 +854,24 @@ const config: ChatbotConfig = {
 
 ### OpenAI
 
-- **gpt-4o** - Latest GPT-4 Omni model (Oct 2024)
-- **gpt-4o-mini** - Fast and cost-effective GPT-4 Omni mini
-- **gpt-4-turbo** - GPT-4 Turbo (Apr 2024)
-- **o1-preview** - Advanced reasoning model (preview)
-- **o1-mini** - Fast reasoning model
+- **gpt-5.4-mini** - Default. Fast model for chat
+- **gpt-5.4** - Higher quality GPT-5.4
+- **gpt-4o** - Previous generation, still accepted when set explicitly
+- **gpt-4o-mini** - Previous low-cost model, still accepted when set explicitly
 
 ### Anthropic Claude
 
-- **claude-sonnet-4-5-20250929** - Claude Sonnet 4.5 (Sep 2025) - Latest
-- **claude-haiku-4-5-20250929** - Claude Haiku 4.5 (Sep 2025) - Fast & efficient
-- **claude-opus-4-1-20250929** - Claude Opus 4.1 (Sep 2025) - Most capable
+- **claude-sonnet-5** - Default
+- **claude-opus-5** - Higher capability
+- **claude-haiku-4-5** - Faster and less expensive
+- **claude-sonnet-4-5-20250929** - Previous generation, still accepted when set
+  explicitly
 
 ### Google Gemini
 
-- **gemini-2.0-flash-exp** - Gemini 2.0 Flash (Experimental) - Latest
-- **gemini-1.5-pro** - Gemini 1.5 Pro - High capability
-- **gemini-1.5-flash** - Gemini 1.5 Flash - Fast & efficient
+- **gemini-3.8-flash** - Default
+- **gemini-3.5-flash-lite** - Lower cost
+- **gemini-1.5-flash** - Previous generation, still accepted when set explicitly
 
 ### Meta Llama (via Together AI)
 
@@ -870,9 +881,10 @@ const config: ChatbotConfig = {
 
 ### xAI Grok
 
-- **grok-2-latest** - Grok 2 (Latest)
-- **grok-2-vision-latest** - Grok 2 with vision capabilities
-- **grok-beta** - Grok Beta (Experimental features)
+- **grok-4.6** - Default
+- **grok-4.7** - Higher reasoning setting
+- **grok-4.5** - Previous Grok 4 model
+- **grok-2-latest** - Previous generation, still accepted when set explicitly
 
 ### DeepSeek
 
@@ -1243,15 +1255,11 @@ planned for future releases:
 The following providers are **planned but not yet implemented**. Community
 contributions are welcome!
 
-| Provider       | Status     | Target Version | Notes                                                |
-| -------------- | ---------- | -------------- | ---------------------------------------------------- |
-| **Meta Llama** | 📋 Planned | v2.x           | Llama 3.3, 3.2, 3.1 support via Ollama or cloud APIs |
-| **xAI Grok**   | 📋 Planned | v2.x           | Grok-2, Grok-2-mini integration                      |
-| **DeepSeek**   | 📋 Planned | v2.x           | DeepSeek-V3 and DeepSeek-R1 support                  |
-| **Ollama**     | 📋 Planned | v2.x           | Local LLM support with Ollama                        |
-| **Mistral AI** | 📋 Planned | v2.x           | Mistral Large, Medium, Small models                  |
-| **Cohere**     | 📋 Planned | v2.x           | Command R+, Command R models                         |
-| **Perplexity** | 📋 Planned | v3.x           | pplx-7b-online, pplx-70b-online                      |
+| Provider       | Status     | Target Version | Notes                               |
+| -------------- | ---------- | -------------- | ----------------------------------- |
+| **Mistral AI** | 📋 Planned | v2.x           | Mistral Large, Medium, Small models |
+| **Cohere**     | 📋 Planned | v2.x           | Command R+, Command R models        |
+| **Perplexity** | 📋 Planned | v3.x           | pplx-7b-online, pplx-70b-online     |
 
 #### Framework Integrations
 
@@ -1280,9 +1288,12 @@ contributions are welcome!
 
 ### ✅ Currently Implemented
 
-- ✅ OpenAI (GPT-4o, GPT-4 Turbo, o1, GPT-4o-mini)
-- ✅ Anthropic (Claude Sonnet 4.5, Haiku 4.5, Opus 4.1)
-- ✅ Google AI (Gemini 2.0, Gemini 1.5 Pro/Flash)
+- ✅ OpenAI (`gpt-5.4-mini` by default, also `gpt-5.4`)
+- ✅ Anthropic (`claude-sonnet-5` by default, also `claude-opus-5` and
+  `claude-haiku-4-5`)
+- ✅ Google AI (`gemini-3.8-flash` by default, also `gemini-3.5-flash-lite`)
+- ✅ xAI Grok (`grok-4.6` by default)
+- ✅ Meta Llama, DeepSeek, and Ollama
 - ✅ Streaming support for all providers
 - ✅ Conversation memory management
 - ✅ Type-safe TypeScript APIs

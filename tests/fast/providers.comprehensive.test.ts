@@ -47,11 +47,15 @@ describe('Provider Tests', () => {
       expect(provider.capabilities.maxInputTokens).toBe(128000);
       expect(provider.capabilities.maxOutputTokens).toBe(4096);
       expect(provider.capabilities.supportedModels).toEqual([
-        'gpt-4',
-        'gpt-4-turbo',
-        'gpt-3.5-turbo',
+        'gpt-5.4',
+        'gpt-5.4-mini',
         'gpt-4o',
         'gpt-4o-mini',
+        'gpt-4-turbo',
+        'gpt-4',
+        'gpt-3.5-turbo',
+        'o1-preview',
+        'o1-mini',
       ]);
       expect(provider.capabilities.supportsStreaming).toBe(true);
       expect(provider.capabilities.supportsFunctionCalling).toBe(true);

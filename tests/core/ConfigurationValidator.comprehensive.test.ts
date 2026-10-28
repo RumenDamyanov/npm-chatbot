@@ -374,7 +374,7 @@ describe('ConfigurationValidator', () => {
       const config: AiProviderConfig = {
         provider: 'ollama',
         apiUrl: 'http://localhost:11434',
-        model: 'llama2',
+        model: 'llama3.3',
       };
 
       const result = await ConfigurationValidator.validateProviderConfig(config);
@@ -386,7 +386,7 @@ describe('ConfigurationValidator', () => {
     it('should reject Ollama configuration without API URL', async () => {
       const config: AiProviderConfig = {
         provider: 'ollama',
-        model: 'llama2',
+        model: 'llama3.3',
       };
 
       const result = await ConfigurationValidator.validateProviderConfig(config);
@@ -581,7 +581,7 @@ describe('ConfigurationValidator', () => {
 
       expect(config).toEqual({
         provider: 'openai',
-        model: 'gpt-4',
+        model: 'gpt-5.4-mini',
       });
     });
 
@@ -590,7 +590,7 @@ describe('ConfigurationValidator', () => {
 
       expect(config).toEqual({
         provider: 'anthropic',
-        model: 'claude-sonnet-4-5-20250929',
+        model: 'claude-sonnet-5',
       });
     });
 
@@ -599,7 +599,7 @@ describe('ConfigurationValidator', () => {
 
       expect(config).toEqual({
         provider: 'google',
-        model: 'gemini-1.5-flash',
+        model: 'gemini-3.8-flash',
       });
     });
 
@@ -608,7 +608,7 @@ describe('ConfigurationValidator', () => {
 
       expect(config).toEqual({
         provider: 'meta',
-        model: 'llama-2-70b',
+        model: 'llama-3.3-70b-instruct',
       });
     });
 
@@ -617,7 +617,7 @@ describe('ConfigurationValidator', () => {
 
       expect(config).toEqual({
         provider: 'xai',
-        model: 'grok-1',
+        model: 'grok-4.6',
       });
     });
 
@@ -636,7 +636,7 @@ describe('ConfigurationValidator', () => {
       expect(config).toEqual({
         provider: 'ollama',
         apiUrl: 'http://localhost:11434',
-        model: 'llama2',
+        model: 'llama3.3',
       });
     });
 

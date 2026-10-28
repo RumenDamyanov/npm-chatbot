@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { resolveModelName } from '../utils/modelName';
 import type {
   IAiProvider,
   ProviderCapabilities,
@@ -21,11 +22,17 @@ export class GoogleProvider implements IAiProvider {
     maxInputTokens: 1048576, // 1M tokens for Gemini 1.5 Pro
     maxOutputTokens: 8192,
     supportedModels: [
+      'gemini-3.8-flash',
+      'gemini-3.5-flash-lite',
+      'gemini-2.5-pro',
+      'gemini-2.5-flash',
+      'gemini-2.5-flash-lite',
+      'gemini-2.0-flash-exp',
       'gemini-1.5-pro',
       'gemini-1.5-flash',
       'gemini-1.5-flash-8b',
       'gemini-1.0-pro',
-      'gemini-pro', // Legacy name for gemini-1.0-pro
+      'gemini-pro',
     ],
     supportsStreaming: true,
     supportsFunctionCalling: true,
@@ -53,7 +60,7 @@ export class GoogleProvider implements IAiProvider {
     }
 
     this.client = new GoogleGenerativeAI(config.apiKey);
-    this.model = config.model ?? 'gemini-1.5-flash';
+    this.model = resolveModelName(config.model, 'gemini-3.8-flash');
   }
 
   async isAvailable(): Promise<boolean> {
@@ -73,7 +80,7 @@ export class GoogleProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const modelName = options?.model ?? this.model;
+      const modelName = resolveModelName(options?.model, this.model);
       const model = this.client.getGenerativeModel({
         model: modelName,
         generationConfig: {
@@ -196,7 +203,7 @@ export class GoogleProvider implements IAiProvider {
     try {
       const testClient = new GoogleGenerativeAI(config.apiKey);
       const model = testClient.getGenerativeModel({
-        model: config.model ?? 'gemini-1.5-flash',
+        model: resolveModelName(config.model, this.model),
       });
       const result = await model.generateContent('Hello');
       return !!result.response.text();
@@ -214,7 +221,7 @@ export class GoogleProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const modelName = options?.model ?? this.model;
+      const modelName = resolveModelName(options?.model, this.model);
       const model = this.client.getGenerativeModel({
         model: modelName,
         generationConfig: {

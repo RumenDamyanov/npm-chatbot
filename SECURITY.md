@@ -4,10 +4,21 @@
 
 We take security seriously and actively maintain the following versions:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version | Node.js                      | Supported                                                          |
+| ------- | ---------------------------- | ------------------------------------------------------------------ |
+| 2.1.x   | 22.23.4+, 24.22.1+, 26.12.1+ | :white_check_mark:                                                 |
+| 2.0.x   | 18+                          | :x: Node.js 18 and 20 are end of life and have no Node2Shell patch |
+| < 2.0   | —                            | :x:                                                                |
+
+Node2Shell
+([CVE-2026-111497](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases))
+is an out-of-bounds write in the Brotli decoder bundled with Node.js. It is in
+the runtime, not in this library. There is no package workaround. A process is
+exposed when it decompresses Brotli data it does not control, including
+`fetch()` responses and compressed request bodies. Run **Node.js 22.23.4+**,
+**24.22.1+**, or **26.12.1+**. Node.js 20 and older will not receive a fix. See
+the
+[Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
 
 ## Security Features
 

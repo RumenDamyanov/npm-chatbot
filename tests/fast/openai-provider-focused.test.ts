@@ -46,6 +46,16 @@ describe('OpenAI Provider - Focused Coverage', () => {
       expect(providerNoModel).toBeInstanceOf(OpenAIProvider);
     });
 
+    it('should reject a model name that could change a request path', () => {
+      expect(
+        () =>
+          new OpenAIProvider({
+            ...baseConfig,
+            model: '../other',
+          })
+      ).toThrow(/not allowed/);
+    });
+
     it('should have correct capabilities', () => {
       const caps = provider.capabilities;
 

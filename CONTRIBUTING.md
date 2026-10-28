@@ -25,7 +25,7 @@ behavior to contact@rumenx.com.
 
 ### Prerequisites
 
-- Node.js >= 18.0.0
+- Node.js 22.23.4+, 24.22.1+, or 26.12.1+
 - npm >= 8.0.0
 - Git
 - A GitHub account

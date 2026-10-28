@@ -11,6 +11,7 @@ import type {
   AiProviderConfig,
 } from '../types/ChatbotTypes';
 import { ErrorHandler } from '../core/ErrorHandler';
+import { resolveModelName } from '../utils/modelName';
 
 /**
  * Ollama provider implementation for local LLM models
@@ -78,7 +79,7 @@ export class OllamaProvider implements IAiProvider {
     });
 
     this.apiUrl = config.apiUrl || config.endpoint || 'http://localhost:11434';
-    this.model = config.model;
+    this.model = resolveModelName(config.model, config.model);
     this.apiKey = config.apiKey; // Optional
   }
 
@@ -106,7 +107,7 @@ export class OllamaProvider implements IAiProvider {
     options?: GenerationOptions
   ): Promise<ChatResponse> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
@@ -283,7 +284,7 @@ export class OllamaProvider implements IAiProvider {
     options?: GenerationOptions
   ): AsyncGenerator<string, void, unknown> {
     try {
-      const model = options?.model || this.model;
+      const model = resolveModelName(options?.model, this.model);
 
       // Build messages array
       const messages: Array<{ role: string; content: string }> = [];
