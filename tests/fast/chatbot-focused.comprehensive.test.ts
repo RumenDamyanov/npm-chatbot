@@ -92,9 +92,7 @@ jest.mock('../../src/providers/ProviderFactory', () => ({
 }));
 
 // Skip these tests in CI - they have mock setup issues that don't reflect actual bugs
-const describeOrSkip = process.env.CI ? describe.skip : describe;
-
-describeOrSkip('Chatbot Focused Coverage Tests', () => {
+describe('Chatbot Focused Coverage Tests', () => {
   let validConfig: ChatbotConfig;
 
   beforeEach(() => {

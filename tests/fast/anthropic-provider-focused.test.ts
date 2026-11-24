@@ -20,9 +20,7 @@ jest.mock('@anthropic-ai/sdk', () => ({
 import { AnthropicProvider } from '../../src/providers/AnthropicProvider';
 
 // Skip in CI - has mock setup issues that don't reflect actual bugs
-const describeOrSkip = process.env.CI ? describe.skip : describe;
-
-describeOrSkip('AnthropicProvider - Focused Coverage', () => {
+describe('AnthropicProvider - Focused Coverage', () => {
   let provider: AnthropicProvider;
   let mockConfig: AiProviderConfig;
 

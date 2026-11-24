@@ -2,10 +2,8 @@ coverage:
   status:
     project:
       default:
-        # The stored master report is an 11-file snapshot from October 2025 at 87%.
-        # Current CI covers the full source tree, which is about 53%.
-        target: 50%
-        threshold: 2%
+        target: 85%
+        threshold: 1%
     patch:
       default:
         target: auto

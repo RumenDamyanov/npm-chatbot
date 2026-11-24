@@ -17,9 +17,7 @@ jest.mock('@google/generative-ai', () => ({
 }));
 
 // Skip in CI - has mock setup issues that don't reflect actual bugs
-const describeOrSkip = process.env.CI ? describe.skip : describe;
-
-describeOrSkip('GoogleProvider - Essential Coverage', () => {
+describe('GoogleProvider - Essential Coverage', () => {
   let mockConfig: AiProviderConfig;
 
   beforeEach(() => {

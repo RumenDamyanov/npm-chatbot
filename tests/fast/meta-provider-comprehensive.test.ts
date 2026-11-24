@@ -10,9 +10,7 @@ import type { AiProviderConfig, ChatContext } from '../../src/types/ChatbotTypes
 global.fetch = jest.fn();
 
 // Skip in CI - has mock setup issues that don't reflect actual bugs
-const describeOrSkip = process.env.CI ? describe.skip : describe;
-
-describeOrSkip('Meta Provider - Comprehensive Coverage', () => {
+describe('Meta Provider - Comprehensive Coverage', () => {
   let provider: MetaProvider;
 
   const baseConfig: AiProviderConfig = {
