@@ -14,6 +14,15 @@ import type {
 } from '../types/ChatbotTypes';
 
 /**
+ * SDK 1.x removed temperature and top_p from the published message params.
+ * The Messages API still accepts them, so keep them on the request body.
+ */
+type AnthropicMessageRequest = Anthropic.Messages.MessageCreateParams & {
+  temperature?: number;
+  top_p?: number;
+};
+
+/**
  * Anthropic Claude provider implementation
  */
 export class AnthropicProvider implements IAiProvider {
@@ -112,7 +121,7 @@ export class AnthropicProvider implements IAiProvider {
       });
 
       // Create the request
-      const requestOptions: Anthropic.Messages.MessageCreateParams = {
+      const requestOptions: AnthropicMessageRequest = {
         model,
         max_tokens: options?.maxTokens ?? 4096,
         messages,
@@ -269,7 +278,7 @@ export class AnthropicProvider implements IAiProvider {
         content: message,
       });
 
-      const requestOptions: Anthropic.Messages.MessageCreateParams = {
+      const requestOptions: AnthropicMessageRequest = {
         model,
         max_tokens: options?.maxTokens ?? 4096,
         messages,
