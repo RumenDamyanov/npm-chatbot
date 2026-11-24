@@ -4,7 +4,7 @@
  * Install the packed tarball in a clean project and load both entry points.
  */
 
-const { execSync } = require('child_process');
+const { execFileSync, execSync } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -17,8 +17,10 @@ const packedName = execSync('npm pack --ignore-scripts', {
   .trim()
   .split('\n')
   .pop();
-const filename = packedName;
-const tarball = path.join(root, filename);
+if (!packedName || !/^[@\w.-]+\.tgz$/.test(packedName)) {
+  throw new Error('npm pack did not report a tarball name');
+}
+const tarball = path.join(root, packedName);
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'npm-chatbot-smoke-'));
 
 try {
@@ -26,8 +28,18 @@ try {
     path.join(temp, 'package.json'),
     `${JSON.stringify({ name: 'chatbot-smoke', private: true, version: '1.0.0' }, null, 2)}\n`
   );
-  execSync(
-    `npm install --ignore-scripts --no-save --no-package-lock ${JSON.stringify(tarball)} openai @anthropic-ai/sdk @google/generative-ai`,
+  execFileSync(
+    'npm',
+    [
+      'install',
+      '--ignore-scripts',
+      '--no-save',
+      '--no-package-lock',
+      tarball,
+      'openai',
+      '@anthropic-ai/sdk',
+      '@google/generative-ai',
+    ],
     { cwd: temp, stdio: 'inherit' }
   );
 
