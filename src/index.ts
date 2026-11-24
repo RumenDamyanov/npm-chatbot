@@ -1,8 +1,10 @@
 /**
  * Main entry point for @rumenx/chatbot
+ *
+ * The version is a literal. Importing ../package.json from this file is
+ * compiled into dist, where that relative path points at a missing
+ * dist/package.json and Node cannot load the package.
  */
-
-import packageJson from '../package.json';
 
 // Core classes
 export { Chatbot } from './core/Chatbot';
@@ -26,5 +28,5 @@ export type {
 export type * from './types';
 export type { ChatStreamChunk } from './types/ChatbotTypes';
 
-// Version info (dynamically imported from package.json)
-export const VERSION = packageJson.version;
+// Keep this equal to package.json "version". tests/fast/version.test.ts checks it.
+export const VERSION = '2.1.1';
