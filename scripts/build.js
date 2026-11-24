@@ -1,112 +1,91 @@
 #!/usr/bin/env node
 
 /**
- * Build script for @rumenx/chatbot
- * Handles dual ESM/CJS compilation with proper module extensions
+ * Dual ESM/CJS build.
+ * tsc leaves extensionless relative imports and would keep a relative
+ * package.json import. Node can load the published files only after the
+ * ESM specifiers point at real files and each dist folder has its own
+ * package.json type.
  */
 
+const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-console.log('🔨 Building @rumenx/chatbot...\n');
+const root = path.join(__dirname, '..');
+const dist = path.join(root, 'dist');
 
-// Clean previous builds
-console.log('🧹 Cleaning previous builds...');
-try {
-  execSync('rm -rf dist/ components/', { stdio: 'inherit' });
-} catch {
-  // Directory might not exist, that's fine
-}
+console.log('Building @rumenx/chatbot\n');
 
-// Build TypeScript declarations
-console.log('📝 Building TypeScript declarations...');
-execSync('tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types', { 
-  stdio: 'inherit' 
+fs.rmSync(dist, { recursive: true, force: true });
+
+console.log('Building TypeScript declarations...');
+execSync('tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types', {
+  cwd: root,
+  stdio: 'inherit',
 });
 
-// Build ESM
-console.log('📦 Building ESM modules...');
-execSync('tsc --project tsconfig.json --outDir dist/esm', { 
-  stdio: 'inherit' 
+console.log('Building ESM modules...');
+execSync('tsc --project tsconfig.json --outDir dist/esm', {
+  cwd: root,
+  stdio: 'inherit',
 });
 
-// Build CJS
-console.log('📦 Building CommonJS modules...');
-execSync('tsc --project tsconfig.cjs.json', { 
-  stdio: 'inherit' 
+console.log('Building CommonJS modules...');
+execSync('tsc --project tsconfig.cjs.json', {
+  cwd: root,
+  stdio: 'inherit',
 });
 
-// Fix module extensions for CJS
-console.log('🔧 Fixing CommonJS module extensions...');
-fixCjsExtensions();
+rewriteRelativeSpecifiers(path.join(dist, 'esm'), ['.js', '.d.ts']);
+rewriteRelativeSpecifiers(path.join(dist, 'cjs'), ['.js']);
+rewriteRelativeSpecifiers(path.join(dist, 'types'), ['.d.ts']);
 
-// Create package.json files for proper module resolution
-console.log('📄 Creating package.json files for module resolution...');
-createModulePackageFiles();
+fs.writeFileSync(
+  path.join(dist, 'esm', 'package.json'),
+  `${JSON.stringify({ type: 'module' }, null, 2)}\n`
+);
+fs.writeFileSync(
+  path.join(dist, 'cjs', 'package.json'),
+  `${JSON.stringify({ type: 'commonjs' }, null, 2)}\n`
+);
 
-console.log('\n✅ Build completed successfully!');
+console.log('Build completed.');
 
-function fixCjsExtensions() {
-  const cjsDir = path.join(__dirname, 'dist', 'cjs');
-  
-  if (!fs.existsSync(cjsDir)) {
+function rewriteRelativeSpecifiers(directory, extensions) {
+  if (!fs.existsSync(directory)) {
     return;
   }
-  
-  function processDirectory(dir) {
-    const files = fs.readdirSync(dir);
-    
-    for (const file of files) {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      
-      if (stat.isDirectory()) {
-        processDirectory(filePath);
-      } else if (file.endsWith('.js')) {
-        processFile(filePath);
-      }
+
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const filePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      rewriteRelativeSpecifiers(filePath, extensions);
+      continue;
     }
-  }
-  
-  function processFile(filePath) {
-    let content = fs.readFileSync(filePath, 'utf8');
-    
-    // Fix relative imports to include .js extension
-    content = content.replace(
-      /require\("(\.\/.+?)"\)/g,
-      (match, importPath) => {
-        if (!importPath.endsWith('.js') && !importPath.includes('.')) {
-          return `require("${importPath}.js")`;
+    if (!extensions.some(extension => entry.name.endsWith(extension))) {
+      continue;
+    }
+
+    const updated = fs
+      .readFileSync(filePath, 'utf8')
+      .replace(
+        /(\bfrom\s+|\bimport\s*\(\s*|\brequire\s*\(\s*)(['"])(\.\.?\/[^'"]+)\2/g,
+        (match, prefix, quote, specifier) => {
+          if (path.extname(specifier)) {
+            return match;
+          }
+          return `${prefix}${quote}${resolveSpecifier(filePath, specifier)}${quote}`;
         }
-        return match;
-      }
-    );
-    
-    fs.writeFileSync(filePath, content);
+      );
+    fs.writeFileSync(filePath, updated);
   }
-  
-  processDirectory(cjsDir);
 }
 
-function createModulePackageFiles() {
-  // Create package.json for ESM
-  const esmPackageJson = {
-    type: 'module'
-  };
-  
-  fs.writeFileSync(
-    path.join(__dirname, 'dist', 'esm', 'package.json'),
-    JSON.stringify(esmPackageJson, null, 2)
-  );
-  
-  // Create package.json for CJS
-  const cjsPackageJson = {
-    type: 'commonjs'
-  };
-  
-  fs.writeFileSync(
-    path.join(__dirname, 'dist', 'cjs', 'package.json'),
-    JSON.stringify(cjsPackageJson, null, 2)
-  );
+function resolveSpecifier(fromFile, specifier) {
+  const target = path.resolve(path.dirname(fromFile), specifier);
+  if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
+    return `${specifier}/index.js`;
+  }
+  return `${specifier}.js`;
 }

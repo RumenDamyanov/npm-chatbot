@@ -1,6 +1,6 @@
 {
   "name": "@rumenx/chatbot",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A powerful, flexible, and type-safe AI chatbot library for TypeScript/JavaScript with 7 AI providers (OpenAI, Anthropic, Google, Meta Llama, xAI Grok, DeepSeek, Ollama) and enterprise-grade content safety features.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -20,7 +20,7 @@
   },
   "files": ["dist/", "README.md", "LICENSE.md", "CHANGELOG.md"],
   "scripts": {
-    "build": "npm run clean && npm run build:types && npm run build:esm && npm run build:cjs",
+    "build": "node scripts/build.js",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --outDir dist/types",
     "build:esm": "tsc --project tsconfig.json --outDir dist/esm",
     "build:cjs": "tsc --project tsconfig.cjs.json",
