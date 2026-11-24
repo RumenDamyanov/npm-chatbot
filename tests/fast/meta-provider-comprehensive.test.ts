@@ -318,7 +318,9 @@ describeOrSkip('Meta Provider - Comprehensive Coverage', () => {
     });
 
     it('should include last error in status', async () => {
-      (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Test error'));
+      (global.fetch as jest.Mock)
+        .mockRejectedValueOnce(new Error('Test error'))
+        .mockResolvedValueOnce({ ok: false });
 
       await provider.isAvailable(); // Trigger error
 
